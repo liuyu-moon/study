@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+
+    <link  rel="stylesheet" href="/css/bootstrap.min.css">
+    <link  rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link  rel="stylesheet" href="/css/my.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+<!--导航条-->
+<div th:insert="navgation::nav">
+
+</div>
+
+<div  style="margin-left: 30%;margin-right: 30%" >
+<h4>个人资料</h4>
+    <div class="media " >
+        <div class="media-left">
+            <img class="img-rounded media-object" th:src="'/'+${userInfo.user_picture}"  >
+        </div>
+        <div class="media-body " >
+            ID： <span th:text="${userInfo.user_id}"></span>
+
+        </div>
+    </div>
+        <div class="div-border">
+            <span th:text="'昵称：'+${userInfo.user_name}"></span>
+            <a th:href="'/updateuserinfo/'+${userInfo.user_id}"    style="float: right">修改资料</a>
+
+
+            <br/>
+            <span th:text="'性别：'+${userInfo.user_sex}"></span><br/>
+            <span th:text="'注册时间：'+${userInfo.user_addtime}"></span><br/>
+            <span th:text="'电话：'+${userInfo.user_phone}"></span><br/>
+            <span th:text="'学校：'+${userInfo.user_school}"></span><br/>
+            <span th:text="'动态条数：'+${userInfo.user_momentsnum}"></span><br/>
+        </div>
+    </div>
+
+</body>
+</html>

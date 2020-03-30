@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发布动态</title>
+    <link  rel="stylesheet" href="css/bootstrap.min.css">
+    <link  rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link  rel="stylesheet" href="css/my.css">
+    <script src="js/bootstrap.min.js" type="javascript"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+
+</head>
+<body >
+<!--导航条内容-->
+<div th:insert="navgation::nav">
+
+</div>
+
+<div class="container-fluid main"; style="height: 100%">
+    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 div1"  >
+        <h2><span class="glyphicon glyphicon-plus" aria-hidden="true">发布内容</span></h2>
+        <form id="form1"  enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="description"></label>
+                <textarea class="form-control" id="description"   cols="30" rows="10" placeholder="内容不能为空"></textarea>
+            </div>
+<!--            图片预览 占位-->
+            <div id="div-picture">
+
+            </div>
+            <div class="form-group">
+                <label for="picture"></label>
+                <input type="file" accept="image/*" class="form-control" id="picture" placeholder="插入图片" value="插入图片">
+            </div>
+
+
+            <div class="form-group">
+                <label for="tag">话题标签</label>
+                <input type="text" class="form-control" id="tag" placeholder="添加标签">
+            </div>
+
+            <button type="button"  onclick="publish()"   class="btn btn-success">确认发布</button>
+
+        </form>
+    </div>
+
+
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 div2"  >
+
+        <h3>请文明发言</h3>
+    </div>
+    ...
+</div>
+</body>
+
+
+
+
+<!--<script >-->
+<!--    function publish() {-->
+<!--        var formData = new FormData();-->
+<!--        var desc = $("#desc").val();-->
+<!--        var file = $("#fileId")[0].files[0];-->
+<!--        formData.append('file', file);-->
+<!--        var tag = $("#tag").val()-->
+<!--        alert("准备注册");-->
+
+<!--        $.post("/publish",{description:desc,multipartFile:formData,tag:tag},function (res) {-->
+<!--            if (res.code==200){-->
+<!--                alert("注册成功");-->
+<!--            } else {-->
+<!--                alert("注册失败，请检查数据重试");-->
+<!--            }-->
+<!--        })-->
+
+<!--    }-->
+<!--</script>-->
+<script>
+
+    var  formData=new  FormData;
+    function publish() {
+        alert("66666");
+
+
+        // // var file = $("#upPic").valueOf();//这种方式对文件元素不行
+        // var file = $("#picture")[0].files[0];这种可以
+        var description = $("#description").val();
+        var tag=$("#tag").val();
+        formData.append("description",description);
+        formData.append("tag",tag);
+        // formData.append("multipartFile",file);
+
+            // Ajax 异步提交文件
+            $.ajax({
+                    type: "post",
+                    url: "/publish",
+                    data:formData ,//上一步的FormData
+                    cache: false,//不缓存数据
+                    processData: false,//不转换数据
+                    contentType: false,
+                    dataType: "json",
+                    success: function (data) {
+                       alert("666")
+                        if (data.code == 200) {
+                            // 页面的刷新
+                            // setInterval(function () {
+                            //     location.replace(location.href);
+                            // }, 1500);
+                        }
+                    }
+                }
+            )
+    }
+
+    //一下是上传图片时进行预览
+
+    //文件上传的change 事件监听
+    let input = document.querySelector('#picture');
+    let div_picture = document.querySelector('#div-picture');
+    input.addEventListener('change',e => {
+
+        let imgFiles=e.target.files;
+        console.log(imgFiles);
+        let fileReader = new FileReader();
+
+        for(i=0;i<imgFiles.length;i++){
+            formData.append("multipartFile",imgFiles[i],imgFiles[i].name);
+            filePath=imgFiles[i].name;
+            fileFormat=filePath.split('.')[1].toLowerCase();
+        }
+        fileReader.readAsDataURL(input.files[0]);
+        //fileReader 执行完毕钩子
+        fileReader.onload = e => {
+            let data = e.target.result;
+            let img = document.createElement('img',);
+            img.src = data;
+            img.height=150;
+            img.width=150;
+            div_picture.appendChild(img);
+        }
+    });
+
+</script>
+</html>

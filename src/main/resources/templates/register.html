@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <link  rel="stylesheet" href="css/bootstrap.min.css">
+    <link  rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link  rel="stylesheet" href="css/my.css">
+    <script src="js/bootstrap.min.js" type="javascript"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+
+</head>
+<body >
+<!--导航条内容-->
+<div th:insert="navgation::nav">
+
+</div>
+
+<div class="container-fluid main" >
+    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 div1"  >
+        <h2><span class="glyphicon glyphicon-plus" aria-hidden="true">用户注册</span></h2>
+        <form id="form1"  enctype="multipart/form-data">
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="user_name" placeholder="请输入用户名">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="user_pwd" placeholder="请输入密码">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="user_pwd_two" placeholder="请再次确认密码">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="user_phone" placeholder="请输入手机号">
+            </div>
+
+            <button type="button"  onclick="register()"   class="btn btn-success">确认注册</button>
+
+        </form>
+    </div>
+
+
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 div2"  >
+
+        <h3>请文明发言</h3>
+    </div>
+    ...
+</div>
+</body>
+
+
+
+
+<!--<script >-->
+<!--    function publish() {-->
+<!--        var formData = new FormData();-->
+<!--        var desc = $("#desc").val();-->
+<!--        var file = $("#fileId")[0].files[0];-->
+<!--        formData.append('file', file);-->
+<!--        var tag = $("#tag").val()-->
+<!--        alert("准备注册");-->
+
+<!--        $.post("/publish",{description:desc,multipartFile:formData,tag:tag},function (res) {-->
+<!--            if (res.code==200){-->
+<!--                alert("注册成功");-->
+<!--            } else {-->
+<!--                alert("注册失败，请检查数据重试");-->
+<!--            }-->
+<!--        })-->
+
+<!--    }-->
+<!--</script>-->
+<script>
+    function register() {
+        alert("开始注册");
+        var formData = new FormData;
+        var user_name = $("#user_name").val();
+        var user_pwd = $("#user_pwd").val();
+        var user_pwd_two = $("#user_pwd_two").val();
+        var user_phone = $("#user_phone").val();
+
+        formData.append("user_name", user_name);
+        formData.append("user_pwd", user_pwd);
+        formData.append("user_phone", user_phone);
+        console.log(user_phone.length);
+        if (user_pwd == user_pwd_two && user_phone.length == 11) {
+            alert("Ajax");
+            // Ajax 异步提交文件
+            $.ajax({
+                    type: "post",
+                    url: "/register",
+                    data: formData,//上一步的FormData
+                    cache: false,//不缓存数据
+                    processData: false,//不转换数据
+                    contentType: false,
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data.code == 200) {
+                            alert("注册成功");
+                        }
+                        // 页面的刷新
+                        setInterval(function () {
+                            location.replace(location.href);
+                        }, 1500);
+                    }
+                })
+        }
+        else {
+            alert("用户信息错误，请先验证")
+        }
+    }
+
+</script>
+</html>

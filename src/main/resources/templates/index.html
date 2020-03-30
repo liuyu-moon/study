@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<script src="../static/js/osahan.js"></script>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link rel="icon" type="image/png" href="img/fav.png">
+      <title></title>
+      <!-- Slick Slider -->
+      <link rel="stylesheet" type="text/css" href="/vendor/slick/slick.min.css"/>
+      <link rel="stylesheet" type="text/css" href="/vendor/slick/slick-theme.min.css"/>
+      <!-- Feather Icon-->
+      <link href="/vendor/icons/feather.css" rel="stylesheet" type="text/css">
+      <!-- Bootstrap core CSS -->
+      <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom styles for this template -->
+      <link href="/css/style.css" rel="stylesheet">
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <!-- slick Slider JS-->
+      <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
+      <!-- Custom scripts for all pages-->
+      <script src="js/osahan.js"></script>
+   </head>
+   <body>
+      <!--       Navigation -->
+      <div th:insert="navgation::nav"></div>
+
+
+      <div class="py-4">
+         <div class="container">
+            <div class="row">
+               <!-- Main Content -->
+               <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                  <div class="box mb-3 shadow-sm border rounded bg-white osahan-post" th:each="moment : ${moments}">
+                     <!--  用户信息-->
+                     <div class="p-3 d-flex align-items-center border-bottom osahan-post-header">
+                        <div class="dropdown-list-image mr-3">
+                           <img class="rounded-circle" th:src="${moment.user_picture}" >
+                           <div class="status-indicator bg-success"></div>
+                        </div>
+                        <div class="font-weight-bold">
+                           <div class="text-truncate" >
+                              <span th:text="${moment.user_name}">
+                              </span>
+                           </div>
+                           <div class="small text-gray-500">发布地址,先占位</div>
+                        </div>
+                        <span class="ml-auto small" th:text="${moment.time}"></span>
+                     </div>
+
+
+                     <div class="p-3 border-bottom osahan-post-body">
+                        <a th:href="'/godetail/'+${moment.id}">
+                           <p th:text="${moment.description}"></p>...查看详情
+                        </a>
+                        <div th:each="picture:${moment.picture.split(',')}" height="150px">
+                           <img  th:src="${picture}"  class="img-fluid" >
+                        </div>
+                     </div>
+                     <div class="p-3 border-bottom osahan-post-footer">
+                       <i class="feather-heart text-danger" th:text="${moment.comment_count}"></i>
+                        <i class="feather-message-square" th:text="${moment.view_count}"></i>
+                        <i class="feather-share-2" th:text="${moment.like_count}"></i>
+                     </div>
+                  </div>
+               </main>
+               <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
+                  <div class="box mb-3 shadow-sm border rounded bg-white profile-box text-center">
+                     <div class="py-4 px-3 border-bottom">
+                        <img th:src="${session.loginer.user_picture}"class="img-fluid mt-2 rounded-circle" alt="Responsive image">
+                        <h5 class="font-weight-bold text-dark mb-1 mt-4" th:text="${session.loginer.user_name}"></h5>
+                     </div>
+                     <div class="d-flex">
+                        <div class="col-6 border-right p-3">
+                           <h6 class="font-weight-bold text-dark mb-1">358</h6>
+                           <p class="mb-0 text-black-50 small">Connections</p>
+                        </div>
+                        <div class="col-6 p-3">
+                           <h6 class="font-weight-bold text-dark mb-1">85</h6>
+                           <p class="mb-0 text-black-50 small">Views</p>
+                        </div>
+                        <div class="overflow-hidden border-top">
+                           <a class="font-weight-bold p-3 d-block" href="profile.html"> View my profile </a>
+                        </div>
+                     </div>
+                  </div>
+               </aside>
+               <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="box shadow-sm border rounded bg-white mb-3">
+                     <div class="box-title border-bottom p-3">
+                        <h6 class="m-0">People you might know</h6>
+                     </div>
+                     <div class="box-body p-3">
+                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
+                           <div class="dropdown-list-image mr-3">
+                              <img class="rounded-circle" src="img/p8.png" alt="">
+                              <div class="status-indicator bg-success"></div>
+                           </div>
+                           <div class="font-weight-bold mr-2">
+                              <div class="text-truncate">Sophia Lee</div>
+                              <div class="small text-gray-500">Student at Harvard
+                              </div>
+                           </div>
+                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                           </span>
+                        </div>
+                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
+                           <div class="dropdown-list-image mr-3">
+                              <img class="rounded-circle" src="img/p9.png" alt="">
+                              <div class="status-indicator bg-success"></div>
+                           </div>
+                           <div class="font-weight-bold mr-2">
+                              <div class="text-truncate">John Doe</div>
+                              <div class="small text-gray-500">Traveler
+                              </div>
+                           </div>
+                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                           </span>
+                        </div>
+                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
+                           <div class="dropdown-list-image mr-3">
+                              <img class="rounded-circle" src="img/p10.png" alt="">
+                              <div class="status-indicator bg-success"></div>
+                           </div>
+                           <div class="font-weight-bold mr-2">
+                              <div class="text-truncate">Julia Cox</div>
+                              <div class="small text-gray-500">Art Designer
+                              </div>
+                           </div>
+                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                           </span>
+                        </div>
+                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
+                           <div class="dropdown-list-image mr-3">
+                              <img class="rounded-circle" src="img/p11.png" alt="">
+                              <div class="status-indicator bg-success"></div>
+                           </div>
+                           <div class="font-weight-bold mr-2">
+                              <div class="text-truncate">Robert Cook</div>
+                              <div class="small text-gray-500">Photographer at Photography
+                              </div>
+                           </div>
+                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                           </span>
+                        </div>
+                        <div class="d-flex align-items-center osahan-post-header people-list">
+                           <div class="dropdown-list-image mr-3">
+                              <img class="rounded-circle" src="img/p12.png" alt="">
+                              <div class="status-indicator bg-success"></div>
+                           </div>
+                           <div class="font-weight-bold mr-2">
+                              <div class="text-truncate">Richard Bell</div>
+                              <div class="small text-gray-500">Graphic Designer at Envato
+                              </div>
+                           </div>
+                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="box shadow-sm mb-3 rounded bg-white ads-box text-center overflow-hidden">
+                     <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
+                     <div class="p-3 border-bottom">
+                        <h6 class="font-weight-bold text-gold">Osahanin Premium</h6>
+                        <p class="mb-0 text-muted">Grow & nurture your network</p>
+                     </div>
+                     <div class="p-3">
+                        <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
+                     </div>
+                  </div>
+                  <div class="box shadow-sm border rounded bg-white mb-3">
+                     <div class="box-title border-bottom p-3">
+                        <h6 class="m-0">Jobs
+                        </h6>
+                     </div>
+                     <div class="box-body p-3">
+                        <a href="job-profile.html">
+                           <div class="shadow-sm border rounded bg-white job-item mb-3">
+                              <div class="d-flex align-items-center p-3 job-item-header">
+                                 <div class="overflow-hidden mr-2">
+                                    <h6 class="font-weight-bold text-dark mb-0 text-truncate">Product Director</h6>
+                                    <div class="text-truncate text-primary">Spotify Inc.</div>
+                                    <div class="small text-gray-500"><i class="feather-map-pin"></i> India, Punjab</div>
+                                 </div>
+                                 <img class="img-fluid ml-auto" src="img/l3.png" alt="">
+                              </div>
+                              <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
+                                 <div class="overlap-rounded-circle">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p9.png" alt="" data-original-title="Sophia Lee">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p10.png" alt="" data-original-title="John Doe">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p11.png" alt="" data-original-title="Julia Cox">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p12.png" alt="" data-original-title="Robert Cook">
+                                 </div>
+                                 <span class="font-weight-bold text-muted">18 connections</span>
+                              </div>
+                              <div class="p-3 job-item-footer">
+                                 <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
+                              </div>
+                           </div>
+                        </a>
+                        <a href="job-profile.html">
+                           <div class="shadow-sm border rounded bg-white job-item">
+                              <div class="d-flex align-items-center p-3 job-item-header">
+                                 <div class="overflow-hidden mr-2">
+                                    <h6 class="font-weight-bold text-dark mb-0 text-truncate">.NET Developer</h6>
+                                    <div class="text-truncate text-primary">Invision</div>
+                                    <div class="small text-gray-500"><i class="feather-map-pin"></i> London, UK
+                                    </div>
+                                 </div>
+                                 <img class="img-fluid ml-auto" src="img/l4.png" alt="">
+                              </div>
+                              <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
+                                 <div class="overlap-rounded-circle">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p13.png" alt="" data-original-title="Sophia Lee">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p1.png" alt="" data-original-title="John Doe">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p3.png" alt="" data-original-title="Robert Cook">
+                                 </div>
+                                 <span class="font-weight-bold text-muted">18 connections</span>
+                              </div>
+                              <div class="p-3 job-item-footer">
+                                 <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
+                              </div>
+                           </div>
+                        </a>
+                     </div>
+                  </div>
+               </aside>
+            </div>
+         </div>
+      </div>
+
+   </body>
+</html>
