@@ -39,7 +39,7 @@ public class Detail {
 
     @RequestMapping("/addlikemoment")
     @ResponseBody
-    public  ResultData giveLikeMoment( int  id){
+    public  ResultData giveLikeMoment(int  id){
         System.out.println("点赞");
        ResultData resultData= momentService.addLikeCount(id);
         System.out.println("点赞2");
@@ -48,7 +48,7 @@ public class Detail {
 
     @RequestMapping("/addlikecomment")
     @ResponseBody
-    public  ResultData giveLikeComment( int  id){
+    public  ResultData giveLikeComment(int  id){
         System.out.println("点赞");
         ResultData resultData= commentService.addLikeCount(id);
         System.out.println("点赞2");
