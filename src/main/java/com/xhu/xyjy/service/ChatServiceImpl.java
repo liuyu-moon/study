@@ -58,6 +58,8 @@ public class ChatServiceImpl implements ChatService {
         System.out.println("3.26"+user2_id+userid);
         PageHelper.startPage(page,pageSize);
         List<MessageUser> messageList=chatMapper.selectHistoryMessage(userid,user2_id);
+        //将未读消息数清空
+        chatMapper.clearUnread(userid,user2_id);
         return new PageInfo<>(messageList);
     }
 

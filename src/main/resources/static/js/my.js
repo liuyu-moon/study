@@ -57,3 +57,10 @@ function addlikeComment( commentId) {
         }
     )
 }
+
+
+function searchFriend(user_name) {
+    console.log(user_name);
+
+    window.location.href='/searchfriend/'+user_name;
+}

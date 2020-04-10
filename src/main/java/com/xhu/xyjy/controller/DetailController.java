@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class Detail {
+public class DetailController {
     @Autowired
     MomentService momentService;
     @Autowired

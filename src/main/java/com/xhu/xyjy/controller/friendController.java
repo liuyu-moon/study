@@ -3,6 +3,7 @@ package com.xhu.xyjy.controller;
 import com.github.pagehelper.PageInfo;
 import com.xhu.xyjy.dao.UserMapper;
 import com.xhu.xyjy.dto.FriendInfo;
+import com.xhu.xyjy.pojo.User;
 import com.xhu.xyjy.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Iterator;
+import java.util.List;
 
 @Controller
 public class friendController {
@@ -45,10 +48,8 @@ public class friendController {
         PageInfo<FriendInfo> pageInfo= friendService.findFriendByName(user_id,user_name,page,pageSize);
         model.addAttribute("friendInfos",pageInfo.getList());
         model.addAttribute("pageInfo",pageInfo);
-        return "friendlist1";
+        return "friendlist";
     }
-
-
 
 
 }

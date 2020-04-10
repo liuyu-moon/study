@@ -10,23 +10,24 @@
    <link rel="icon" type="image/png" href="img/fav.png">
    <title></title>
    <!-- Slick Slider -->
-   <link rel="stylesheet" type="text/css" href="vendor/slick/slick.min.css"/>
-   <link rel="stylesheet" type="text/css" href="vendor/slick/slick-theme.min.css"/>
+   <link rel="stylesheet" type="text/css" href="/vendor/slick/slick.min.css"/>
+   <link rel="stylesheet" type="text/css" href="/vendor/slick/slick-theme.min.css"/>
    <!-- Feather Icon-->
-   <link href="vendor/icons/feather.css" rel="stylesheet" type="text/css">
+   <link href="/vendor/icons/feather.css" rel="stylesheet" type="text/css">
    <!-- Bootstrap core CSS -->
-   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
    <!-- Custom styles for this template -->
-   <link href="css/style.css" rel="stylesheet">
+   <link href="/css/style.css" rel="stylesheet">
 
 
    <!-- Bootstrap core JavaScript -->
-   <script src="vendor/jquery/jquery.min.js"></script>
-   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/vendor/jquery/jquery.min.js"></script>
+   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
    <!-- slick Slider JS-->
-   <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
+   <script type="text/javascript" src="/vendor/slick/slick.min.js"></script>
    <!-- Custom scripts for all pages-->
-   <script src="js/osahan.js"></script>
+   <script src="/js/osahan.js"></script>
+   <script src="/js/my.js"></script>
 </head>
    <body>
    <!--       Navigation -->
@@ -48,7 +49,7 @@
 <!--                                          用户信息-->
                                           <div class="p-3 d-flex align-items-center network-item-header">
                                              <div class="dropdown-list-image mr-3">
-                                                <img class="rounded-circle" th:src="${friend.user_picture}" alt="">
+                                                <img class="rounded-circle" th:src="'/'+${friend.user_picture}" alt="">
                                              </div>
                                              <div class="font-weight-bold">
                                                 <h6 class="font-weight-bold text-dark mb-0" th:text="${friend.user_name}"></h6>

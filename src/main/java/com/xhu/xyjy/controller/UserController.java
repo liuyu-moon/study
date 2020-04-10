@@ -6,6 +6,7 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.xhu.xyjy.dao.FriendMapper;
 import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.*;
+import com.xhu.xyjy.service.ChatService;
 import com.xhu.xyjy.service.FriendService;
 import com.xhu.xyjy.service.UserService;
 import org.apache.catalina.Session;
@@ -26,6 +27,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    ChatService chatService;
 
 //    @RequestMapping("user/list")
 //    public List<User> listAlluser(Model model,
@@ -80,11 +83,13 @@ public class UserController {
     @ResponseBody
     public  ResultData login(User user, HttpServletRequest request,Model model){
         ResultData resultData=userService.findUserById(user);
-
+        int userId=(Integer) resultData.getData2();
+        int unread=userService.findUnread(userId);
         if (resultData.getCode()==200){
             HttpSession session=request.getSession();
             session.setAttribute("userId" ,resultData.getData2());
             session.setAttribute("loginer" ,resultData.getData());
+            session.setAttribute("unread" ,unread);
         }
         return  resultData;
 

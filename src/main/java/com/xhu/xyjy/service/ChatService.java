@@ -14,7 +14,7 @@ public  interface ChatService {
     PageInfo<ChatUser> findChatList(int userid, Integer page, Integer pageSize);
     PageInfo<MessageUser> findHistoryMsg(int userid, int user2_id, Integer page, Integer pageSize);
 
-    void addMessage(Message message1);
+     void addMessage(Message message1);
 
     int addUnread(int user_id,int user2_id);
 

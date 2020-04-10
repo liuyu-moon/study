@@ -28,6 +28,7 @@
     <script type="text/javascript" src="/vendor/slick/slick.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="/js/osahan.js"></script>
+    <script src="/js/my.js"></script>
 </head>
 <body>
 
@@ -43,13 +44,13 @@
                 <div class="box-body">
                     <div class="d-flex align-items-center osahan-post-header p-3 border-bottom people-list" th:each="chatlist:${chatlists}">
                          <div class="dropdown-list-image mr-3" >
-                            <img class="rounded-circle" th:src="${chatlist.user2_picture}" alt="">
+                            <img class="rounded-circle" th:src="'/'+${chatlist.user2_picture}" alt="">
                          </div>
                      <div class="font-weight-bold">
-                <div class="text-truncate" th:text="${chatlist.user2_name}">
-                    <span th:if="${chatlist.unread}ne 0" class="badge badge-dark ml-1">未读消息占位
-                    </span>
-                </div>
+                    <a th:href="'/gows/'+${chatlist.user2_id}"> <div class="text-truncate" th:text="${chatlist.user2_name}">
+                    </div></a>
+                         <span class="badge badge-danger ml-1" th:text="${chatlist.unread}">666
+                            </span>
 <!--                最后消息-->
 <!--                <div class="small text-muted"><span class="text-primary">You and 1 connection</span> have given endorsements for this skill-->
 <!--                </div>-->
@@ -80,6 +81,29 @@
                                 </div>
                             </div>
                         </div>
+<!--            分页-->
+<!--                        <div class="p-3 border-bottom" >-->
+<!--                            <div class="page" style="width: 100%;position: absolute;bottom: 0px;left: 50%">-->
+<!--                                <span th:if="${pageInfo.hasPreviousPage}" >-->
+<!--                                <a class="prev"-->
+<!--                                   th:href="@{'/gows/'+${friendid}+'?page='+${pageInfo.prePage}}">上一页</a>-->
+<!--                                </span>-->
+<!--                                <span th:each="page :${pageInfo.navigatepageNums}" >-->
+<!--                                <span th:if="${pageInfo.pageNum==page}">-->
+<!--                                    <a class="current" th:text="${page}"></a>-->
+<!--                                </span>-->
+<!--                                <span th:if="${pageInfo.pageNum!=page}" >-->
+<!--                                    <a class="num" th:href="@{'/gows/'+${friendid}+'?page='+${page}}" th:text="${page}"></a>-->
+<!--                                </span>-->
+<!--                                </span>-->
+
+<!--                                <span th:if ="${pageInfo.hasNextPage}">-->
+<!--                                    <a class="next" th:href="@{'/gows/'+${friendid}+'?page='+${pageInfo.nextPage}}">下一页</a>-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+
                         <p>以上是历史消息</p>
                     </div>
 <!--                    消息框占位-->
@@ -93,8 +117,8 @@
                         <input type="hidden"  id="sendUserId"  th:value="${friendid}"> </input>
                     </div>
 
-                    <input type="file" accept="image/*" class="form-control" id="picture" placeholder="插入图片" value="插入图片">
-                    <button onclick="send()" class="btn btn-primary btn-sm btn-block">插入图片</button>
+<!--                    <input type="file" accept="image/*" class="form-control" id="picture" placeholder="插入图片" value="插入图片">-->
+<!--                    <button onclick="sendPic()" class="btn btn-primary btn-sm btn-block">发送图片</button>-->
                     <button onclick="send()" class="btn btn-primary btn-sm btn-block">发送消息</button>
 <!--                    <button onclick="closeWebSocket()" class="btn btn-primary btn-sm btn-block">关闭WebSocket连接</button>-->
                 </div>
@@ -330,6 +354,28 @@
         message =sendUserId+","+ message + "," +"1"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
         websocket.send(message);
         document.getElementById('sendMsg').val("");
+
+    }
+
+    function sendPic() {
+        var file = $("#picture")[0].files[0];//要发送的图片
+        // var  message=$("sendMsg").val();
+        if (file == "") {
+            alert("发送图片不能为空！")
+            return;
+        }
+        //获取发送人用户id
+        var sendUserId = document.getElementById('sendUserId').value;
+        console.log(sendUserId);
+        if (sendUserId == "") {
+            alert("发送人用户id不能为空！")
+            return;
+        }
+        userId = document.getElementById('userId').value;
+        // document.getElementById('message').innerHTML += (userId + "给" + sendUserId + "发送消息,消息内容为---->>" + message + '<br/>');
+        message =sendUserId+","+ file + "," +"2"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
+        websocket.send(message);
+        // document.getElementById('sendMsg').val("");
 
     }
 

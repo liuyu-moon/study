@@ -23,13 +23,14 @@ public class CommentController {
     //展示二级评论
     @RequestMapping("/showcomment2")
     @ResponseBody
-    public ResultData ShowComment(int id,@RequestParam(defaultValue = "1") Integer page,
+    public ResultData ShowComment(int commentId,@RequestParam(defaultValue = "1") Integer page,
                                   @RequestParam(defaultValue = "10") Integer pageSize){
-        PageInfo<CommentUser> pageInfo=commentService.selectComment2(id,page,pageSize);
+        PageInfo<CommentUser> pageInfo=commentService.selectComment2(commentId,page,pageSize);
         System.out.println("666666666"+pageInfo.toString());
        ResultData resultData=new ResultData();
        if(pageInfo !=null){
            resultData.setMsg("成功");
+           resultData.setCode(200);
            resultData.setData(pageInfo);
            resultData.setData2(pageInfo.getList());
            return  resultData;

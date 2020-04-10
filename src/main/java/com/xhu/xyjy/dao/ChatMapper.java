@@ -32,7 +32,7 @@ public interface ChatMapper {
     @Select("select message.*,u1.user_name,u1.user_picture,u2.user_name as user2_name,u2.user_picture as user2_picture from message " +
             "Inner JOIN user as u1  on message.user_id=u1.user_id " +
             "Inner JOIN user as u2 on message.user_id=u2.user_id " +
-            "and (message.user_id= 3 and message.user2_id=1 or message.user_id= 1 and message.user2_id=3) ")
+            "and (message.user_id=#{user_id} and message.user2_id=#{user2_id} or message.user_id= #{user2_id} and message.user2_id=#{user_id}) ")
     List<MessageUser> selectHistoryMessage(int user_id, int user2_id);
 
     @Update("update chatlist set unread =unread +1 where user_id =#{user2_id} and user2_id=#{user_id}")
@@ -40,4 +40,7 @@ public interface ChatMapper {
 
     @Update("update chatlist set last_time=#{last_time} where user_id=#{user_id} and user2_id=#{user2_id}")
     void updateLastTime(int user_id, int user2_id, Timestamp last_time);
+
+    @Update("update chatlist set unread =0 where user_id=#{user_id} and user2_id=#{user2_id}")
+    void clearUnread(int user_id, int user2_id);
 }

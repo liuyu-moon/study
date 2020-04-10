@@ -1,6 +1,7 @@
 package com.xhu.xyjy.websocket;
 
 import com.xhu.xyjy.dao.ChatMapper;
+import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.Message;
 import com.xhu.xyjy.service.ChatService;
 import com.xhu.xyjy.service.ChatServiceImpl;
@@ -14,6 +15,8 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.xhu.xyjy.utils.uploadUtil.upload;
 
 /**
  * @ServerEndpoint 注解是一个类层次的注解，它的功能主要是将目前的类定义成一个websocket服务器端,
@@ -102,18 +105,23 @@ public class ProductWebSocket {
         String sendMessage = message.split(",")[1];
         //消息类型
         String type=message.split(",")[2];
-
+        if(Integer.parseInt(type)==1){
+            Message message1=new Message();
+            message1.setUser_id(Integer.parseInt(userId));
+            message1.setUser2_id(Integer.parseInt(sendUserId));
+            message1.setContent(sendMessage);
+            message1.setTime(new Timestamp(System.currentTimeMillis()));
+            message1.setType(Integer.parseInt(type));
+            //将消息存入数据库
+            chatService.addMessage( message1);
+        }
         //数据填充
-        Message message1=new Message();
-        message1.setUser_id(Integer.parseInt(userId));
-        message1.setUser2_id(Integer.parseInt(sendUserId));
-        message1.setContent(sendMessage);
-        message1.setTime(new Timestamp(System.currentTimeMillis()));
-        //将消息存入数据库
-        chatService.addMessage( message1);
+
 
         //给指定的人发消息
-        sendToUser(sendUserId, sendMessage);
+
+            sendToUser(sendUserId, sendMessage);
+
 
     }
 

@@ -44,8 +44,10 @@ public class ChatController {
         HttpSession session= request.getSession();
         String s=session.getAttribute("userId").toString();
         int userid= Integer.parseInt(s);
+        if(userid!=friendid){
+            chatService.findChat(userid,friendid);
+        }
 
-        chatService.findChat(userid,friendid);
         //查找历史消息
         PageInfo<MessageUser> pageInfoMsg=chatService.findHistoryMsg(userid,friendid,page,pageSize);
 

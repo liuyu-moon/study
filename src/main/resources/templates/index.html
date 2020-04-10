@@ -27,7 +27,8 @@
       <!-- slick Slider JS-->
       <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
       <!-- Custom scripts for all pages-->
-      <script src="js/osahan.js"></script>
+      <script src="/js/osahan.js"></script>
+      <script src="/js/my.js"></script>
    </head>
    <body>
       <!--       Navigation -->
@@ -70,6 +71,27 @@
                         <i class="feather-message-square" th:text="${moment.view_count}"></i>
                         <i class="feather-share-2" th:text="${moment.like_count}"></i>
                      </div>
+
+                     <div class="p-3 border-bottom" >
+                        <div class="page" style="width: 100%;position: absolute;bottom: 0px;left: 50%">
+                <span th:if="${pageInfo.hasPreviousPage}" >
+                <a class="prev"
+                   th:href="@{'/goindex?page='+${pageInfo.prePage}}">上一页</a>
+                </span>
+                           <span th:each="page :${pageInfo.navigatepageNums}" >
+                <span th:if="${pageInfo.pageNum==page}">
+                    <a class="current" th:text="${page}"></a>
+                </span>
+                <span th:if="${pageInfo.pageNum!=page}" >
+                    <a class="num" th:href="@{'/goindex?page='+${page}}" th:text="${page}"></a>
+                </span>
+                </span>
+
+                           <span th:if ="${pageInfo.hasNextPage}">
+                <a class="next" th:href="@{'/goindex?page='+${pageInfo.nextPage}}">下一页</a>
+            </span>
+                        </div>
+                     </div>
                   </div>
                </main>
                <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
@@ -96,74 +118,21 @@
                <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="box shadow-sm border rounded bg-white mb-3">
                      <div class="box-title border-bottom p-3">
-                        <h6 class="m-0">People you might know</h6>
+                        <h6 class="m-0">可能认识的人</h6>
                      </div>
                      <div class="box-body p-3">
-                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
+                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${advice}">
                            <div class="dropdown-list-image mr-3">
-                              <img class="rounded-circle" src="img/p8.png" alt="">
+                              <img class="rounded-circle" th:src="${people.user_picture}" alt="">
                               <div class="status-indicator bg-success"></div>
                            </div>
                            <div class="font-weight-bold mr-2">
-                              <div class="text-truncate">Sophia Lee</div>
-                              <div class="small text-gray-500">Student at Harvard
-                              </div>
+                              <div class="text-truncate" th:text="${people.user_name}"></div>
                            </div>
                            <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
                            </span>
                         </div>
-                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
-                           <div class="dropdown-list-image mr-3">
-                              <img class="rounded-circle" src="img/p9.png" alt="">
-                              <div class="status-indicator bg-success"></div>
-                           </div>
-                           <div class="font-weight-bold mr-2">
-                              <div class="text-truncate">John Doe</div>
-                              <div class="small text-gray-500">Traveler
-                              </div>
-                           </div>
-                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                           </span>
-                        </div>
-                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
-                           <div class="dropdown-list-image mr-3">
-                              <img class="rounded-circle" src="img/p10.png" alt="">
-                              <div class="status-indicator bg-success"></div>
-                           </div>
-                           <div class="font-weight-bold mr-2">
-                              <div class="text-truncate">Julia Cox</div>
-                              <div class="small text-gray-500">Art Designer
-                              </div>
-                           </div>
-                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                           </span>
-                        </div>
-                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
-                           <div class="dropdown-list-image mr-3">
-                              <img class="rounded-circle" src="img/p11.png" alt="">
-                              <div class="status-indicator bg-success"></div>
-                           </div>
-                           <div class="font-weight-bold mr-2">
-                              <div class="text-truncate">Robert Cook</div>
-                              <div class="small text-gray-500">Photographer at Photography
-                              </div>
-                           </div>
-                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                           </span>
-                        </div>
-                        <div class="d-flex align-items-center osahan-post-header people-list">
-                           <div class="dropdown-list-image mr-3">
-                              <img class="rounded-circle" src="img/p12.png" alt="">
-                              <div class="status-indicator bg-success"></div>
-                           </div>
-                           <div class="font-weight-bold mr-2">
-                              <div class="text-truncate">Richard Bell</div>
-                              <div class="small text-gray-500">Graphic Designer at Envato
-                              </div>
-                           </div>
-                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                           </span>
-                        </div>
+
                      </div>
                   </div>
                   <div class="box shadow-sm mb-3 rounded bg-white ads-box text-center overflow-hidden">

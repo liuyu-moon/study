@@ -1,6 +1,8 @@
 package com.xhu.xyjy.dao;
 
 import com.xhu.xyjy.dto.FriendInfo;
+import com.xhu.xyjy.pojo.Friend;
+import com.xhu.xyjy.pojo.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -21,5 +23,25 @@ public interface  FriendMapper {
     //按名称搜索用户好友，模糊查询
     @Select("select user.* ,friendship.group_id ,group_name ,add_time FROM user inner join friendship on user.user_id=friendship.friend_id and friendship.user_id=#{user_id} and status =1 and user_name like CONCAT(CONCAT('%', #{user_name}), '%')")
     List<FriendInfo> selectFriendByName(int user_id,String user_name);
+
+
+    @Select("SELECT user_id, friend_id from  friendship ORDER BY user_id")
+    List<Friend> selectUF();
+
+    @Select("SELECT MAX(user_id)  FROM friendship")
+    int selectMax();
+
+    @Select("SELECT  DISTINCT  user_id FROM friendship where  user_id not in (SELECT DISTINCT  friend_id FROM friendship WHERE user_id= #{user_id}) and user_id!=#{user_id}")
+    List<Friend> selectUnkonwn(int user_id);
+
+    @Select("select  friend_id from friendship WHERE user_id=#{a} AND\n" +
+            "\n" +
+            "friend_id in(\n" +
+            "\n" +
+            "select friend_id from friendship WHERE  user_id=#{b})\n")
+    List<Friend> selectUnion(int a,int b);
+
+    @Select("select * from user where user_id in(${ids}) ")
+    List<User> selectFriends(@Param("ids") String ids);
 }
 

@@ -37,6 +37,12 @@ public class UserServiceImpl implements UserService {
             return  user;
     }
 
+    @Override
+    public int findUnread(int userId) {
+
+        return  userMapper.findUnread(userId);
+    }
+
 
     //注册
     @Override

@@ -17,4 +17,6 @@ public interface UserService {
 
 
     User findUserInfo(int user_id);
+
+    int findUnread(int userId);
 }

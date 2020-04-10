@@ -112,4 +112,8 @@ public interface UserMapper {
      */
     @Update("update user set user_pwd=#{newpwd} where user_id=#{id}")
     Boolean updatePwd(@Param("id") Integer id, @Param("newpwd") String newpwd);
+
+
+    @Select("select sum(unread) FROM chatlist WHERE user_id =#{user_id}")
+    int findUnread(int user_id);
 }
