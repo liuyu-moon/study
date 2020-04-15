@@ -19,4 +19,6 @@ public interface UserService {
     User findUserInfo(int user_id);
 
     int findUnread(int userId);
+
+    List<User> findNearby(int userid);
 }

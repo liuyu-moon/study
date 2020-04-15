@@ -6,6 +6,9 @@ import com.xhu.xyjy.dto.ChatUser;
 import com.xhu.xyjy.dto.MessageUser;
 import com.xhu.xyjy.pojo.ChatList;
 import com.xhu.xyjy.pojo.Message;
+import com.xhu.xyjy.pojo.User;
+
+import java.util.List;
 
 public  interface ChatService {
 
@@ -19,4 +22,6 @@ public  interface ChatService {
     int addUnread(int user_id,int user2_id);
 
     void updateTime(int parseInt, int parseInt1);
+
+    List<User> findUsers();
 }

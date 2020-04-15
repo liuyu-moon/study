@@ -29,8 +29,8 @@ public interface UserMapper {
     @Select("select * from user where user_id=#{friend_id}")
     User selectUserWithFriendByid(int friend_id);
 
-    @Update(" update user set user_logintime = #{user_logintime} where user_id=#{user_id};")
-    void updateLogintime(User user);
+    @Update(" update user set user_logintime = #{user_logintime},lng=#{lng},lat=#{lat} where user_id=#{user_id};")
+    void updateLogintimeAndPosition(User user);
 
 
 //    @Select("select * from user where user_id=#{user_id}")
@@ -114,6 +114,13 @@ public interface UserMapper {
     Boolean updatePwd(@Param("id") Integer id, @Param("newpwd") String newpwd);
 
 
-    @Select("select sum(unread) FROM chatlist WHERE user_id =#{user_id}")
+    @Select("select ifNULL(sum(unread),0) FROM chatlist WHERE user_id =#{user_id}")
     int findUnread(int user_id);
+
+    @Select("select * from user\n" +
+            "where lat <> 0   and lng >#{minLng} and lng < #{maxLng}  and lat > #{minLat} and lat < #{maxLat} and user_id <>#{userid} limit 5   ")
+    List<User> selectNearby(Double maxLat, Double minLat, Double maxLng, Double minLng,int userid);
+
+    @Select("select * from user where user_id in (${ids})" )
+    List<User> findUsers( @Param("ids") String ids);
 }

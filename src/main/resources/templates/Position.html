@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="img/fav.png">
+    <title></title>
+
+    <link  rel="stylesheet" href="/css/bootstrap.min.css">
+    <link  rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link  rel="stylesheet" href="/css/my.css">
+    <!-- Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="/vendor/slick/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/vendor/slick/slick-theme.min.css"/>
+    <!-- Feather Icon-->
+    <link href="/vendor/icons/feather.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet">
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- slick Slider JS-->
+    <script type="text/javascript" src="/vendor/slick/slick.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="/js/osahan.js"></script>
+    <script src="/js/my.js"></script>
+</head>
+<body>
+ <div id="demo">
+     <button onclick="getLocation()">dianw</button>
+ </div>
+</body>
+
+<script>
+    var x=document.getElementById("demo");
+    function getLocation() {
+        if (navigator.geolocation){   //检测是否支持地理定位
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else{
+            x.innerHTML="Geolocation is not supported by this browser.";
+        }
+    }
+    function showPosition(position) {
+        x.innerHTML="Latitude: " + position.coords.latitude +
+            "<br />Longitude: " + position.coords.longitude;
+
+        console.log(position.coords.latitude);
+    }
+</script>
+
+</html>

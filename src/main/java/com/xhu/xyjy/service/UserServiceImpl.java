@@ -43,6 +43,31 @@ public class UserServiceImpl implements UserService {
         return  userMapper.findUnread(userId);
     }
 
+    @Override
+    public List<User> findNearby(int userid) {
+        //范围半径，默认10000米
+        int raidus=1000000;
+        User user=userMapper.findById(userid);
+        double longitude=user.getLng();
+        double latitude=user.getLat();
+
+        Double degree = (24901 * 1609) / 360.0;
+        double raidusMile = raidus;
+        Double dpmLat = 1 / degree;
+        Double radiusLat = dpmLat * raidusMile;
+        Double minLat = latitude - radiusLat;
+        Double maxLat = latitude + radiusLat;
+        Double mpdLng = degree * Math.cos(latitude * (Math.PI / 180));
+        Double dpmLng = 1 / mpdLng;
+        Double radiusLng = dpmLng * raidusMile;
+        Double minLng = longitude - radiusLng;
+        Double maxLng = longitude + radiusLng;
+
+         return  userMapper.selectNearby(maxLat,minLat,maxLng,minLng,userid);
+
+
+    }
+
 
     //注册
     @Override
@@ -116,9 +141,13 @@ public class UserServiceImpl implements UserService {
 
         //注入登录时间
         dbUser.setUser_logintime(new Timestamp(System.currentTimeMillis()));
+
+        //注入登录地点
+        dbUser.setLng(user.getLng());
+        dbUser.setLat(user.getLat());
 //        System.out.println(dbUser.getUser_id()+" "+dbUser.getUser_logintime());
-        userMapper.updateLogintime(dbUser);
-        if (dbUser.getUser_type()==0){
+        userMapper.updateLogintimeAndPosition(dbUser);
+        if (dbUser.getUser_type()==1){
             return new ResultData(200,"用户登录成功",dbUser,dbUser.getUser_id());
         }
         return new ResultData(200,"管理员登录成功",dbUser,dbUser.getUser_id());

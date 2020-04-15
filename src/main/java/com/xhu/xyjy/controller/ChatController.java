@@ -5,6 +5,7 @@ import com.xhu.xyjy.dto.MessageUser;
 import com.xhu.xyjy.dto.MomentUser;
 import com.xhu.xyjy.pojo.ChatList;
 import com.xhu.xyjy.pojo.Message;
+import com.xhu.xyjy.pojo.User;
 import com.xhu.xyjy.service.ChatService;
 import com.xhu.xyjy.websocket.ProductWebSocket;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class ChatController {
@@ -71,6 +73,18 @@ public class ChatController {
 
     @RequestMapping(value = "/gomsg")
     public String gomsg() {
-        return "message";
+        return "Position";
+    }
+
+    @RequestMapping(value = "/gogroupchat")
+    public String gogroupchat(Model model,HttpServletRequest request){
+
+        HttpSession session= request.getSession();
+        String s=session.getAttribute("userId").toString();
+        int userid= Integer.parseInt(s);
+        List<User> userList =chatService.findUsers();
+        model.addAttribute("users",userList);
+        model.addAttribute("userid",userid);
+        return "groupchat";
     }
 }

@@ -4,16 +4,20 @@ package com.xhu.xyjy.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xhu.xyjy.dao.ChatMapper;
+import com.xhu.xyjy.dao.UserMapper;
 import com.xhu.xyjy.dto.ChatUser;
 import com.xhu.xyjy.dto.MessageUser;
 import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.ChatList;
 import com.xhu.xyjy.pojo.Message;
+import com.xhu.xyjy.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+
+import static com.xhu.xyjy.websocket.GroupWebSocket.groupWebSocket;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -21,6 +25,8 @@ public class ChatServiceImpl implements ChatService {
     @Autowired
     ChatMapper chatMapper;
 
+    @Autowired
+    UserMapper userMapper;
     @Override
     public int findChat(int user_id, int user2_id) {
 
@@ -79,5 +85,24 @@ public class ChatServiceImpl implements ChatService {
         Timestamp time= new Timestamp(System.currentTimeMillis());
         chatMapper.updateLastTime(user_id,user2_id,time);
         chatMapper.updateLastTime(user2_id,user_id,time);
+    }
+
+    @Override
+    public List<User> findUsers() {
+
+        String s="1,";
+        for (String value : groupWebSocket.keySet()) {
+
+            System.out.println("Value = " + value);
+            s+=value+',';
+
+        }
+        System.out.println(s.length());
+        s=s.substring(0,s.length()-1);
+
+        List<User> users=userMapper.findUsers(s);
+
+
+        return users;
     }
 }

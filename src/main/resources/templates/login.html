@@ -45,7 +45,7 @@
                 <input type="password" class="form-control" id="password" placeholder="请输入密码">
             </div>
 
-            <button type="button"  onclick="login()"   class="btn btn-success" style="margin: 55px">登陆</button>
+            <button type="button"  onclick="getLocation()"   class="btn btn-success" style="margin: 55px">登陆</button>
             <button type="button"  onclick="register()"   class="btn btn-success"  style="margin: 55px">免费注册</button>
 
         </form>
@@ -53,12 +53,29 @@
     </div>
 </body>
 <script >
-    function login() {
+
+
+    function getLocation() {
+        if (navigator.geolocation){   //检测是否支持地理定位
+            navigator.geolocation.getCurrentPosition(login);
+            console.log("Geolocation is supported by this browser.");
+        } else{
+            console.log("Geolocation is not supported by this browser.");
+        }
+    }
+    function login(position) {
         var user_name = $("#name").val();
         var user_pwd = $("#password").val();
+        var lat= position.coords.latitude
+        var lng= position.coords.longitude;
         var formData =new FormData;
         formData.append("user_name",user_name);
         formData.append("user_pwd",user_pwd);
+        formData.append("lng",lng);
+        formData.append("lat",lat);
+
+
+
         alert("准备登陆");
 
         $.ajax({

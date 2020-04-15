@@ -72,7 +72,10 @@ public class MomentController {
         int userid= Integer.parseInt(s);
         //可能认识的人
         List<User> a=friendService.getAdviceF(userid);
+        //附近的人
+        List<User> b=userService.findNearby(userid);
         model.addAttribute("advice",a);
+        model.addAttribute("nearby",b);
         //查找登陆者信息
         PageInfo<MomentUser> pageInfo=momentService.selectAll(page,pageSize);
         model.addAttribute("moments",pageInfo.getList());

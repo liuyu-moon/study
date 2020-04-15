@@ -19,6 +19,9 @@ public class User {
     private int user_momentsnum;//朋友圈数量
 
     private List<Friend> friendList;
+    //经纬度
+    private  double lng;
+    private  double lat;
 
 
     public User() {
@@ -39,6 +42,24 @@ public class User {
         this.user_momentsnum = user_momentsnum;
     }
 
+    public User(int user_id, String user_name, String user_pwd, String user_picture, int user_type, int user_status, Timestamp user_addtime, Timestamp user_logintime, String user_phone, String user_sex, String user_school, int user_momentsnum, List<Friend> friendList, double lng, double lat) {
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.user_pwd = user_pwd;
+        this.user_picture = user_picture;
+        this.user_type = user_type;
+        this.user_status = user_status;
+        this.user_addtime = user_addtime;
+        this.user_logintime = user_logintime;
+        this.user_phone = user_phone;
+        this.user_sex = user_sex;
+        this.user_school = user_school;
+        this.user_momentsnum = user_momentsnum;
+        this.friendList = friendList;
+        this.lng = lng;
+        this.lat = lat;
+    }
+
     public User(int user_id, String user_name, String user_pwd, String user_picture, int user_type, int user_status, Timestamp user_addtime, Timestamp user_logintime, String user_phone, String user_sex, String user_school, int user_momentsnum, List<Friend> friendList) {
         this.user_id = user_id;
         this.user_name = user_name;
@@ -53,6 +74,22 @@ public class User {
         this.user_school = user_school;
         this.user_momentsnum = user_momentsnum;
         this.friendList = friendList;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
     public String getUser_picture() {

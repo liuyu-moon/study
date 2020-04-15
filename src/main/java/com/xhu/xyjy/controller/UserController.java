@@ -82,7 +82,11 @@ public class UserController {
     @RequestMapping("/login")
     @ResponseBody
     public  ResultData login(User user, HttpServletRequest request,Model model){
+
+        //查找用户信息
         ResultData resultData=userService.findUserById(user);
+
+        //
         int userId=(Integer) resultData.getData2();
         int unread=userService.findUnread(userId);
         if (resultData.getCode()==200){
@@ -98,7 +102,6 @@ public class UserController {
 
 
     @RequestMapping("/goregister")//去注册页面
-
     public String goregister(){
         return  "register";
     }
