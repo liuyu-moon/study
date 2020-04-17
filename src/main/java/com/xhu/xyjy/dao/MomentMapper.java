@@ -2,6 +2,7 @@ package com.xhu.xyjy.dao;
 
 import com.xhu.xyjy.dto.MomentUser;
 import com.xhu.xyjy.pojo.Moment;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -39,4 +40,7 @@ public interface MomentMapper {
 
     @Select("SELECT moment.*,user.user_name,user_picture from moment inner join user  on moment.user_id=user.user_id and tag like  CONCAT('%',#{tag},'%') order by time")
     List<MomentUser> findbyTag(String tag);
+
+    @Delete("delect from moment where id=${id}")
+    int deleteById(int id);
 }

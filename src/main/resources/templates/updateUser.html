@@ -44,20 +44,33 @@
         <h2><span class="glyphicon glyphicon-plus" aria-hidden="true">修改资料</span></h2>
         <form id="form1"  enctype="multipart/form-data">
 
+
             <div class="form-group">
-                <input type="text" class="form-control" id="user_name" placeholder="请输入用户名">
+                <div class="media-left"><!--            头像-->
+                    <a href="#">
+                        <img class="media-object img-rounded " th:src="'/'+${session.loginer.user_picture}"  height="38px" width="38px" >
+                    </a>
+                </div>
+                <div class="media-body " >
+                    <input type="file" class="form-control" id="user_picture" >
+                    <button type="button"  onclick="updatePic()"   class="btn btn-success">修改头像</button>
+                </div>
+
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="user_pwd" placeholder="请输入密码">
+                <input type="hidden" class="form-control" id="user_id"  th:value="${user_id}">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="user_pwd_two" placeholder="请再次确认密码">
+                <input type="hidden" class="form-control" id="user_phone"  th:value="${session.loginer.user_phone}">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="user_phone" placeholder="请输入手机号">
+                <input type="text" class="form-control" id="user_name"  th:value="${session.loginer.user_name}">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="user_sex"  th:value="${session.loginer.user_sex}">
             </div>
 
-            <button type="button"  onclick="register()"   class="btn btn-success">确认注册</button>
+            <button type="button"  onclick="updateUser()"   class="btn btn-success">修改资料</button>
 
         </form>
     </div>
@@ -72,67 +85,71 @@
 </body>
 
 
-
-
-<!--<script >-->
-<!--    function publish() {-->
-<!--        var formData = new FormData();-->
-<!--        var desc = $("#desc").val();-->
-<!--        var file = $("#fileId")[0].files[0];-->
-<!--        formData.append('file', file);-->
-<!--        var tag = $("#tag").val()-->
-<!--        alert("准备注册");-->
-
-<!--        $.post("/publish",{description:desc,multipartFile:formData,tag:tag},function (res) {-->
-<!--            if (res.code==200){-->
-<!--                alert("注册成功");-->
-<!--            } else {-->
-<!--                alert("注册失败，请检查数据重试");-->
-<!--            }-->
-<!--        })-->
-
-<!--    }-->
-<!--</script>-->
 <script>
-    function register() {
-        alert("开始注册");
-        var formData = new FormData;
-        var user_name = $("#user_name").val();
-        var user_pwd = $("#user_pwd").val();
-        var user_pwd_two = $("#user_pwd_two").val();
-        var user_phone = $("#user_phone").val();
+    function updateUser() {
+        alert("准备修改资料");
+        let formData = new FormData;
+        let user_id = $("#user_id").val();
+        let user_name = $("#user_name").val();
+        let user_phone = $("#user_phone").val();
+        let user_sex = $("#user_sex").val();
 
+        formData.append("user_id", user_id);
         formData.append("user_name", user_name);
-        formData.append("user_pwd", user_pwd);
+        formData.append("user_sex", user_sex);
         formData.append("user_phone", user_phone);
-        console.log(user_phone.length);
-        if (user_pwd == user_pwd_two && user_phone.length == 11) {
-            alert("Ajax");
-            // Ajax 异步提交文件
-            $.ajax({
-                    type: "post",
-                    url: "/register",
-                    data: formData,//上一步的FormData
-                    cache: false,//不缓存数据
-                    processData: false,//不转换数据
-                    contentType: false,
-                    dataType: "json",
-                    success: function (data) {
 
-                        if (data.code == 200) {
-                            alert("注册成功");
-                        }
-                        // 页面的刷新
-                        setInterval(function () {
-                            location.replace(location.href);
-                        }, 1500);
-                    }
-                })
-        }
-        else {
-            alert("用户信息错误，请先验证")
-        }
+
+        // Ajax 异步提交文件
+        $.ajax({
+            type: "post",
+            url: "/updateuser",
+            data: formData,//上一步的FormData
+            cache: false,//不缓存数据
+            processData: false,//不转换数据
+            contentType: false,
+            dataType: "json",
+            success: function (data) {
+
+
+                    alert(data.data);
+
+                // 页面的刷新
+                location.replace(location.href);
+            }
+        })
     }
+    function updatePic() {
+        alert("准备修改头像");
+        let formData = new FormData;
+        let user_id = $("#user_id").val();
+
+        let file = $("#user_picture")[0].files[0]
+        formData.append("user_id", user_id);
+        formData.append("file", file);
+
+
+        // Ajax 异步提交文件
+        $.ajax({
+            type: "post",
+            url: "/updatepic",
+            data: formData,//上一步的FormData
+            cache: false,//不缓存数据
+            processData: false,//不转换数据
+            contentType: false,
+            dataType: "json",
+            success: function (data) {
+
+
+                alert(data.data);
+
+                // 页面的刷新
+                location.replace(location.href);
+            }
+        })
+    }
+
+
 
 </script>
 </html>

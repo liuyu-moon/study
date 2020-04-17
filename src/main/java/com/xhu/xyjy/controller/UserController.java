@@ -17,6 +17,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -85,9 +86,15 @@ public class UserController {
 
         //查找用户信息
         ResultData resultData=userService.findUserById(user);
-
+        if(resultData.getData()==null)
+        {
+          resultData.setMsg("用户名不存在");
+          return  resultData;
+        }
         //
+
         int userId=(Integer) resultData.getData2();
+
         int unread=userService.findUnread(userId);
         if (resultData.getCode()==200){
             HttpSession session=request.getSession();
@@ -126,6 +133,27 @@ public class UserController {
     public String updateuserinfo( @PathVariable(name = "action") int user_id,Model model){
         model.addAttribute("user_id",user_id);
         return "updateUser";
+    }
+
+
+    @RequestMapping("/updateuser")
+    @ResponseBody
+    public ResultData  updateuser(User user){
+
+        ResultData resultData=new ResultData();
+        resultData= userService.update(user);
+        return  resultData;
+
+    }
+
+    @RequestMapping("/updatepic")
+    @ResponseBody
+    public ResultData  updatepic(int user_id,MultipartFile file[]){
+
+        ResultData resultData=new ResultData();
+        resultData= userService.updatepic(user_id,file);
+        return  resultData;
+
     }
 
 

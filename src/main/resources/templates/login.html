@@ -90,12 +90,15 @@
                 console.log(data.code);
                 console.log(data.msg);
                 if (data.code == 200) {
+                    location.replace("/goindex");
+                }
+                else{
                     alert(data.msg);
                 }
-                // 页面的刷新
-                setInterval(function () {
-                    location.replace("/goindex");
-                }, 1500);
+
+
+
+
             }
         })
 

@@ -78,12 +78,12 @@ public interface UserMapper {
      */
     @Update("update user set user_name=#{user_name}\n" +
             "                      ,user_sex=#{user_sex}\n" +
-            "                      ,user_phone=#{user_phone}\n" +
-            "                      ,user_touxiang=#{user_touxiang}\n" +
             "                      ,user_school=#{user_school}\n" +
-            "        where user_id=#{user_id}")
+            "        where user_id=#{user_id} ")
     Boolean updateInfo(User user);
 
+    @Update("update user set user_picture=#{user_picture} where user_id =#{user_id}")
+    Boolean updatePic(User user);
 
     /**
      * 通过id删除（软删除）

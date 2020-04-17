@@ -52,8 +52,10 @@
     </div>
         <div class="div-border">
             <span th:text="'昵称：'+${userInfo.user_name}"></span>
-            <a th:href="'/updateuserinfo/'+${userInfo.user_id}"    style="float: right">修改资料</a>
 
+            <div th:if="${userInfo.user_id}eq ${session.loginer.user_id}">
+            <a th:href="'/updateuserinfo/'+${userInfo.user_id}"    style="float: right">修改资料</a>
+            </div>
 
             <br/>
             <span th:text="'性别：'+${userInfo.user_sex}"></span><br/>

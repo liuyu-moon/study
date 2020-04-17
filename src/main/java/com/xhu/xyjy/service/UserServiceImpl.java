@@ -11,9 +11,12 @@ import com.xhu.xyjy.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.List;
+
+import static com.xhu.xyjy.utils.uploadUtil.upload;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -65,6 +68,36 @@ public class UserServiceImpl implements UserService {
 
          return  userMapper.selectNearby(maxLat,minLat,maxLng,minLng,userid);
 
+
+    }
+
+    @Override
+    public ResultData update(User user) {
+        if(userMapper.updateInfo(user)){
+            return  new ResultData(200,"用户资料更新成功");
+        }
+        else {
+           return  new ResultData(9001,"用户资料更新失败");
+        }
+    }
+
+    @Override
+    public ResultData updatepic(int user_id, MultipartFile file[]) {
+
+        if(user_id==0||file==null){
+            return new ResultData(9001,"请重新上传头像");
+        }
+        ResultData resultData=new ResultData();
+        resultData=upload(file,".jpg.jpeg.gif.png","F:\\xyjy\\src\\main\\resources\\static\\image\\pic",1);
+        User user=new User();
+        user.setUser_id(user_id);
+        user.setUser_picture( resultData.getData().toString());
+        if(userMapper.updatePic(user)){
+            return new ResultData(200,"修改头像成功");
+        }
+        else {
+            return new ResultData(9001,"修改头像失败");
+        }
 
     }
 
