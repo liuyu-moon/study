@@ -9,6 +9,7 @@ public class Moment {
     private  int user_id;
     private  String  description;
     private  String picture;
+    private  String video;
     private Timestamp time;
     private  String  tag;
     private  int  view_count;
@@ -18,16 +19,25 @@ public class Moment {
     public Moment() {
     }
 
-    public Moment(int id, int user_id, String description, String picture, Timestamp time, String tag, int view_count, int like_count, int comment_count) {
+    public Moment(int id, int user_id, String description, String picture, String video, Timestamp time, String tag, int view_count, int like_count, int comment_count) {
         this.id = id;
         this.user_id = user_id;
         this.description = description;
         this.picture = picture;
+        this.video = video;
         this.time = time;
         this.tag = tag;
         this.view_count = view_count;
         this.like_count = like_count;
         this.comment_count = comment_count;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 
     public String getPicture() {
@@ -102,6 +112,7 @@ public class Moment {
         this.comment_count = comment_count;
     }
 
+
     @Override
     public String toString() {
         return "Moment{" +
@@ -109,6 +120,7 @@ public class Moment {
                 ", user_id=" + user_id +
                 ", description='" + description + '\'' +
                 ", picture='" + picture + '\'' +
+                ", video='" + video + '\'' +
                 ", time=" + time +
                 ", tag='" + tag + '\'' +
                 ", view_count=" + view_count +

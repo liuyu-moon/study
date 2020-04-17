@@ -7,6 +7,7 @@ public class MomentUser {
     private  int user_id;
     private  String  description;
     private  String picture;
+    private  String video;
     private Timestamp time;
     private  String  tag;
     private  int  view_count;
@@ -33,6 +34,14 @@ public class MomentUser {
     }
 
     public MomentUser() {
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 
     public int getId() {

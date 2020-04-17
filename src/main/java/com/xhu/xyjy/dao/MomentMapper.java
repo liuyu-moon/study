@@ -13,7 +13,7 @@ import java.util.List;
 public interface MomentMapper {
 
 
-    @Insert("INSERT INTO moment (user_id,description,picture,time,tag)  VALUES (#{user_id},#{description},#{picture},#{time},#{tag})")
+    @Insert("INSERT INTO moment (user_id,description,picture,video,time,tag)  VALUES (#{user_id},#{description},#{picture},#{video},#{time},#{tag})")
     boolean add (Moment moment);
 
     @Select("SELECT moment.*,user.user_name,user_picture from moment  inner join user  on moment.user_id=user.user_id ORDER BY moment.like_count desc ")

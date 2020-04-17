@@ -44,7 +44,7 @@ public class MomentController {
 
     @RequestMapping("/publish")
     @ResponseBody
-    public ResultData Publish(Moment moment, MultipartFile[] multipartFile,HttpServletRequest request)
+    public ResultData Publish(Moment moment, MultipartFile[] multipartFile,MultipartFile[] multipartFile2,HttpServletRequest request)
 
     {
 
@@ -57,7 +57,7 @@ public class MomentController {
 //        User user=(User) request.getSession().getAttribute("user");
 //        moment.setUser_id((user.getUser_id()));
         moment.setUser_id(1);
-    return  momentService.publish(moment,multipartFile);
+    return  momentService.publish(moment,multipartFile,multipartFile2);
     }
 
     @RequestMapping("/searchMoment/{action}")

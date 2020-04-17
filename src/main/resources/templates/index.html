@@ -62,8 +62,19 @@
                         <a th:href="'/godetail/'+${moment.id}">
                            <p th:text="${moment.description}"></p>...查看详情
                         </a>
-                        <div th:each="picture:${moment.picture.split(',')}" height="150px">
+
+<!--                        图片-->
+                        <div th:if="${moment.picture} ne null">
+                        <div class="border" th:each="picture:${moment.picture.split(',')}" height="150px">
                            <img  th:src="'/'+${picture}"  class="img-fluid" >
+                        </div>
+                        </div>
+
+<!--                        视频-->
+                        <div th:if="${moment.video} ne null">
+                        <div  class="border-bottom" th:each="video:${moment.video.split(',')}">
+                           <video  th:src="'/'+${video}"  controls="controls" style="height:150px;"  class="img-fluid" ></video>
+                        </div>
                         </div>
                      </div>
                      <div class="p-3 border-bottom osahan-post-footer">

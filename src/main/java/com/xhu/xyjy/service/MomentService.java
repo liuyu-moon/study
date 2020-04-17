@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 public interface MomentService {
-    ResultData publish(Moment moment,MultipartFile[] file);
+    ResultData publish(Moment moment,MultipartFile[] file,MultipartFile[] file2);
     PageInfo<MomentUser> selectAll(Integer page, Integer pageSize);
     PageInfo<Moment> selectById(Integer user_id,Integer page,Integer pageSize);
     PageInfo<MomentUser> selectFriendById(Integer user_id,Integer page,Integer pageSize);

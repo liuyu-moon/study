@@ -29,11 +29,8 @@ public class MomentServiceImpl implements MomentService {
     //发布动态
 
     @Override
-    public ResultData publish(Moment moment,MultipartFile[] file) {
-        if (file==null) {
-            System.out.println("ceshi5555");
-            return new ResultData(9001, "文件数据异常");
-        }
+    public ResultData publish(Moment moment,MultipartFile[] file,MultipartFile[] file2) {
+
         System.out.println("S层进来");
         System.out.println("1111111"+moment.toString());
         if (moment == null) {
@@ -52,13 +49,22 @@ public class MomentServiceImpl implements MomentService {
             return new ResultData(4003, "发布内容不能为空");
         }
         ResultData resultData =new ResultData();
-        resultData=upload(file,".jpg.gif.png");
-        if(resultData.getCode()!=200)
+        ResultData resultData2 =new ResultData();
+        if(file!=null){
+            resultData=upload(file,".jpg.jpeg.gif.png","F:\\xyjy\\src\\main\\resources\\static\\image\\moment",1);
+        }
+       if(file2!=null){
+           resultData2=upload(file2,".mp4.webm.ogg","F:\\xyjy\\src\\main\\resources\\static\\video\\moment",2);
+
+       }
+
+        if(resultData.getCode()!=200||resultData2.getCode()!=200)
         {
-           return  new ResultData(401,"图片上传失败");
+           return  new ResultData(401,"文件上传失败");
         }
         System.out.println("RESUlt"+resultData.toString());
         moment.setPicture(resultData.getData().toString());
+        moment.setVideo(resultData2.getData().toString());
         moment.setTime(new Timestamp(System.currentTimeMillis()));
         System.out.println("加入数据库前"+moment.toString());
 

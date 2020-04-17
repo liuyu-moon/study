@@ -8,113 +8,9 @@ import java.io.File;
 
 public class uploadUtil {
 
-    //    public static ResultData upload(MultipartFile file,String fileExt) {
-//
-//
-////        if(!file.isEmpty())
-////        {
-////            String filename = file.getOriginalFilename();
-////            //得到后缀
-////            String ext = StringUtil.getExt(filename);
-////            if (fileExt.indexOf(ext) == -1) {
-////                return new ResultData(9004, "上传的文件后缀不满足规则");
-////            }
-////            else {
-////                if (!file.isEmpty()) {
-////                    //得到文件的名字
-////                    String fileName = file.getOriginalFilename();
-////                    //文件保存的位置
-////                    String basePath = "F:\\xyjy\\src\\main\\resources\\static\\image\\moment";
-////                    String upLoadPath = StringUtil.GetNowData();
-////                    File uploadDir = new File(basePath, upLoadPath);
-////                    //手动创建以时间区分的文件夹
-////                    if (!uploadDir.exists()) {
-////                        uploadDir.mkdirs();
-////                    }
-////
-////                    String UniqeName = StringUtil.GetUniueFileName();
-////
-////                    File uploadFile = new File(uploadDir, UniqeName + ext);
-////
-////                    try {
-////                        //上传文件
-////                        file.transferTo(uploadFile);
-////                        System.out.println("文件路径" + "image\\moment" + "\\" + uploadFile.getName());
-////                        return new ResultData(200, "文件上传成功", "image\\moment" + "\\" + uploadFile.getName());
-////                    } catch (Exception e) {
-////                        if (e.getMessage().indexOf("The field file exceeds its maximum permitted size") != -1) {
-////                            return new ResultData(9003, "文件大小超出规定!");
-////                        }
-////                    }
-////                }
-////                else {
-////                    System.out.println("怎么会这样");
-////                    return new ResultData(9003, "文件上传失败!");
-////                }
-////            }
-////        }
-////        else {
-////            return new ResultData(9001, "文件数据异常");
-////        }
-/////////////////////////////
-//        ResultData resultData=new ResultData();
-//        if (file.isEmpty()) {
-//            resultData.setCode(9002);
-//            resultData.setMsg("文件上数据异常");
-//        }
-//
-//        // 1. 得到文件的名字
-//        String filename = file.getOriginalFilename();
-//        //得到后缀
-//        String ext = StringUtil.getExt(filename);
-//        //验证后缀
-//        if (fileExt.indexOf(ext) == -1) {
-//            return new ResultData(9004, "上传的文件后缀不满足规则");
-//        }
-//
-//        if (!file.isEmpty()) {
-//            //得到文件的名字
-//            String fileName = file.getOriginalFilename();
-//            //文件保存的位置
-//            String basePath = "F:\\xyjy\\src\\main\\resources\\static\\image\\moment";
-//            String upLoadPath = StringUtil.GetNowData();
-//            File uploadDir = new File(basePath, upLoadPath);
-//            //手动创建以时间区分的文件夹
-//            if (!uploadDir.exists()) {
-//                uploadDir.mkdirs();
-//            }
-//
-//            String UniqeName = StringUtil.GetUniueFileName();
-//
-//            File uploadFile = new File(uploadDir, UniqeName + ext);
-//
-//            try {
-//                //上传文件
-//                file.transferTo(uploadFile);
-//                int a=8/0;
-//                resultData.setCode(200);
-//                resultData.setMsg("文件上传成功");
-//                resultData.setData("image\\moment" + "\\" + uploadFile.getName());
-//                System.out.println("文件路径" + "image\\moment" + "\\" + uploadFile.getName());
-////                return new ResultData(200, "文件上传成功", "image\\moment" + "\\" + uploadFile.getName());
-//            } catch (Exception e) {
-//
-//                e.printStackTrace();
-//                System.out.println("执行catchyuju");
-//                resultData.setCode(9001);
-//                resultData.setMsg("文件超出大小");
-//
-//            }
-//        }
-//            System.out.println("怎么会这样");
-//            System.out.println(resultData.toString());
-//            return resultData;
-//
-//
-//    }
-    public static ResultData upload(MultipartFile[] files, String fileExt) {
+    public static ResultData upload(MultipartFile[] files, String fileExt,String path,int type) {
 
-        System.out.println("进来了了");
+
         for (int i=0;i<files.length;i++)
         {
             System.out.println(files[i].getOriginalFilename());
@@ -125,9 +21,9 @@ public class uploadUtil {
             result.setMsg("文件数据异常");
         }
         //最后的图片保存路径
-        String picturepath = "";
+        String endpath = "";
         //文件保存的位置
-        String basePath = "F:\\xyjy\\src\\main\\resources\\static\\image\\moment";
+        String basePath = path;
         String upLoadPath = StringUtil.GetNowData();
         for (int i = 0; i < files.length; i++) {
             // 1. 得到文件的名字
@@ -161,7 +57,13 @@ public class uploadUtil {
                     files[i].transferTo(uploadFile);
                     result.setCode(200);
                     result.setMsg("文件上传成功");
-                    picturepath += "image\\moment" + "\\" + upLoadPath + "\\" + uploadFile.getName() + ",";
+                    if(type==1){
+                        endpath += "image\\moment" + "\\" + upLoadPath + "\\" + uploadFile.getName() + ",";
+                    }
+                    else {
+                        endpath += "video\\moment" + "\\" + upLoadPath + "\\" + uploadFile.getName() + ",";
+                    }
+
                     System.out.println("文件路径" + "image\\moment" + "\\" + upLoadPath + "\\" + uploadFile.getName());
                     System.out.println("执行try语句");
                 } catch (Exception e) {
@@ -174,8 +76,8 @@ public class uploadUtil {
                 }
             }
         }
-        System.out.println(picturepath+"图片路径");
-        result.setData(picturepath);
+        System.out.println(endpath+"图片路径");
+        result.setData(endpath);
         return result;
     }
 }
