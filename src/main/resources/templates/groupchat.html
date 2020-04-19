@@ -65,33 +65,16 @@
                     <div class="box-title border-bottom p-3">
                         <h6 class="m-0">快来聊天吧</h6>
                     </div>
-                    <div class="box-body p-3">
 
-<!--                        <div class="box-body" th:each="message:${messages}" >-->
-<!--                            &lt;!&ndash;                            人物信息&ndash;&gt;-->
-<!--                            <div class="d-flex align-items-center osahan-post-header p-3 border-bottom people-list">-->
-<!--                                &lt;!&ndash;                               头像&ndash;&gt;-->
-<!--                                <div class="dropdown-list-image mr-3">-->
-<!--                                    <img class="rounded-circle" th:src="'/'+${message.user_picture}" alt="">-->
-<!--                                </div>-->
-<!--                                &lt;!&ndash;                                消息&ndash;&gt;-->
-<!--                                <div class="font-weight-bold">-->
-<!--                                    <div class="text-truncate" th:text="${message.content}">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <p>以上是历史消息</p>-->
-                    </div>
                     <!--                    消息框占位-->
-                    <div id="message" class="box-body p-3" >
+                    <div id="message" class="box-body p-3"  style="height:300px;overflow:auto" >
                     </div>
 
                     <div class="box shadow-sm border rounded bg-white mb-3">
                         <div class="box-body p-3">
                             <textarea placeholder="请输入消息" id="sendMsg" rows="4" style="width: 100%" > </textarea>
-                            <input type="hidden" id="userId"  th:value="${userid}"> </input>
-                            <input type="hidden"  id="groupId"  th:value="${groupid}"> </input>
+                            <input type="hidden" id="userId"  th:value="${userid}">
+                            <input type="hidden" id="userName"  th:value="${session.loginer.user_name}">
                         </div>
 
                         <!--                    <input type="file" accept="image/*" class="form-control" id="picture" placeholder="插入图片" value="插入图片">-->
@@ -102,27 +85,30 @@
                 </div>
             </main>
             <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
+<!--                在线用户-->
                 <div class="box shadow-sm border rounded bg-white mb-3">
                     <div class="box-title border-bottom p-3">
                         <h6 class="m-0">在线用户</h6>
                     </div>
                     <div class="box-body p-3">
                         <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${users}">
-                            <div class="dropdown-list-image mr-3">
+                            <a th:href="'/gouserinfo/'+${people.user_id}">
+                                <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" th:src="${people.user_picture}" alt="">
-                                <div class="status-indicator bg-success"></div>
-                            </div>
+                                <div class="status-indicator bg-success">
+                                </div>
+                                </div>
+                            </a>
                             <div class="font-weight-bold mr-2">
                                 <div class="text-truncate" th:text="${people.user_name}"></div>
                             </div>
-                            <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                            <span class="ml-auto"><button type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+')'" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
                            </span>
                         </div>
 
                     </div>
                 </div>
-                <!--                  附近的人-->
-                <!--                  附近的人-->
+
                 <div class="box shadow-sm mb-3 rounded bg-white ads-box text-center overflow-hidden">
                     <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
                     <div class="p-3 border-bottom">
@@ -133,62 +119,7 @@
                         <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
                     </div>
                 </div>
-                <div class="box shadow-sm border rounded bg-white mb-3">
-                    <div class="box-title border-bottom p-3">
-                        <h6 class="m-0">Jobs
-                        </h6>
-                    </div>
-                    <div class="box-body p-3">
-                        <a href="job-profile.html">
-                            <div class="shadow-sm border rounded bg-white job-item mb-3">
-                                <div class="d-flex align-items-center p-3 job-item-header">
-                                    <div class="overflow-hidden mr-2">
-                                        <h6 class="font-weight-bold text-dark mb-0 text-truncate">Product Director</h6>
-                                        <div class="text-truncate text-primary">Spotify Inc.</div>
-                                        <div class="small text-gray-500"><i class="feather-map-pin"></i> India, Punjab</div>
-                                    </div>
-                                    <img class="img-fluid ml-auto" src="img/l3.png" alt="">
-                                </div>
-                                <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
-                                    <div class="overlap-rounded-circle">
-                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p9.png" alt="" data-original-title="Sophia Lee">
-                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p10.png" alt="" data-original-title="John Doe">
-                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p11.png" alt="" data-original-title="Julia Cox">
-                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p12.png" alt="" data-original-title="Robert Cook">
-                                    </div>
-                                    <span class="font-weight-bold text-muted">18 connections</span>
-                                </div>
-                                <div class="p-3 job-item-footer">
-                                    <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="job-profile.html">
-                            <div class="shadow-sm border rounded bg-white job-item">
-                                <div class="d-flex align-items-center p-3 job-item-header">
-                                    <div class="overflow-hidden mr-2">
-                                        <h6 class="font-weight-bold text-dark mb-0 text-truncate">.NET Developer</h6>
-                                        <div class="text-truncate text-primary">Invision</div>
-                                        <div class="small text-gray-500"><i class="feather-map-pin"></i> London, UK
-                                        </div>
-                                    </div>
-                                    <img class="img-fluid ml-auto" src="img/l4.png" alt="">
-                                </div>
-                                <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
-                                    <div class="overlap-rounded-circle">
-                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p13.png" alt="" data-original-title="Sophia Lee">
-                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p1.png" alt="" data-original-title="John Doe">
-                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p3.png" alt="" data-original-title="Robert Cook">
-                                    </div>
-                                    <span class="font-weight-bold text-muted">18 connections</span>
-                                </div>
-                                <div class="p-3 job-item-footer">
-                                    <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+
             </aside>
         </div>
     </div>
@@ -214,8 +145,8 @@
 </body>
 
 <script type="text/javascript">
-    var websocket = null;
-    var userId = document.getElementById('userId').value;
+    let websocket = null;
+    let userId = document.getElementById('userId').value;
 
     console.log(userId);
 
@@ -234,7 +165,7 @@
 
     //连接成功建立的回调方法
     websocket.onopen = function () {
-        setMessageInnerHTMLLeft("WebSocket连接成功");
+        setMessageInnerHTMLLeft("你已加入群聊");
     }
 
     //接收到消息的回调方法,居右显示
@@ -267,94 +198,31 @@
 
     //发送消息
     function send() {
-        var message = document.getElementById('sendMsg').value;//要发送的消息内容
-        // var  message=$("sendMsg").val();
+        let message = document.getElementById('sendMsg').value;//要发送的消息内容
+
         if (message == "") {
             alert("发送信息不能为空！")
             return;
         }
         //获取发送人用户id
-        var groupId = document.getElementById('groupId').value;
-        console.log(sendUserId);
-        if (groupId == "") {
-            alert("群id不能为空！")
+        let userId = document.getElementById('userId').value;
+        if (userId == "") {
+            alert("发送人id不能为空！")
             return;
         }
-        userId = document.getElementById('userId').value;
-        document.getElementById('message').innerHTML += (userId + "给" + sendUserId + "发送消息,消息内容为---->>" + message + '<br/>');
-        message =groupId+","+ message + "," +"3"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
+        let userName = document.getElementById('userName').value;
+        if (userName == "") {
+            alert("发送人姓名不能为空！")
+            return;
+        }
+      
+        document.getElementById('message').innerHTML += ("我:" + message + '<br/>');
+        message =userName+","+ message + "," +"1"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
         websocket.send(message);
-        document.getElementById('sendMsg').val("");
+        $("#sendMsg").val("");
 
     }
 
-
-    // 发送图片，暂时没用
-    function sendPic() {
-        var file = $("#picture")[0].files[0];//要发送的图片
-        // var  message=$("sendMsg").val();
-        if (file == "") {
-            alert("发送图片不能为空！")
-            return;
-        }
-        //获取发送人用户id
-        var sendUserId = document.getElementById('sendUserId').value;
-        console.log(sendUserId);
-        if (sendUserId == "") {
-            alert("发送人用户id不能为空！")
-            return;
-        }
-        userId = document.getElementById('userId').value;
-        // document.getElementById('message').innerHTML += (userId + "给" + sendUserId + "发送消息,消息内容为---->>" + message + '<br/>');
-        message =sendUserId+","+ file + "," +"2"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
-        websocket.send(message);
-        // document.getElementById('sendMsg').val("");
-
-    }
-    // 发送图片，暂时没用
-    function sendMsg() {
-        var message = document.getElementById('sendMsg').value;//要发送的消息内容
-        // var  message=$("sendMsg").val();
-        if (message == "") {
-            alert("发送信息不能为空！")
-            return;
-        }
-        //获取发送人用户id
-        var sendUserId = document.getElementById('sendUserId').value;
-        console.log(sendUserId);
-        if (sendUserId == "") {
-            alert("发送人用户id不能为空！")
-            return;
-        }
-        userId = document.getElementById('userId').value;
-        document.getElementById('message').innerHTML += (userId + "给" + sendUserId + "发送消息,消息内容为---->>" + message + '<br/>');
-        message =sendUserId+","+ message + "," +"3"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
-        websocket.send(message);
-        document.getElementById('sendMsg').val("");
-
-    }
-</script>
-
-<script>
-    let input = document.querySelector('#picture');
-    let div_picture = document.querySelector('#message');
-
-    input.addEventListener('change',e => {
-
-        let imgFile=e.target.file;
-        let fileReader = new FileReader();
-
-        fileReader.readAsDataURL(input.files[0]);
-        //fileReader 执行完毕钩子
-        fileReader.onload = e => {
-            let data = e.target.result;
-            let img = document.createElement('img',);
-            img.src = data;
-            img.height=150;
-            img.width=150;
-            div_picture.appendChild(img);
-        }
-    });
 
 </script>
 </html>

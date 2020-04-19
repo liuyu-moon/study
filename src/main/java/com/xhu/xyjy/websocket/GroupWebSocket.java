@@ -41,6 +41,7 @@ public class GroupWebSocket {
 
     //当前发消息的人员编号
     private String userId = "";
+    private String userName = "";
 
 
     /**
@@ -76,6 +77,7 @@ public class GroupWebSocket {
             addOnlineCount();           //在线数加1
             System.out.println("用户id：" + param + "加入连接！当前在线人数为" + getOnlineCount());
         }
+        sendAll("用户"+param+"加入群聊");
 
         for (String value : groupWebSocket.keySet()) {
 
@@ -94,7 +96,8 @@ public class GroupWebSocket {
             groupWebSocket.remove(userId);  //根据用户id从ma中删除
             subOnlineCount();           //在线数减1
             System.out.println("用户id：" + userId + "关闭连接！当前在线人数为" + getOnlineCount());
-        }
+            sendAll(userId + "已推出群聊" );
+    }
     }
 
     /**
@@ -107,29 +110,17 @@ public class GroupWebSocket {
     public void onMessage(String message, Session session) {
         System.out.println("来自客户端的消息:" + message);
 
-        //要发送人的用户uid或者是群ID
-        String sendUserId = message.split(",")[0];
+        //发送人姓名
+        userName = message.split(",")[0];
         //发送的信息
         String sendMessage = message.split(",")[1];
         //消息类型
         String type=message.split(",")[2];
+
+
         if(Integer.parseInt(type)==1){
-            Message message1=new Message();
-            //数据填充
-            message1.setUser_id(Integer.parseInt(userId));
-            message1.setUser2_id(Integer.parseInt(sendUserId));
-            message1.setContent(sendMessage);
-            message1.setTime(new Timestamp(System.currentTimeMillis()));
-            message1.setType(Integer.parseInt(type));
-            //将消息存入数据库
-            chatService.addMessage( message1);
-            //给指定的人发消息
-            sendToUser(sendUserId, sendMessage);
-        }
 
-        if(Integer.parseInt(type)==3){
-
-            sendAll(message);
+            sendAll(userName+":"+sendMessage);
         }
 
 
@@ -188,13 +179,13 @@ public class GroupWebSocket {
      * @param message
      */
     private void sendAll(String message) {
-        String sendMessage = message.split(",")[0];
+
         //遍历HashMap
         for (String key : groupWebSocket.keySet()) {
             try {
                 //判断接收用户是否是当前发消息的用户
                 if (!userId.equals(key)) {
-                    groupWebSocket.get(key).sendMessage("用户:" + userId + "发来消息：" + " <br/> " + sendMessage);
+                    groupWebSocket.get(key).sendMessage( message);
                     System.out.println("key = " + key);
                 }
             } catch (IOException e) {

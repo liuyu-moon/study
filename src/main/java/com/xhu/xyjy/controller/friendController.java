@@ -3,6 +3,7 @@ package com.xhu.xyjy.controller;
 import com.github.pagehelper.PageInfo;
 import com.xhu.xyjy.dao.UserMapper;
 import com.xhu.xyjy.dto.FriendInfo;
+import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.User;
 import com.xhu.xyjy.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,7 +39,7 @@ public class friendController {
         return "friendlist";
     }
 
-    @RequestMapping("/searchfriend/{user_name}")
+    @RequestMapping("/searchFriend/{user_name}")
     public  String searchFriend(@PathVariable(name = "user_name") String user_name, Model model, HttpServletRequest request,
                                 @RequestParam(defaultValue = "1") Integer page,
                                 @RequestParam(defaultValue = "5") Integer pageSize){
@@ -51,5 +53,12 @@ public class friendController {
         return "friendlist";
     }
 
-
+    @RequestMapping("/addFriend")
+    @ResponseBody
+    public ResultData addFriend(int user_id,int friend_id){
+        if( friendService.isFreind(user_id,friend_id)!=0){
+            return  new ResultData(2002,"对方已经是你的好友");
+        }
+        return friendService.addFriend(user_id,friend_id);
+    }
 }

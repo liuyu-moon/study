@@ -6,6 +6,7 @@ import com.xhu.xyjy.pojo.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Mapper
@@ -21,7 +22,7 @@ public interface  FriendMapper {
 //    List<Friend> selectFriendByID();
 
     //按名称搜索用户好友，模糊查询
-    @Select("select user.* ,friendship.group_id ,group_name ,add_time FROM user inner join friendship on user.user_id=friendship.friend_id and friendship.user_id=#{user_id} and status =1 and user_name like CONCAT(CONCAT('%', #{user_name}), '%')")
+    @Select("select user.* ,friendship.group_id ,group_name ,add_time FROM user inner join friendship on user.user_id=friendship.friend_id and friendship.user_id=#{user_id} and status =1 and user_name like CONCAT('%', #{user_name}, '%')")
     List<FriendInfo> selectFriendByName(int user_id,String user_name);
 
 
@@ -43,5 +44,15 @@ public interface  FriendMapper {
 
     @Select("select * from user where user_id in(${ids}) ")
     List<User> selectFriends(@Param("ids") String ids);
+
+    //判断是否为好友
+    @Select("select count(*) from friendship where user_id=#{user_id} and friend_id=#{friend_id}")
+    int  isFriend(int user_id, int friend_id);
+
+
+    //添加好友
+    @Insert("insert into friendship (user_id,friend_id,add_time) values (#{user_id},#{friend_id},#{add_time})")
+    boolean addFriend(int user_id, int friend_id, Timestamp add_time);
+
 }
 

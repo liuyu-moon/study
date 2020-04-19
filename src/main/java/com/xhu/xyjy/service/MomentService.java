@@ -19,4 +19,6 @@ public interface MomentService {
     ResultData addLikeCount(Integer id);
     ResultData addViewCount(Integer id);
     ResultData selectMomentById(Integer id);
+
+    PageInfo<MomentUser> findMomentByTag(String action,Integer page,Integer pageSize);
 }

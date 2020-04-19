@@ -103,6 +103,15 @@ public class MomentServiceImpl implements MomentService {
         else
             return new ResultData(9006,"进入详情页面失败");
     }
+
+    @Override
+    public PageInfo<MomentUser> findMomentByTag(String action,Integer page,Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<MomentUser> moments=momentMapper.findbyTag(action);
+        return new PageInfo<>(moments);
+
+    }
+
     @Override
     public ResultData addLikeCount(Integer id) {
        if( momentMapper.addLikeCount(id)){

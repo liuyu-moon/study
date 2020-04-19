@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class profileController {
 
@@ -17,11 +20,13 @@ public class profileController {
 
 
     @RequestMapping("/profile/{action}")
-    public  String Profile(@PathVariable(name = "action") String action, Model model,
+    public  String Profile(@PathVariable(name = "action") String action, HttpServletRequest request, Model model,
                            @RequestParam(defaultValue = "1") Integer page,
                            @RequestParam(defaultValue = "5") Integer pageSize){
         //从session获取到userID
-        Integer user_id=1;
+        HttpSession session= request.getSession();
+        String s=session.getAttribute("userId").toString();
+        int user_id= Integer.parseInt(s);
 
             if ("mymoment".equals(action)){
                 System.out.println("我的动态");

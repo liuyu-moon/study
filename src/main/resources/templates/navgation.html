@@ -10,8 +10,10 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark osahan-nav-top p-0">
     <div class="container">
 <!--        刷新-->
-        <a class="navbar-brand mr-2" href="index.html"><img src="img/logo.png" alt="">
+        <a class="navbar-brand mr-2" href="/goindex"><img src="img/logo.png" alt="">
         </a>
+
+
         <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
                 <input  id="uName" type="text" class="form-control shadow-none border-0" placeholder="搜索好友" aria-label="Search" aria-describedby="basic-addon2">
@@ -22,26 +24,37 @@
                 </div>
             </div>
         </form>
-        <ul class="navbar-nav ml-auto d-flex align-items-center">
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="feather-search mr-2"></i>
-                </a>
-                <!-- Dropdown - Messages -->
-                <div class="dropdown-menu dropdown-menu-right p-3 shadow-sm animated--grow-in" aria-labelledby="searchDropdown">
-                    <form class="form-inline mr-auto w-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control border-0 shadow-none" placeholder="搜索你敢兴趣的话题" aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn" type="button">
-                                    <i class="feather-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+
+        <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+                <input  id="mTag" type="text" class="form-control shadow-none border-0" placeholder="搜索话题" aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn" type="button" onclick="searchMoment(document.getElementById('mTag').value)">
+                        <i class="feather-search"></i>
+                    </button>
                 </div>
-            </li>
+            </div>
+        </form>
+        <ul class="navbar-nav ml-auto d-flex align-items-center">
+<!--            &lt;!&ndash; Nav Item - Search Dropdown (Visible Only XS) &ndash;&gt;-->
+<!--            <li class="nav-item dropdown no-arrow d-sm-none">-->
+<!--                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                    <i class="feather-search mr-2"></i>-->
+<!--                </a>-->
+<!--                &lt;!&ndash; Dropdown - Messages &ndash;&gt;-->
+<!--                <div class="dropdown-menu dropdown-menu-right p-3 shadow-sm animated&#45;&#45;grow-in" aria-labelledby="searchDropdown">-->
+<!--                    <form class="form-inline mr-auto w-100 navbar-search">-->
+<!--                        <div class="input-group">-->
+<!--                            <input type="text" class="form-control border-0 shadow-none" placeholder="搜索你感兴趣的话题" aria-label="Search" aria-describedby="basic-addon2">-->
+<!--                            <div class="input-group-append">-->
+<!--                                <button class="btn" type="button">-->
+<!--                                    <i class="feather-search"></i>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </li>-->
 
 <!--            //更多功能-->
             <li class="nav-item dropdown mr-2">
@@ -52,7 +65,7 @@
                 <div class="dropdown-menu dropdown-menu-right shadow-sm">
                     <a class="dropdown-item" th:href="'/gouserinfo/'+${session.userId}"><i class="feather-briefcase mr-1"></i> 个人设置</a>
                     <a class="dropdown-item" href="/gofriendlist"><i class="feather-user mr-1"></i> 好友列表</a>
-                    <a class="dropdown-item" href="/gogroupchat"><i class="feather-users mr-1"></i>我的群聊</a>
+                    <a class="dropdown-item" href="/gogroupchat"><i class="feather-users mr-1"></i>加入群聊</a>
                     <a class="dropdown-item" href="/profile/fcircle"><i class="feather-user-plus mr-1"></i>动态中心</a>
                 </div>
             </li>
@@ -91,7 +104,6 @@
             </li>
         </ul>
     </div>
-</nav>
 </nav>
 </div>
 </body>

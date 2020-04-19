@@ -36,4 +36,7 @@ public interface MomentMapper {
 
     @Update("update moment set comment_count =comment_count+1 where id =#{id}")
     boolean addCommentCount(int id);
+
+    @Select("SELECT moment.*,user.user_name,user_picture from moment inner join user  on moment.user_id=user.user_id and tag like  CONCAT('%',#{tag},'%') order by time")
+    List<MomentUser> findbyTag(String tag);
 }

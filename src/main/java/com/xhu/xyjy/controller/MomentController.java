@@ -12,6 +12,7 @@ import com.xhu.xyjy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,8 +60,18 @@ public class MomentController {
     return  momentService.publish(moment,multipartFile);
     }
 
+    @RequestMapping("/searchMoment/{action}")
+    public  String searchMomentList(@PathVariable(name = "action") String action, Model model, @RequestParam(defaultValue = "1") Integer page,
+                                    @RequestParam(defaultValue = "5") Integer pageSize,
+                                    HttpServletRequest request){
+        PageInfo<MomentUser> pageInfo=momentService.findMomentByTag(action,page,pageSize);
+        model.addAttribute("moments",pageInfo.getList());
+        model.addAttribute("pageInfo",pageInfo);
+        return  "index";
 
-//    @RequestMapping("/goMomentShow")
+    }
+
+
     @RequestMapping("/goindex")
     public String MomentList(Model model,
                              @RequestParam(defaultValue = "1") Integer page,
