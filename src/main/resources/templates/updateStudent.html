@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="img/fav.png">
+    <title>更新学生认证</title>
+
+    <link  rel="stylesheet" href="/css/bootstrap.min.css">
+    <link  rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link  rel="stylesheet" href="/css/my.css">
+    <!-- Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="/vendor/slick/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/vendor/slick/slick-theme.min.css"/>
+    <!-- Feather Icon-->
+    <link href="/vendor/icons/feather.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet">
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- slick Slider JS-->
+    <script type="text/javascript" src="/vendor/slick/slick.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="/js/osahan.js"></script>
+    <script src="/js/my.js"></script>
+</head>
+<body >
+<!--导航条内容-->
+<div th:insert="navgation::nav">
+
+</div>
+
+<div class="container-fluid main" >
+    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 div1"  >
+        <h2><span class="glyphicon glyphicon-plus" aria-hidden="true">修改资料</span></h2>
+        <form id="form1"  enctype="multipart/form-data">
+
+
+            <div class="form-group">
+                <div class="media-left"><!--            头像-->
+                    <a href="#">
+                        <img class="media-object img-rounded " th:src="'/'+${session.loginer.user_picture}"  height="38px" width="38px" >
+                    </a>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="hidden" class="form-control" id="user_id"  th:value="${session.loginer.user_id}">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="student_school"  th:value="${student.school}">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="student_major"  th:value="${student.major}">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="student_status"  th:value="${student.status}">
+            </div>
+            <label for="pic" value="上传学生证"></label>
+            <input type="file" class="form-control" id="pic" >
+            <button type="button"  onclick="updateStudent()"   class="btn btn-success">修改资料</button>
+
+
+        </form>
+    </div>
+
+
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 div2"  >
+
+        <h3>请文明发言</h3>
+    </div>
+    ...
+</div>
+</body>
+
+
+<script>
+    function updateStudent() {
+        alert("准备修改资料");
+        let formData = new FormData;
+        let user_id = $("#user_id").val();
+        let student_school = $("#student_school").val();
+        let student_major = $("#student_major").val();
+        let file = $("#pic")[0].files[0]
+
+        formData.append("user_id", user_id);
+        formData.append("school", student_school);
+        formData.append("major",student_major);
+        formData.append("file", file);
+
+        // Ajax 异步提交文件
+        $.ajax({
+            type: "post",
+            url: "/updatestudent",
+            data: formData,//上一步的FormData
+            cache: false,//不缓存数据
+            processData: false,//不转换数据
+            contentType: false,
+            dataType: "json",
+            success: function (data) {
+                    alert(data.msg);
+                // 页面的刷新
+                location.replace(location.href);
+            }
+        })
+    }
+
+
+
+
+</script>
+</html>

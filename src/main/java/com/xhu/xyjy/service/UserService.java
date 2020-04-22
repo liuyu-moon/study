@@ -3,6 +3,7 @@ package com.xhu.xyjy.service;
 import com.github.pagehelper.PageInfo;
 import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.Admin;
+import com.xhu.xyjy.pojo.Student;
 import com.xhu.xyjy.pojo.User;
 import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.User;
@@ -26,4 +27,8 @@ public interface UserService {
     ResultData update(User user);
 
     ResultData updatepic(int user_id, MultipartFile file[]);
+
+    Student findStudent(int user_id);
+
+      ResultData updateStudent(Student student, MultipartFile[] file);
 }

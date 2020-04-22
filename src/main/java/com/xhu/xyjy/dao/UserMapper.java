@@ -1,5 +1,6 @@
 package com.xhu.xyjy.dao;
 import com.xhu.xyjy.pojo.Admin;
+import com.xhu.xyjy.pojo.Student;
 import com.xhu.xyjy.pojo.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -123,4 +124,10 @@ public interface UserMapper {
 
     @Select("select * from user where user_id in (${ids})" )
     List<User> findUsers( @Param("ids") String ids);
+
+    @Select("select * from student where user_id=#{user_id}")
+    Student findStudent(int user_id);
+
+    @Update("update student set school=#{school},major=#{major},pic=#{pic},status=#{status} where user_id=user_id")
+    Boolean updateStudent(Student student);
 }

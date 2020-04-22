@@ -14,11 +14,13 @@ import java.util.List;
 public interface MomentService {
     ResultData publish(Moment moment,MultipartFile[] file,MultipartFile[] file2);
     PageInfo<MomentUser> selectAll(Integer page, Integer pageSize);
-    PageInfo<Moment> selectById(Integer user_id,Integer page,Integer pageSize);
+    PageInfo<MomentUser> selectById(Integer user_id,Integer page,Integer pageSize);
     PageInfo<MomentUser> selectFriendById(Integer user_id,Integer page,Integer pageSize);
     ResultData addLikeCount(Integer id);
     ResultData addViewCount(Integer id);
     ResultData selectMomentById(Integer id);
 
     PageInfo<MomentUser> findMomentByTag(String action,Integer page,Integer pageSize);
+
+    ResultData deletemoment(int id);
 }

@@ -40,57 +40,88 @@
 
 <div class="container-fluid main profile" >
 
-<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 div1"  >
+<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 div1"  >
     <h2><span class="glyphicon glyphicon-list" aria-hidden="true" th:text="${sectionName}"></span></h2>
     <span class="x-right" style="line-height:40px">共有数据：<span
             style="color: #94fdcb" th:text="${pageInfo.total}"></span> 条</span>
     <!--    数据展示-->
-    <div class="media" th:each="moment : ${moments}">
-        <div class="media-left">
-<!--            头像-->
-            <a href="#">
-                <img class="media-object img-rounded " th:src="@{'/'+${moment.picture}}"  height="38px" width="38px" >
-            </a>
+
+    <div th:each="moment : ${moments}">
+        <!--  用户信息-->
+        <div class="p-3 d-flex align-items-center border-bottom osahan-post-header">
+            <div class="dropdown-list-image mr-3">
+                <img class="rounded-circle" th:src="'/'+${moment.user_picture}" >
+                <div class="status-indicator bg-success"></div>
+            </div>
+            <div class="font-weight-bold">
+                <div class="text-truncate" >
+                              <span th:text="${moment.user_name}">
+                              </span>
+                </div>
+                <div class="small text-gray-500">发布地址,先占位</div>
+            </div>
+            <span class="ml-auto small" th:text="${moment.time}"></span>
         </div>
-        <div class="media-body">
+
+
+        <div class="p-3 border-bottom osahan-post-body">
             <a th:href="'/godetail/'+${moment.id}">
-                <h4 class="media-heading" th:text="${moment.description}"></h4>
+                <p th:text="${moment.description}"></p>...查看详情
             </a>
-            欢迎来到校园交友系统(图片占位)<br>
-            <span th:text="${moment.id}"></span>
-            <span class="text_desc" th:text="${moment.view_count}+'人浏览'"></span>
-            <span class="text_desc" th:text="${moment.like_count}+'人点赞'"></span>
-            <span class="text_desc" >2小时前</span>
+
+            <!--                        图片-->
+            <div th:if="${moment.picture} ne null">
+                <div class="border" th:each="picture:${moment.picture.split(',')}" height="150px">
+                    <img  th:src="'/'+${picture}"  class="img-fluid" >
+                </div>
+            </div>
+
+            <!--                        视频-->
+            <div th:if="${moment.video} ne null">
+                <div  class="border-bottom" th:each="video:${moment.video.split(',')}">
+                    <video  th:src="'/'+${video}"  controls="controls" style="height:150px;"  class="img-fluid" ></video>
+                </div>
+            </div>
+        </div>
+        <div class="p-3 border-bottom osahan-post-footer">
+            <i class="feather-heart text-danger" th:text="${moment.comment_count}"></i>
+            <i class="feather-message-square" th:text="${moment.view_count}"></i>
+            <i class="feather-share-2" th:text="${moment.like_count}"></i>
+            <a th:if="${moment.user_id}eq ${session.loginer.user_id}"  type="button"  th:onclick="'deletemoment('+${moment.id}+')'"> <span  class="text_desc">删除</span></a>
         </div>
     </div>
-    <!--分页-->
-    <div class="page">
-        <div>
-            <span th:if="${pageInfo.hasPreviousPage}" >
+            <!--            分页-->
+        <div class="p-3 border-bottom" >
+            <div class="page" style="width: 100%;position: absolute;bottom: 0px;left: 50%">
+                <span th:if="${pageInfo.hasPreviousPage}" >
                 <a class="prev"
-                   th:href="@{'/profile/mymoment?page='+${pageInfo.prePage}}">上一页</a>
-            </span>
-            <span th:each="page :${pageInfo.navigatepageNums}" >
+                   th:href="@{'/goindex?page='+${pageInfo.prePage}}">上一页</a>
+                </span>
+                <span th:each="page :${pageInfo.navigatepageNums}" >
                 <span th:if="${pageInfo.pageNum==page}">
                     <a class="current" th:text="${page}"></a>
                 </span>
                 <span th:if="${pageInfo.pageNum!=page}" >
-                    <a class="num" th:href="@{'/profile/mymoment?page='+${page}}" th:text="${page}"></a>
+                    <a class="num" th:href="@{'/goindex?page='+${page}}" th:text="${page}"></a>
                 </span>
+                </span>
+
+                <span th:if ="${pageInfo.hasNextPage}">
+                <a class="next" th:href="@{'/goindex?page='+${pageInfo.nextPage}}">下一页</a>
             </span>
-            <span th:if ="${pageInfo.hasNextPage}">
-                <a class="next"
-                   th:href="@{'/profile/mymoment?page='+${pageInfo.nextPage}}">下一页</a>
-            </span>
+            </div>
         </div>
+
     </div>
-</div>
-<!--右边-->
+
+
+
+    <!--右边-->
     <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 div2 section"    >
 
         <div class="list-group ">
             <a href="#" class="list-group-item active">
-               动态中心
+                动态中心
             </a>
             <a href="/profile/fcircle" th:class="${section=='fcircle'? 'active list-group-item':'list-group-item'}" class="list-group-item">朋友圈</a>
             <a href="/profile/mymoment" th:class="${section=='mymoment'? 'active list-group-item':'list-group-item'}" class="list-group-item">我的动态</a>
@@ -100,5 +131,8 @@
         </div>
     </div>
 </div>
+
+
+
 </body>
 </html>

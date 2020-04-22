@@ -86,9 +86,9 @@ public class MomentServiceImpl implements MomentService {
 
 //查找用户自己的动态
     @Override
-    public PageInfo<Moment> selectById ( Integer user_id,Integer page, Integer pageSize) {
+    public PageInfo<MomentUser> selectById ( Integer user_id,Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<Moment> moments = momentMapper.findById(user_id);
+        List<MomentUser> moments = momentMapper.findById(user_id);
         return new PageInfo<>(moments);
     }
 
@@ -116,6 +116,16 @@ public class MomentServiceImpl implements MomentService {
         List<MomentUser> moments=momentMapper.findbyTag(action);
         return new PageInfo<>(moments);
 
+    }
+
+    @Override
+    public ResultData deletemoment(int id) {
+        if(momentMapper.deleteById(id)){
+            return new  ResultData(200,"动态信息删除成功");
+        }
+        else {
+            return new  ResultData(9001,"动态信息删除失败");
+        }
     }
 
     @Override

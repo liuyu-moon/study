@@ -20,8 +20,8 @@ public interface MomentMapper {
     @Select("SELECT moment.*,user.user_name,user_picture from moment  inner join user  on moment.user_id=user.user_id ORDER BY moment.like_count desc ")
     List<MomentUser> findAll();
     //查找自己的动态
-    @Select("SELECT * from moment where user_id =#{user_id}")
-    List<Moment> findById(Integer user_id);
+    @Select("select moment.*,user.user_name,user_picture from moment  inner join user  on moment.user_id=user.user_id and moment.user_id=#{user_id} ORDER BY moment.like_count desc")
+    List<MomentUser> findById(Integer user_id);
  //单一动态详细
     @Select("SELECT moment.*,user.user_name,user_picture from moment inner join user  on moment.user_id=user.user_id and id =#{id}")
     MomentUser findMomentById(Integer id);
@@ -41,6 +41,6 @@ public interface MomentMapper {
     @Select("SELECT moment.*,user.user_name,user_picture from moment inner join user  on moment.user_id=user.user_id and tag like  CONCAT('%',#{tag},'%') order by time")
     List<MomentUser> findbyTag(String tag);
 
-    @Delete("delect from moment where id=${id}")
-    int deleteById(int id);
+    @Delete("delete from moment where id=#{id}")
+    boolean deleteById(int id);
 }

@@ -63,7 +63,14 @@
             <span th:text="'电话：'+${userInfo.user_phone}"></span><br/>
             <span th:text="'学校：'+${userInfo.user_school}"></span><br/>
             <span th:text="'动态条数：'+${userInfo.user_momentsnum}"></span><br/>
+            <span th:text="'学院：'+${student.school}"></span><br/>
+            <span th:text="'专业：'+${student.major}"></span><br/>
+            <span th:text="'学生认证：'+${student.status}"></span><br/>
+            <div th:if="${userInfo.user_id}eq ${session.loginer.user_id}">
+            <a th:href="'/updatestudent/'+${userInfo.user_id}"    style="float: right">学生认证</a>
+            </div>
         </div>
+
     </div>
 
 </body>

@@ -71,6 +71,15 @@ public class MomentController {
 
     }
 
+    @RequestMapping("/deletemoment")
+    @ResponseBody
+    public  ResultData deletemoment( int id){
+        if(id==0){
+            return  new  ResultData(9002,"动态删除失败");
+        }
+        return  momentService.deletemoment(id);
+    }
+
 
     @RequestMapping("/goindex")
     public String MomentList(Model model,

@@ -32,7 +32,7 @@ public class profileController {
                 System.out.println("我的动态");
                 model.addAttribute("section","moment");
                 model.addAttribute("sectionName","我的动态");
-                PageInfo<Moment> pageInfo=momentService.selectById(user_id,page,pageSize);
+                PageInfo<MomentUser> pageInfo=momentService.selectById(user_id,page,pageSize);
                 model.addAttribute("moments",pageInfo.getList());
                 model.addAttribute("pageInfo",pageInfo);
             }

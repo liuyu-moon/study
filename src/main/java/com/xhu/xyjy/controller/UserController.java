@@ -126,8 +126,25 @@ public class UserController {
     @RequestMapping("/gouserinfo/{action}")
     public String goUserInfo( @PathVariable(name = "action") int user_id,Model model){
         model.addAttribute("userInfo",userService.findUserInfo(user_id));
+        model.addAttribute("student",userService.findStudent(user_id));
         return "userInfo";
     }
+
+    @RequestMapping("/updatestudent/{action}")
+    public String updatestudent( @PathVariable(name = "action") int user_id,Model model){
+        model.addAttribute("student",userService.findStudent(user_id));
+        return "updateStudent";
+    }
+
+    @RequestMapping("/updatestudent")
+    @ResponseBody
+    public ResultData updatestudent(Student student,MultipartFile file[]){
+        System.out.println("xss");
+        return userService.updateStudent(student,file);
+
+    }
+
+
 
     @RequestMapping("/updateuserinfo/{action}")
     public String updateuserinfo( @PathVariable(name = "action") int user_id,Model model){

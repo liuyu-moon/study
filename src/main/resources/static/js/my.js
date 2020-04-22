@@ -65,6 +65,31 @@ function searchFriend(user_name) {
     window.location.href='/searchFriend/'+user_name;
 }
 
+function deletemoment(id) {
+    let formData=new  FormData();
+
+    formData.append("id",id);
+
+
+    // Ajax 异步提交文件
+    $.ajax({
+            type: "post",
+            url: "/deletemoment",
+            data:formData ,//上一步的FormData
+            cache: false,//不缓存数据
+            processData: false,//不转换数据
+            contentType: false,
+            dataType: "json",
+            success: function (data) {
+                alert(data.msg);
+
+            }
+        }
+    )
+}
+
+
+
 function searchMoment(tag) {
     console.log(tag);
 

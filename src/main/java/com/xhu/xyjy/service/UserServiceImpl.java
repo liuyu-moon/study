@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.xhu.xyjy.dao.UserMapper;
 import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.Admin;
+import com.xhu.xyjy.pojo.Student;
 import com.xhu.xyjy.pojo.User;
 import com.xhu.xyjy.utils.MD5Util;
 import com.xhu.xyjy.dao.UserMapper;
@@ -100,6 +101,37 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public Student findStudent(int user_id) {
+       return  userMapper.findStudent(user_id);
+    }
+
+    @Override
+    public ResultData updateStudent(Student student, MultipartFile[] file) {
+      if(student==null ||file==null){
+          return  new ResultData(9001,"学生认证失败");
+      }
+
+      ResultData resultData=new ResultData();
+      resultData=upload(file,".jpg.jpeg.gif.png","F:\\xyjy\\src\\main\\resources\\static\\image\\student",1);
+      if(resultData.getCode()==200){
+          student.setPic(resultData.getData().toString());
+          student.setStatus("通过");
+
+          if(userMapper.updateStudent(student)){
+              return  new ResultData(200,"学生认认证成功");
+          }
+          else  return  new ResultData(9001,"学生认证失败");
+      }
+      else {
+          return  new ResultData(9001,"学生认证失败");
+      }
+
+
+
+      }
+
 
 
     //注册
