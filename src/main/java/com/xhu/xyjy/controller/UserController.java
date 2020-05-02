@@ -1,28 +1,23 @@
 package com.xhu.xyjy.controller;
 
 
-import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import com.xhu.xyjy.dao.FriendMapper;
+
 import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.*;
 import com.xhu.xyjy.service.ChatService;
-import com.xhu.xyjy.service.FriendService;
+
 import com.xhu.xyjy.service.UserService;
-import org.apache.catalina.Session;
-import org.apache.ibatis.annotations.Result;
-import org.hibernate.validator.constraints.EAN;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 public class UserController {

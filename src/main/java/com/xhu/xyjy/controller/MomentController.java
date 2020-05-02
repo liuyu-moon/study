@@ -47,17 +47,11 @@ public class MomentController {
     public ResultData Publish(Moment moment, MultipartFile[] multipartFile,MultipartFile[] multipartFile2,HttpServletRequest request)
 
     {
-
-        if(multipartFile!=null){
-            System.out.println("c层进去");
-        }
-
-        System.out.println(moment.toString());
-//        System.out.println(multipartFile.getOriginalFilename());
-//        User user=(User) request.getSession().getAttribute("user");
-//        moment.setUser_id((user.getUser_id()));
-        moment.setUser_id(1);
-    return  momentService.publish(moment,multipartFile,multipartFile2);
+        HttpSession session= request.getSession();
+        String s=session.getAttribute("userId").toString();
+        int userid= Integer.parseInt(s);
+        moment.setUser_id(userid);
+        return  momentService.publish(moment,multipartFile,multipartFile2);
     }
 
     @RequestMapping("/searchMoment/{action}")

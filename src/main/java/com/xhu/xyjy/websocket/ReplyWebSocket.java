@@ -1,24 +1,18 @@
 package com.xhu.xyjy.websocket;
 
-import com.xhu.xyjy.dao.ChatMapper;
 import com.xhu.xyjy.dao.UserMapper;
-import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.Message;
 import com.xhu.xyjy.pojo.User;
 import com.xhu.xyjy.service.ChatService;
-import com.xhu.xyjy.service.ChatServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.xhu.xyjy.utils.uploadUtil.upload;
 
 /**
  * @ServerEndpoint 注解是一个类层次的注解，它的功能主要是将目前的类定义成一个websocket服务器端,
@@ -29,26 +23,26 @@ import static com.xhu.xyjy.utils.uploadUtil.upload;
 
 
 
-@ServerEndpoint("/websocket/{userId}")
+@ServerEndpoint("/replywebsocket/{userId}")
 @Component
-public class ProductWebSocket {
+public class ReplyWebSocket {
     static ChatService chatService;
     @Autowired
     public void setRabbitAdmin(ChatService chatService){
-        ProductWebSocket.chatService = chatService;
+        ReplyWebSocket.chatService = chatService;
     }
 
     static UserMapper userMapper;
     @Autowired
     public void setRabbitAdmin2(UserMapper userMapper){
-        ProductWebSocket.userMapper=userMapper;
+        ReplyWebSocket.userMapper=userMapper;
     }
 
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
 
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户id
-     private static ConcurrentHashMap<String, ProductWebSocket> webSocketSet = new ConcurrentHashMap<String, ProductWebSocket>();
+     private static ConcurrentHashMap<String, ReplyWebSocket> webSocketSet = new ConcurrentHashMap<String, ReplyWebSocket>();
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
@@ -67,11 +61,11 @@ public class ProductWebSocket {
     }
 
     public static synchronized void addOnlineCount() {
-        ProductWebSocket.onlineCount++;
+        ReplyWebSocket.onlineCount++;
     }
 
     public static synchronized void subOnlineCount() {
-        ProductWebSocket.onlineCount--;
+        ReplyWebSocket.onlineCount--;
     }
 
     /**
@@ -120,35 +114,19 @@ public class ProductWebSocket {
     public void onMessage(String message, Session session) {
         System.out.println("来自客户端的消息:" + message);
 
-        //要发送人的用户uid
+        //要发送人的用户uid或者是群ID
         String sendUserId = message.split(",")[0];
         //发送的信息
         String sendMessage = message.split(",")[1];
         //消息类型
         String type=message.split(",")[2];
-        if(Integer.parseInt(type)==1){
-            Message message1=new Message();
-            //数据填充
-            message1.setUser_id(Integer.parseInt(userId));
-            message1.setUser2_id(Integer.parseInt(sendUserId));
-            message1.setContent(sendMessage);
-            message1.setTime(new Timestamp(System.currentTimeMillis()));
-            message1.setType(Integer.parseInt(type));
-            //将消息存入数据库
-            chatService.addMessage( message1);
-            //给指定的人发消息
-            sendToUser(sendUserId, sendMessage);
-        }
 
-        if(Integer.parseInt(type)==3){
-
-            sendAll(message);
-        }
         if(Integer.parseInt(type)==4){
 
             User user=userMapper.findById(Integer.parseInt(userId));
+
             sendToUser(sendUserId, user.getUser_name()+':'+sendMessage);
-            System.out.println(user.getUser_name()+':'+sendMessage);
+            System.out.println("aaaaaa啊"+user.getUser_name()+':'+sendMessage);
         }
 
 
@@ -167,7 +145,7 @@ public class ProductWebSocket {
 
         try {
             if (webSocketSet.get(sendUserId) != null) {
-                webSocketSet.get(sendUserId).sendMessage(userId + "给我发来消息，消息内容为--->>" + message);
+                webSocketSet.get(sendUserId).sendMessage(message);
             } else {
                 //如果发送人在线，则向发送人发送反馈消息
                 if (webSocketSet.get(userId) != null) {

@@ -39,6 +39,9 @@
 
 </div>
 <input type="hidden" th:value="${moment.id}" id="momentId">
+<input type="hidden" th:value="${moment.user_id}" id="MomentUserId">
+<input type="hidden" th:value="${session.loginer.user_id}" id="userId">
+
 <div class="py-4">
     <div class="container">
         <div class="row">
@@ -128,10 +131,7 @@
             </span>
             </div>
         </div>
-
-
     </div>
-
 
 </main>
 <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
@@ -237,18 +237,19 @@
 </body>
 
 
-<script>
-
-    var commentBtn= document.getElementById('commentBtn');
+<script type="text/javascript">
+    websocketUtil();
+    let commentBtn= document.getElementById('commentBtn');
     commentBtn.addEventListener('click', addComment1, false); //鼠标单击的时候调用showMes这个函数
-
 function  addComment1() {
-        var momentId = $("#momentId").val();
-        var content = $("#content").val();
+        let momentId = $("#momentId").val();
+        let content = $("#content").val();
+        var message=content+'.'+momentId;
         console.log("xxxxx"+momentId)
-        var formData = new FormData();
+        let formData = new FormData();
         formData.append("moment_id", momentId);
         formData.append("content", content);
+        let  MomentUserId=$("#MomentUserId").val();
 
         alert("准备提交1");
         $.ajax({
@@ -263,25 +264,20 @@ function  addComment1() {
                 alert("666");
                 if (data.code == 200) {
                     alert("添加评论成功");
+                    send(MomentUserId,message);
                     location.reload();
                 }
             }
         });
+
+
     }
 
 function  addComment2(comment_id,user_id) {
-    var momentId = $("#momentId").val();
-    var content = $("#content").val();
+    let momentId = $("#momentId").val();
+    let content = $("#content").val();
 
-   alert("COMMENTid"+comment_id);
-   alert("COMMENTid"+user_id);
-   alert("COMMENTid"+content);
-
-
-
-
-
-    var formData = new FormData();
+    let formData = new FormData();
     formData.append("moment_id", momentId);
     formData.append("content", content);
     formData.append("user2_id", user_id);
@@ -300,10 +296,12 @@ function  addComment2(comment_id,user_id) {
             alert("666");
             if (data.code == 200) {
                 alert("添加评论成功");
+                send(user_id,content);
                 location.reload();
             }
         }
     });
+
 }
 
 function changeBtn(comment_id,user_name,user_id){
@@ -318,9 +316,9 @@ function changeBtn(comment_id,user_name,user_id){
     }
 
  function commentdisplay(commentId) {
-     var messageBox=$("#comment2")
+     let messageBox=$("#comment2")
 
-     var formData=new FormData();
+     let formData=new FormData();
      formData.append("commentId",commentId);
      // Ajax 异步提交
      $.ajax({
@@ -360,32 +358,6 @@ function changeBtn(comment_id,user_name,user_id){
          }
      );
  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   function   clear(){

@@ -74,7 +74,7 @@
             </li>
 
 
-<!--            //用户消息-->
+<!--            //用户未读消息-->
             <li class="nav-item dropdown no-arrow mx-1 osahan-list-dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="feather-bell"></i>
@@ -84,7 +84,24 @@
                 <!-- Dropdown - Alerts -->
 
             </li>
-            <!-- 用户信息 -->
+            <!-- 用户评论通知 -->
+            <li class="nav-item dropdown no-arrow mx-1 osahan-list-dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather-bell"></i>
+                <!-- Counter - Alerts -->
+                <span  id="replyCount" class="badge badge-info badge-counter" th:text="0"  th:value="0"></span>
+
+                </a>
+                <!-- Dropdown - Alerts -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm" id="reply">
+                    <h6 class="dropdown-header">
+                        <span id="test">新的通知</span>
+                    </h6>
+
+                </div>
+            </li>
+
+
 
             <li class="nav-item dropdown no-arrow ml-1 osahan-profile-dropdown">
                 <a class="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

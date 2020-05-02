@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class GroupWebSocket {
     static ChatService chatService;
+
     @Autowired
     public void setRabbitAdmin(ChatService chatService){
         GroupWebSocket.chatService = chatService;

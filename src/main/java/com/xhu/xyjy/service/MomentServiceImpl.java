@@ -50,21 +50,29 @@ public class MomentServiceImpl implements MomentService {
         }
         ResultData resultData =new ResultData();
         ResultData resultData2 =new ResultData();
-        if(file!=null){
+        if(file.length!=0){
             resultData=upload(file,".jpg.jpeg.gif.png","F:\\xyjy\\src\\main\\resources\\static\\image\\moment",1);
+            if(null!=resultData&&resultData.getCode()!=200)
+            {
+                return  new ResultData(401,"图片上传失败");
+            }
+            else
+                moment.setPicture(resultData.getData().toString());
         }
-       if(file2!=null){
-           resultData2=upload(file2,".mp4.webm.ogg","F:\\xyjy\\src\\main\\resources\\static\\video\\moment",2);
-
+       if(file2.length!=0){
+          resultData2=upload(file2,".mp4.webm.ogg","F:\\xyjy\\src\\main\\resources\\static\\video\\moment",2);
+           if(null!=resultData2&&resultData2.getCode()!=200)
+           {
+               return  new ResultData(401,"视频上传失败");
+           }
+           else
+               moment.setVideo(resultData2.getData().toString());
        }
 
-        if(resultData.getCode()!=200||resultData2.getCode()!=200)
-        {
-           return  new ResultData(401,"文件上传失败");
-        }
+
         System.out.println("RESUlt"+resultData.toString());
-        moment.setPicture(resultData.getData().toString());
-        moment.setVideo(resultData2.getData().toString());
+
+
         moment.setTime(new Timestamp(System.currentTimeMillis()));
         System.out.println("加入数据库前"+moment.toString());
 
