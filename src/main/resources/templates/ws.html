@@ -34,234 +34,123 @@
 
 <div th:insert="navgation::nav"></div>
 <div class="py-4">
-    <div class="container">
+    <div class="container" style="max-width: 1500px">
         <div class="row">
-            <aside class="col col-xl-3 order-xl-1 col-lg-12 order-lg-1 col-12">
-                <div class="box shadow-sm border rounded bg-white mb-3">
+            <aside class="col col-xl-4 order-xl-1 col-lg-12 order-lg-1 col-12" >
+                <div class="box shadow-sm border rounded bg-white mb-3" style="height: 100%">
                     <div class="box-title border-bottom p-3">
-                    <h6 class="m-0">消息列表</h6>
-                </div>
-                <div class="box-body">
-                    <div class="d-flex align-items-center osahan-post-header p-3 border-bottom people-list" th:each="chatlist:${chatlists}">
-                         <div class="dropdown-list-image mr-3" >
-                            <img class="rounded-circle" th:src="'/'+${chatlist.user2_picture}" alt="">
-                         </div>
-                     <div class="font-weight-bold">
-                    <a th:href="'/gows/'+${chatlist.user2_id}"> <div class="text-truncate" th:text="${chatlist.user2_name}">
-                    </div></a>
-                         <span class="badge badge-danger ml-1" th:text="${chatlist.unread}">666
-                            </span>
-<!--                最后消息-->
-<!--                <div class="small text-muted"><span class="text-primary">You and 1 connection</span> have given endorsements for this skill-->
-<!--                </div>-->
-            </div>
-        </div>
+                        <h6 class="m-0">消息列表</h6>
+                    </div>
+                    <div class="box-body">
+                        <div class="d-flex align-items-center osahan-post-header p-3 border-bottom people-list"
+                             th:each="chatlist:${chatlists}">
+                            <div class="dropdown-list-image mr-3">
+                                <img class="rounded-circle" style="width: 50px;height: 50px" th:src="'/'+${chatlist.user2_picture}" >
+                            </div>
+                            <div class="font-weight-bold">
+                                <a th:href="'/gows/'+${chatlist.user2_id}">
+                                    <div class="text-truncate" th:text="${chatlist.user2_name}">
 
-    </div>
-</div>
-</aside>
-            <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-2 col-md-12 col-sm-12 col-12">
-                <div class="box shadow-sm border rounded bg-white mb-3">
+                                    </div>
+                                    <span th:text="${#dates.format(chatlist.getLast_time(),'MM月dd日')}"></span>
+                                </a>
+                                <span class="badge badge-danger ml-1" th:text="${chatlist.unread}">
+                                </span>
+                                <!--                最后消息-->
+                                <!--                <div class="small text-muted"><span class="text-primary">You and 1 connection</span> have given endorsements for this skill-->
+                                <!--                </div>-->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </aside>
+            <main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-2 col-md-12 col-sm-12 col-12">
+                <div class="box shadow-sm border rounded bg-white mb-3"   >
                     <div class="box-title border-bottom p-3">
                         <h6 class="m-0">快来聊天吧</h6>
                     </div>
-                    <div class="box-body p-3"  style="height:300px;overflow:auto">
+                    <div class="box-body p-3" style="height:300px;overflow:auto">
 
-                        <div class="box-body" th:each="message:${messages}" >
-<!--                            人物信息-->
-                            <div class="d-flex align-items-center osahan-post-header p-3 border-bottom people-list">
-<!--                               头像-->
+                        <div class="box-body" th:each="message:${messages}">
+                            <!--                            人物信息-->
+                            <div th:if="${message.user_id} eq ${session.loginer.user_id}"
+                                 class="d-flex align-items-center osahan-post-header p-3 border-bottom people-list">
+                                <!--                               头像-->
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" th:src="'/'+${message.user_picture}" alt="">
+                                    <img class="rounded-circle "   style="width: 50px;height: 50px" th:src="'/'+${message.user_picture}" alt="">
                                 </div>
-<!--                                消息-->
+                                <!--                                消息-->
                                 <div class="font-weight-bold">
                                     <div class="text-truncate" th:text="${message.content}">
                                     </div>
                                 </div>
                             </div>
-                        </div>
-<!--            分页-->
-<!--                        <div class="p-3 border-bottom" >-->
-<!--                            <div class="page" style="width: 100%;position: absolute;bottom: 0px;left: 50%">-->
-<!--                                <span th:if="${pageInfo.hasPreviousPage}" >-->
-<!--                                <a class="prev"-->
-<!--                                   th:href="@{'/gows/'+${friendid}+'?page='+${pageInfo.prePage}}">上一页</a>-->
-<!--                                </span>-->
-<!--                                <span th:each="page :${pageInfo.navigatepageNums}" >-->
-<!--                                <span th:if="${pageInfo.pageNum==page}">-->
-<!--                                    <a class="current" th:text="${page}"></a>-->
-<!--                                </span>-->
-<!--                                <span th:if="${pageInfo.pageNum!=page}" >-->
-<!--                                    <a class="num" th:href="@{'/gows/'+${friendid}+'?page='+${page}}" th:text="${page}"></a>-->
-<!--                                </span>-->
-<!--                                </span>-->
+                            <div style="height: 73px" th:if="${message.user_id} ne ${session.loginer.user_id}"
+                                 class="align-items-center osahan-post-header p-3 border-bottom people-list">
+                                <!--                               头像-->
+                                <div class="dropdown-list-image mr-3" style="float: right">
+                                    <img class="rounded-circle"  style="width: 50px;height: 50px" th:src="'/'+${message.user_picture}">
+                                </div>
+                                <!--                                消息-->
+                                <div class="font-weight-bold" style="float: right;margin-top: 10px;margin-right: 18px;">
+                                    <div class="text-truncate" th:text="${message.content}">
+                                    </div>
+                                </div>
+                            </div>
 
-<!--                                <span th:if ="${pageInfo.hasNextPage}">-->
-<!--                                    <a class="next" th:href="@{'/gows/'+${friendid}+'?page='+${pageInfo.nextPage}}">下一页</a>-->
-<!--                                </span>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        </div>
+                        <!--            分页-->
+                        <!--                        <div class="p-3 border-bottom" >-->
+                        <!--                            <div class="page" style="width: 100%;position: absolute;bottom: 0px;left: 50%">-->
+                        <!--                                <span th:if="${pageInfo.hasPreviousPage}" >-->
+                        <!--                                <a class="prev"-->
+                        <!--                                   th:href="@{'/gows/'+${friendid}+'?page='+${pageInfo.prePage}}">上一页</a>-->
+                        <!--                                </span>-->
+                        <!--                                <span th:each="page :${pageInfo.navigatepageNums}" >-->
+                        <!--                                <span th:if="${pageInfo.pageNum==page}">-->
+                        <!--                                    <a class="current" th:text="${page}"></a>-->
+                        <!--                                </span>-->
+                        <!--                                <span th:if="${pageInfo.pageNum!=page}" >-->
+                        <!--                                    <a class="num" th:href="@{'/gows/'+${friendid}+'?page='+${page}}" th:text="${page}"></a>-->
+                        <!--                                </span>-->
+                        <!--                                </span>-->
+
+                        <!--                                <span th:if ="${pageInfo.hasNextPage}">-->
+                        <!--                                    <a class="next" th:href="@{'/gows/'+${friendid}+'?page='+${pageInfo.nextPage}}">下一页</a>-->
+                        <!--                                </span>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
 
 
                         <p>以上是历史消息</p>
                     </div>
-<!--                    消息框占位-->
-                    <div id="message" class="box-body p-3" >
+                    <!--                    消息框占位-->
+                    <div id="message" class="box-body p-3" style="overflow:auto;height: 250px ">
+
                     </div>
 
-                <div class="box shadow-sm border rounded bg-white mb-3">
-                    <div class="box-body p-3">
-                        <textarea placeholder="请输入消息" id="sendMsg" rows="4" style="width: 100%" > </textarea>
-                        <input type="hidden" id="userId"  th:value="${userid}"> </input>
-                        <input type="hidden"  id="sendUserId"  th:value="${friendid}"> </input>
-                    </div>
+                    <div class="box shadow-sm border rounded bg-white mb-3">
+                        <div class="box-body p-3">
+                            <textarea placeholder="请输入消息" id="sendMsg" rows="4" style="width: 100%"> </textarea>
+                            <input type="hidden" id="userId" th:value="${userid}">
+                            <input type="hidden" id="userPic" th:value="${session.loginer.user_picture}">
 
-<!--                    <input type="file" accept="image/*" class="form-control" id="picture" placeholder="插入图片" value="插入图片">-->
-<!--                    <button onclick="sendPic()" class="btn btn-primary btn-sm btn-block">发送图片</button>-->
-                    <button onclick="send()" class="btn btn-primary btn-sm btn-block">发送消息</button>
-<!--                    <button onclick="closeWebSocket()" class="btn btn-primary btn-sm btn-block">关闭WebSocket连接</button>-->
-                </div>
+                            <input type="hidden" id="sendUserId" th:value="${friendid}">
+                        </div>
+
+                        <!--                    <input type="file" accept="image/*" class="form-control" id="picture" placeholder="插入图片" value="插入图片">-->
+                        <!--                    <button onclick="sendPic()" class="btn btn-primary btn-sm btn-block">发送图片</button>-->
+                        <button onclick="send()" class="btn btn-primary btn-sm btn-block">发送消息</button>
+                        <!--                    <button onclick="closeWebSocket()" class="btn btn-primary btn-sm btn-block">关闭WebSocket连接</button>-->
+                    </div>
                 </div>
             </main>
-            <aside class="col col-xl-3 order-xl-3 col-lg-12 order-lg-3 col-12">
-    <div class="box shadow-sm border rounded bg-white mb-3">
-        <div class="box-title border-bottom p-3">
-            <h6 class="m-0">Who viewed your profile</h6>
-        </div>
-        <div class="box-body p-3">
-            <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
-                <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/p4.png" alt="">
-                    <div class="status-indicator bg-success"></div>
-                </div>
-                <div class="font-weight-bold mr-2">
-                    <div class="text-truncate">Sophia Lee</div>
-                    <div class="small text-gray-500">@Harvard
-                    </div>
-                </div>
-                <span class="ml-auto"><button type="button" class="btn btn-light btn-sm">Connent</button>
-                           </span>
-            </div>
-            <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
-                <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/p9.png" alt="">
-                    <div class="status-indicator bg-success"></div>
-                </div>
-                <div class="font-weight-bold mr-2">
-                    <div class="text-truncate">John Doe</div>
-                    <div class="small text-gray-500">Traveler
-                    </div>
-                </div>
-                <span class="ml-auto"><button type="button" class="btn btn-light btn-sm">Connent</button>
-                           </span>
-            </div>
-            <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
-                <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/p10.png" alt="">
-                    <div class="status-indicator bg-success"></div>
-                </div>
-                <div class="font-weight-bold mr-2">
-                    <div class="text-truncate">Julia Cox</div>
-                    <div class="small text-gray-500">Art Designer
-                    </div>
-                </div>
-                <span class="ml-auto"><button type="button" class="btn btn-light btn-sm">Connent</button>
-                           </span>
-            </div>
-            <div class="d-flex align-items-center osahan-post-header mb-3 people-list">
-                <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/p11.png" alt="">
-                    <div class="status-indicator bg-success"></div>
-                </div>
-                <div class="font-weight-bold mr-2">
-                    <div class="text-truncate">Robert Cook</div>
-                    <div class="small text-gray-500">@Photography
-                    </div>
-                </div>
-                <span class="ml-auto"><button type="button" class="btn btn-light btn-sm">Connent</button>
-                           </span>
-            </div>
-            <div class="d-flex align-items-center osahan-post-header people-list">
-                <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/p12.png" alt="">
-                    <div class="status-indicator bg-success"></div>
-                </div>
-                <div class="font-weight-bold mr-2">
-                    <div class="text-truncate">Richard Bell</div>
-                    <div class="small text-gray-500">@Envato
-                    </div>
-                </div>
-                <span class="ml-auto"><button type="button" class="btn btn-light btn-sm">Connent</button>
-                           </span>
-            </div>
-        </div>
-    </div>
-    <div class="box shadow-sm mb-3 rounded bg-white ads-box text-center">
-        <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
-        <div class="p-3 border-bottom">
-            <h6 class="font-weight-bold text-gold">Osahanin Premium</h6>
-            <p class="mb-0 text-muted">Grow &amp; nurture your network</p>
-        </div>
-        <div class="p-3">
-            <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
-        </div>
-    </div>
-    <a href="job-profile.html">
-        <div class="shadow-sm border rounded bg-white job-item mb-3">
-            <div class="d-flex align-items-center p-3 job-item-header">
-                <div class="overflow-hidden mr-2">
-                    <h6 class="font-weight-bold text-dark mb-0 text-truncate">Product Director</h6>
-                    <div class="text-truncate text-primary">Spotify Inc.</div>
-                    <div class="small text-gray-500"><i class="feather-map-pin"></i> India, Punjab</div>
-                </div>
-                <img class="img-fluid ml-auto" src="img/l3.png" alt="">
-            </div>
-            <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
-                <div class="overlap-rounded-circle">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p9.png" alt="" data-original-title="Sophia Lee">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p10.png" alt="" data-original-title="John Doe">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p11.png" alt="" data-original-title="Julia Cox">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p10.png" alt="" data-original-title="John Doe">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p11.png" alt="" data-original-title="Julia Cox">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p12.png" alt="" data-original-title="Robert Cook">
-                </div>
-                <span class="font-weight-bold text-muted">18 connections</span>
-            </div>
-            <div class="p-3 job-item-footer">
-                <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-            </div>
-        </div>
-    </a>
-    <a href="job-profile.html">
-        <div class="shadow-sm border rounded bg-white job-item mb-3">
-            <div class="d-flex align-items-center p-3 job-item-header">
-                <div class="overflow-hidden mr-2">
-                    <h6 class="font-weight-bold text-dark mb-0 text-truncate">.NET Developer</h6>
-                    <div class="text-truncate text-primary">Invision</div>
-                    <div class="small text-gray-500"><i class="feather-map-pin"></i> London, UK
-                    </div>
-                </div>
-                <img class="img-fluid ml-auto" src="img/l4.png" alt="">
-            </div>
-            <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
-                <div class="overlap-rounded-circle">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p13.png" alt="" data-original-title="Sophia Lee">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p1.png" alt="" data-original-title="John Doe">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p2.png" alt="" data-original-title="Julia Cox">
-                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p3.png" alt="" data-original-title="Robert Cook">
-                </div>
-                <span class="font-weight-bold text-muted">18 connections</span>
-            </div>
-            <div class="p-3 job-item-footer">
-                <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-            </div>
-        </div>
-    </a>
-</aside>
+
         </div>
     </div>
 </div>
+
 
 <!--<div th:each="chatlist : ${chatlists}" >-->
 
@@ -283,16 +172,16 @@
 </body>
 
 <script type="text/javascript">
-    var websocket = null;
-    var userId = document.getElementById('userId').value;
+    let websocket = null;
+    let userId = document.getElementById('userId').value;
+    let userPic = document.getElementById('userPic').value;
 
     console.log(userId);
 
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
         websocket = new WebSocket("ws://127.0.0.1:8080/websocket/" + userId);
-    }
-    else {
+    } else {
         alert('当前浏览器不支持websocket哦！')
     }
 
@@ -308,6 +197,7 @@
 
     //接收到消息的回调方法,居右显示
     websocket.onmessage = function (event) {
+        console.log("接收到消息" + event.data);
         setMessageInnerHTMLRight(event.data);
     }
 
@@ -323,92 +213,129 @@
 
     //将消息显示在网页上
     function setMessageInnerHTMLLeft(sendMessage) {
-        document.getElementById('message').innerHTML += '<span style="float:left;background-color: #dff0d8" >'+sendMessage + '</span><br/>';
+        console.log(sendMessage);
+        // document.getElementById('message').innerHTML += '<span style="float:left;background-color: #dff0d8" >'+sendMessage + '</span><br/>';
     }
+
     function setMessageInnerHTMLRight(sendMessage) {
-        document.getElementById('message').innerHTML += '<span style="float:right;background-color: #d9f1f7" >'+sendMessage + '</span><br/>';
-    }
-
-    //关闭WebSocket连接
-    function closeWebSocket() {
-        websocket.close();
-    }
-
-    //发送消息
-    function send() {
-        var message = document.getElementById('sendMsg').value;//要发送的消息内容
-        // var  message=$("sendMsg").val();
-        if (message == "") {
-            alert("发送信息不能为空！")
-            return;
-        }
-        //获取发送人用户id
-        var sendUserId = document.getElementById('sendUserId').value;
-        console.log(sendUserId);
-        if (sendUserId == "") {
-            alert("发送人用户id不能为空！")
-            return;
-        }
-        userId = document.getElementById('userId').value;
-        document.getElementById('message').innerHTML += (userId + "给" + sendUserId + "发送消息,消息内容为---->>" + message + '<br/>');
-        message =sendUserId+","+ message + "," +"1"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
-        websocket.send(message);
-        document.getElementById('sendMsg').val("");
+        let user2Pic = sendMessage.split("[")[0];
+        console.log(user2Pic);
+        let user2Msg = sendMessage.split("[")[1];
+        console.log(user2Msg);
+        // document.getElementById('message').innerHTML += '<span style="float:right;background-color: #d9f1f7" >'+sendMessage + '</span><br/>';
+        $("#message").append(`
+              <div  style="height: 73px"
+             class=" align-items-center osahan-post-header p-3 border-bottom people-list">
+              <!--                               头像-->
+                              <div class="dropdown-list-image mr-3" style="float: right">
+                                  <img class="rounded-circle" src="/${user2Pic}">
+                              </div>
+              <!--                                消息-->
+                              <div class="font-weight-bold" style="float: right;margin-top: 10px;margin-right: 18px;">
+                                  <div class="text-truncate">${user2Msg}
+                                  </div>
+                              </div>
+             </div>
+            `)
 
     }
 
-    function sendPic() {
-        var file = $("#picture")[0].files[0];//要发送的图片
-        // var  message=$("sendMsg").val();
-        if (file == "") {
-            alert("发送图片不能为空！")
-            return;
+        //关闭WebSocket连接
+        function closeWebSocket() {
+            websocket.close();
         }
-        //获取发送人用户id
-        var sendUserId = document.getElementById('sendUserId').value;
-        console.log(sendUserId);
-        if (sendUserId == "") {
-            alert("发送人用户id不能为空！")
-            return;
-        }
-        userId = document.getElementById('userId').value;
-        // document.getElementById('message').innerHTML += (userId + "给" + sendUserId + "发送消息,消息内容为---->>" + message + '<br/>');
-        message =sendUserId+","+ file + "," +"2"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
-        websocket.send(message);
-        // document.getElementById('sendMsg').val("");
 
-    }
+        //发送消息
+        function send() {
+            var message = document.getElementById('sendMsg').value;//要发送的消息内容
+            // var  message=$("sendMsg").val();
+            if (message == "") {
+                alert("发送信息不能为空！")
+                return;
+            }
+            //获取发送人用户id
+            var sendUserId = document.getElementById('sendUserId').value;
+            console.log(sendUserId);
+            if (sendUserId == "") {
+                alert("发送人用户id不能为空！")
+                return;
+            }
 
-    function sendMsg() {
-        var message = document.getElementById('sendMsg').value;//要发送的消息内容
-        // var  message=$("sendMsg").val();
-        if (message == "") {
-            alert("发送信息不能为空！")
-            return;
-        }
-        //获取发送人用户id
-        var sendUserId = document.getElementById('sendUserId').value;
-        console.log(sendUserId);
-        if (sendUserId == "") {
-            alert("发送人用户id不能为空！")
-            return;
-        }
-        userId = document.getElementById('userId').value;
-        document.getElementById('message').innerHTML += (userId + "给" + sendUserId + "发送消息,消息内容为---->>" + message + '<br/>');
-        message =sendUserId+","+ message + "," +"2"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
-        websocket.send(message);
-        document.getElementById('sendMsg').val("");
 
-    }
+            $('#message').append(`
+             <div class="d-flex align-items-center osahan-post-header p-3 border-bottom people-list">
+                <!--                               头像-->
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" src="/${userPic}">
+                                </div>
+                <!--                                发送消息-->
+                                <div class="font-weight-bold">
+                                    <div class="text-truncate" >${message}
+                                    </div>
+                                </div>
+              </div>
+
+
+        `);
+            // document.getElementById('message').innerHTML += (userId + ":" + message + '<br/>');
+            message = sendUserId + "," + message + "," + "1"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
+            websocket.send(message);
+            document.getElementById('sendMsg').val("");
+
+        }
+
+        // function sendPic() {
+        //     var file = $("#picture")[0].files[0];//要发送的图片
+        //     // var  message=$("sendMsg").val();
+        //     if (file == "") {
+        //         alert("发送图片不能为空！")
+        //         return;
+        //     }
+        //     //获取发送人用户id
+        //     var sendUserId = document.getElementById('sendUserId').value;
+        //     console.log(sendUserId);
+        //     if (sendUserId == "") {
+        //         alert("发送人用户id不能为空！")
+        //         return;
+        //     }
+        //     userId = document.getElementById('userId').value;
+        //     // document.getElementById('message').innerHTML += (userId + "给" + sendUserId + "发送消息,消息内容为---->>" + message + '<br/>');
+        //     message =sendUserId+","+ file + "," +"2"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
+        //     websocket.send(message);
+        //     // document.getElementById('sendMsg').val("");
+        //
+        // }
+        //
+        // function sendMsg() {
+        //     var message = document.getElementById('sendMsg').value;//要发送的消息内容
+        //     // var  message=$("sendMsg").val();
+        //     if (message == "") {
+        //         alert("发送信息不能为空！")
+        //         return;
+        //     }
+        //     //获取发送人用户id
+        //     var sendUserId = document.getElementById('sendUserId').value;
+        //     console.log(sendUserId);
+        //     if (sendUserId == "") {
+        //         alert("发送人用户id不能为空！")
+        //         return;
+        //     }
+        //     userId = document.getElementById('userId').value;
+        //     document.getElementById('message').innerHTML += (userId + "给" + sendUserId + "发送消息,消息内容为---->>" + message + '<br/>');
+        //     message =sendUserId+","+ message + "," +"2"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
+        //     websocket.send(message);
+        //     document.getElementById('sendMsg').val("");
+        //
+        // }
 </script>
 
 <script>
     let input = document.querySelector('#picture');
     let div_picture = document.querySelector('#message');
 
-    input.addEventListener('change',e => {
+    input.addEventListener('change', e => {
 
-        let imgFile=e.target.file;
+        let imgFile = e.target.file;
         let fileReader = new FileReader();
 
         fileReader.readAsDataURL(input.files[0]);
@@ -417,8 +344,8 @@
             let data = e.target.result;
             let img = document.createElement('img',);
             img.src = data;
-            img.height=150;
-            img.width=150;
+            img.height = 150;
+            img.width = 150;
             div_picture.appendChild(img);
         }
     });

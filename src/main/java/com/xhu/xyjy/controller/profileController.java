@@ -1,6 +1,7 @@
 package com.xhu.xyjy.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.xhu.xyjy.dto.InformUser;
 import com.xhu.xyjy.dto.MomentUser;
 import com.xhu.xyjy.pojo.Moment;
 import com.xhu.xyjy.service.MomentService;
@@ -47,6 +48,10 @@ public class profileController {
             if ("focus".equals(action)){
                 model.addAttribute("section","moment");
                 model.addAttribute("sectionName","与我相关");
+                PageInfo<InformUser> pageInfo=momentService.selectFocus(user_id,page,pageSize);
+                model.addAttribute("focus",pageInfo.getList());
+                model.addAttribute("pageInfo",pageInfo);
+                return "focus";
             }
 
 

@@ -105,8 +105,9 @@ public class UserController {
 
     @RequestMapping("/goregister")//去注册页面
     public String goregister(){
-        return  "register";
+        return "register.html";
     }
+
     @RequestMapping("/register")
     @ResponseBody
     public ResultData register(User user){
@@ -119,7 +120,18 @@ public class UserController {
 
         //查看用户信息
     @RequestMapping("/gouserinfo/{action}")
-    public String goUserInfo( @PathVariable(name = "action") int user_id,Model model){
+    public String goUserInfo( @PathVariable(name = "action") int user_id,Model model,HttpServletRequest request){
+
+
+        HttpSession session= request.getSession();
+        String s=session.getAttribute("userId").toString();
+        int userid= Integer.parseInt(s);
+
+        if(user_id!=userid){
+            userService.addRecord(userid,user_id);
+        }
+
+
         model.addAttribute("userInfo",userService.findUserInfo(user_id));
         model.addAttribute("student",userService.findStudent(user_id));
         return "userInfo";
@@ -144,7 +156,8 @@ public class UserController {
     @RequestMapping("/updateuserinfo/{action}")
     public String updateuserinfo( @PathVariable(name = "action") int user_id,Model model){
         model.addAttribute("user_id",user_id);
-        return "updateUser";
+//        return "updateUser";
+        return "register2";
     }
 
 

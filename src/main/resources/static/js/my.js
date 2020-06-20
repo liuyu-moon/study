@@ -1,10 +1,12 @@
 
-//动态点赞
-function addlikeMoment( momentId) {
+//动态点赞-
+function addlikeMoment( momentId,user1_id,user2_id) {
 
     console.log(momentId);
     var  formData=new  FormData;
-    formData.append("id",momentId);
+    formData.append("moment_id",momentId);
+    formData.append("user1_id",user1_id);
+    formData.append("user2_id",user2_id);
     // Ajax 异步提交文件
     $.ajax({
             type: "post",
@@ -30,11 +32,14 @@ function addlikeMoment( momentId) {
 
 
 // 评论点赞
-function addlikeComment( commentId) {
+function addlikeComment( commentId,momentId,user1_id,user2_id) {
 
     console.log(commentId);
     var  formData=new  FormData;
-    formData.append("id",commentId);
+    formData.append("comment_id",commentId);
+    formData.append("moment_id",commentId);
+    formData.append("user1_id",commentId);
+    formData.append("user2_id",commentId);
     // Ajax 异步提交文件
     $.ajax({
             type: "post",
@@ -68,7 +73,7 @@ function searchFriend(user_name) {
 
 function  websocketUtil() {
 
-    let websocket = null;
+
     let userId = document.getElementById('userId').value;
 
     console.log("UUUU"+userId);
@@ -76,7 +81,7 @@ function  websocketUtil() {
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
         websocket = new WebSocket("ws://127.0.0.1:8080/replywebsocket/" + userId);
-        alert('当前浏览器支持websocket哦！')
+        console.log('当前浏览器支持websocket哦！');
     }
     else {
         alert('当前浏览器不支持websocket哦！')
@@ -95,6 +100,7 @@ function  websocketUtil() {
 
     //接收到消息的回调方法,居右显示
     websocket.onmessage = function (event) {
+        console.log("收到消息");
         setReply(event.data);
     }
 
@@ -179,13 +185,14 @@ function searchMoment(tag) {
     window.location.href='/searchMoment/'+tag;
 }
 
-function addF(uid,fid) {
+function addF(uid,fid,type) {
 
-
+    console.log("添加好友");
     let formData=new  FormData();
 
     formData.append("user_id",uid);
     formData.append("friend_id",fid);
+    formData.append("type",type);
     // formData.append("multipartFile",file);
 
     // Ajax 异步提交文件
@@ -198,7 +205,6 @@ function addF(uid,fid) {
             contentType: false,
             dataType: "json",
             success: function (data) {
-                alert("666");
                 alert(data.msg);
 
             }

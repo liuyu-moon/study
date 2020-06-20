@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -33,105 +31,134 @@
     <script src="/js/osahan.js"></script>
     <script src="/js/my.js"></script>
 </head>
-<body >
-<!--导航条内容-->
-<!--<div th:insert="navgation::nav">-->
+<body>
 
-</div>
 
-<div class="container-fluid main" >
-    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 div1"  >
-        <h2><span class="glyphicon glyphicon-plus" aria-hidden="true">用户注册</span></h2>
-        <form id="form1"  enctype="multipart/form-data">
+<div class="bg-white">
+    <div class="container">
+        <div class="row justify-content-center align-items-center d-flex vh-100">
+            <div class="col-md-4 mx-auto">
+                <div class="osahan-login py-4">
+                    <div class="text-center mb-4">
+                        <a href="index.html"><img src="img/fav.png" alt=""></a>
+                        <h5 class="font-weight-bold mt-3">加入我们</h5>
+                        <p class="text-muted">认识更多朋友</p>
+                    </div>
+                    <form action="index.html">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="mb-1">用户名</label>
+                                    <div class="position-relative icon-form-control">
+                                        <i class="feather-user position-absolute"></i>
+                                        <input type="text" class="form-control" id="user_name" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="mb-1">电话</label>
+                            <div class="position-relative icon-form-control">
+                                <i class="feather-phone position-absolute"></i>
+                                <input type="text" class="form-control" id="user_phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="mb-1">密码(必须包括字母和数字)</label>
+                            <div class="position-relative icon-form-control">
+                                <i class="feather-unlock position-absolute"></i>
+                                <input type="password" class="form-control" id="user_pwd" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="mb-1">确认密码</label>
+                            <div class="position-relative icon-form-control">
+                                <i class="feather-unlock position-absolute"></i>
+                                <input type="password" class="form-control" id="user_pwd_two" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="mb-1">我同意 <a href="#">用户协议</a></label>
 
-            <div class="form-group">
-                <input type="text" class="form-control" id="user_name" placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <label class="mb-1">！请填写未注册的电话号码</label>
+                        </div>
+
+
+                        <button class="btn btn-primary btn-block text-uppercase"  onclick="register()"> 确认注册 </button>
+
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="user_pwd" placeholder="请输入密码">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="user_pwd_two" placeholder="请再次确认密码">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="user_phone" placeholder="请输入手机号">
-            </div>
-
-            <button type="button"  onclick="register()"   class="btn btn-success">确认注册</button>
-
-        </form>
+        </div>
     </div>
-
-
-    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 div2"  >
-
-        <h3>请文明发言</h3>
-    </div>
-    ...
 </div>
 </body>
 
-
-
-
-<!--<script >-->
-<!--    function publish() {-->
-<!--        var formData = new FormData();-->
-<!--        var desc = $("#desc").val();-->
-<!--        var file = $("#fileId")[0].files[0];-->
-<!--        formData.append('file', file);-->
-<!--        var tag = $("#tag").val()-->
-<!--        alert("准备注册");-->
-
-<!--        $.post("/publish",{description:desc,multipartFile:formData,tag:tag},function (res) {-->
-<!--            if (res.code==200){-->
-<!--                alert("注册成功");-->
-<!--            } else {-->
-<!--                alert("注册失败，请检查数据重试");-->
-<!--            }-->
-<!--        })-->
-
-<!--    }-->
-<!--</script>-->
 <script>
     function register() {
         alert("开始注册");
-        var formData = new FormData;
-        var user_name = $("#user_name").val();
-        var user_pwd = $("#user_pwd").val();
-        var user_pwd_two = $("#user_pwd_two").val();
-        var user_phone = $("#user_phone").val();
+        let formData = new FormData;
+        let user_name = $("#user_name").val();
+        let user_pwd = $("#user_pwd").val();
+        let user_pwd_two = $("#user_pwd_two").val();
+        let user_phone = $("#user_phone").val();
+        console.log(user_phone);
+        if(user_name.length>7){
+            alert("用户名过长");
+            location.replace(location.href);
+        }
+        if(user_name.length<=0){
+            alert("用户名不能为空");
+            location.replace(location.href);
+        }
+        if(!(/^1[34578]\d{9}$/.test(user_phone))){
+            alert("手机号码格式有误，请重填");
+            location.replace(location.href);
+        }
+        if(!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/.test(user_pwd))){
+            alert("密码格式有误，请重填");
+            location.replace(location.href);
+        }
+        if(user_pwd != user_pwd_two){
+            alert("两次密码不一致");
+            location.replace(location.href);
+        }
+
+
 
         formData.append("user_name", user_name);
         formData.append("user_pwd", user_pwd);
         formData.append("user_phone", user_phone);
         console.log(user_phone.length);
-        if (user_pwd == user_pwd_two && user_phone.length == 11) {
-            alert("Ajax");
-            // Ajax 异步提交文件
-            $.ajax({
-                    type: "post",
-                    url: "/register",
-                    data: formData,//上一步的FormData
-                    cache: false,//不缓存数据
-                    processData: false,//不转换数据
-                    contentType: false,
-                    dataType: "json",
-                    success: function (data) {
 
-                        if (data.code == 200) {
-                            alert("注册成功");
-                        }
-                        // 页面的刷新
-                        setInterval(function () {
-                            location.replace(location.href);
-                        }, 1500);
-                    }
-                })
-        }
-        else {
-            alert("用户信息错误，请先验证")
-        }
+
+            // Ajax 异步提交文件
+            // $.ajax({
+            //     type: "post",
+            //     url: "/register",
+            //     data: formData,//上一步的FormData
+            //     cache: false,//不缓存数据
+            //     processData: false,//不转换数据
+            //     contentType: false,
+            //     dataType: "json",
+            //     success: function (data) {
+                    // alert("注册成功2");
+                    // if (data.code == 200) {
+                    //     // 页面的刷新，跳转到登陆页面
+                    //     alert("注册成功");
+                    //     // location.replace("/gologin");
+                    // }
+                    // else {
+                    //     alert(data.msg);
+                    //     // location.replace(location.href);
+                    // }
+
+
+                // }
+            // })
+
     }
 
 </script>

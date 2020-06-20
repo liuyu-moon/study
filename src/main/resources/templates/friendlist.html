@@ -28,23 +28,313 @@
    <!-- Custom scripts for all pages-->
    <script src="/js/osahan.js"></script>
    <script src="/js/my.js"></script>
+
+
+    <style type="text/css">
+
+        body{
+
+            padding: 0px;
+
+            margin: 0px;
+
+            font-family: "微软雅黑","宋体";
+
+        }
+
+
+
+        #menu1{
+
+            /*position: relative;*/
+
+            left: 30px;
+
+            top: 20px;
+
+            float: left;
+
+        }
+        #menu2{
+
+            /*position: relative;*/
+
+            left: 30px;
+
+            top: 20px;
+
+            float: left;
+
+        }
+
+
+
+        .flip{
+
+            width: 60px;
+
+            height: 30px;
+
+            line-height: 30px;
+
+            text-align: center;
+
+            color: black;
+
+            background-color: #ADFF2F;}
+
+
+
+        .panel{
+
+            margin: 0;
+
+            width: 60px;
+
+            height:80px;
+
+            display: none;
+
+        }
+
+        .panel ul{ list-style-type: none; margin:0; padding:0; }
+
+        a { text-decoration:none; cursor:pointer;}
+
+        ul li{
+
+            padding: 5px 8px;
+
+            font-size: 14px;
+
+
+
+        }
+
+    </style>
+
+    <script type="text/javascript">
+
+        $(document).ready(function()
+
+        {
+
+
+
+            $('.menu').hover(function(){
+
+                $(this).find('.panel').slideDown();
+
+            },function(){
+
+                $(this).find('.panel').slideUp();
+
+            });
+
+        });
+
+    </script>
+
 </head>
    <body>
    <!--       Navigation -->
    <div th:insert="navgation::nav"></div>
 
    <div class="py-4">
-         <div class="container">
+         <div class="container" style="max-width: 1500px">
             <div class="row">
+
+
+                <aside class="col col-xl-3 order-xl-2 col-lg-12 order-lg-2 col-12" >
+
+
+
+<!--  附近的人-->
+                    <div class="box shadow-sm border rounded bg-white mb-3" >
+                        <div class="box-title border-bottom p-3">
+                            <h6 class="m-0">附近的人</h6>
+                        </div>
+                        <div class="box-body p-3">
+                            <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${nearby}">
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" th:src="${people.user_picture}" alt="">
+                                    <div class="status-indicator bg-success"></div>
+                                </div>
+                                <div class="font-weight-bold mr-2">
+                                    <div class="text-truncate" th:text="${people.user_name}"></div>
+                                </div>
+                                <div id="menu1" class="menu flex">
+
+                                    <div class ="flip"><i class="feather-user-plus"></i></div>
+
+                                    <div class = "panel">
+
+                                        <ul>
+                                            <li>
+
+                                                <a  type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+',1)'">朋友</a>
+                                            </li>
+
+                                            <li>
+
+                                                <a  type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+',2)'">同学</a>
+
+
+                                            </li>
+
+                                            <li>
+
+                                                <a  type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+',3)'">家人</a>
+
+
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--                 可能认识的人-->
+                    <div class="box shadow-sm border rounded bg-white mb-3">
+                            <div class="box-title border-bottom p-3">
+                                <h6 class="m-0">可能认识的人</h6>
+                            </div>
+                            <div class="box-body p-3">
+                                <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${advice}">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" th:src="${people.user_picture}" alt="">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold mr-2">
+                                        <div class="text-truncate" th:text="${people.user_name}"></div>
+                                    </div>
+                                    <!--                           <span class="ml-auto"><button type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+')'" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>-->
+                                    <!--                           </span>-->
+                                    <div id="menu2" class="menu flex">
+
+                                        <div class ="flip"><i class="feather-user-plus"></i></div>
+
+                                        <div class = "panel">
+
+                                            <ul>
+                                                <li>
+
+                                                    <a  type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+',1)'">朋友</a>
+                                                </li>
+
+                                                <li>
+
+                                                    <a  type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+',2)'">同学</a>
+
+
+                                                </li>
+
+                                                <li>
+
+                                                    <a  type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+',3)'">家人</a>
+
+
+                                                </li>
+
+                                            </ul>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    <!--                 感兴趣的人-->
+                    <div class="box shadow-sm border rounded bg-white mb-3">
+
+
+                        <div class="box-title border-bottom p-3">
+                            <h6 class="m-0">可能感兴趣的人</h6>
+                        </div>
+                        <div class="box-body p-3">
+                            <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${interest}">
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" th:src="${people.user_picture}" alt="">
+                                    <div class="status-indicator bg-success"></div>
+                                </div>
+                                <div class="font-weight-bold mr-2">
+                                    <div class="text-truncate" th:text="${people.user_name}"></div>
+                                </div>
+                                <!--                           <span class="ml-auto"><button type="button"  th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+')'" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>-->
+
+
+
+
+
+
+                                <div id="menu1" class="menu flex">
+
+                                    <div class ="flip"><i class="feather-user-plus"></i></div>
+
+                                    <div class = "panel">
+
+                                        <ul>
+                                            <li>
+
+                                                <a  type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+',1)'">朋友</a>
+                                            </li>
+
+                                            <li>
+
+                                                <a  type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+',2)'">同学</a>
+
+
+                                            </li>
+
+                                            <li>
+
+                                                <a  type="button" th:onclick="'addF('+${session.loginer.user_id}+','+${people.user_id}+',3)'">家人</a>
+
+
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+
+
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </aside>
+
                <!-- Main Content -->
-               <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                  <div class="box shadow-sm border rounded bg-white mb-3 osahan-share-post">
-                     <h5 class="pl-3 pt-3 pr-3 border-bottom mb-0 pb-3">好友列表</h5>
+               <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12"  >
+
+                  <div class="box shadow-sm border rounded bg-white mb-3 osahan-share-post"  style="height: 100%">
+                      <div id="friendSize">
+                          <h5  class="pl-3 pt-3 pr-3 border-bottom mb-0 pb-3" th:text="'好友列表:共有好友'+${friendInfosSize}+'人'"></h5>
+
+                      </div>
                      <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                            <div class="p-3">
-                              <div class="row">
-                                 <div class="col-md-4" th:each="friend:${friendInfos}">
+                              <div class="row" id="friendList">
+                                 <div class="col-md-6" th:each="friend:${friendInfos}">
                                        <div class="border network-item rounded mb-3">
 <!--                                          用户信息-->
                                           <div class="p-3 d-flex align-items-center network-item-header">
@@ -77,44 +367,26 @@
                   </div>
                   </div>
                </main>
-               <aside class="col col-xl-3 order-xl-2 col-lg-12 order-lg-2 col-12">
-                  <div class="box mb-3 shadow-sm border rounded bg-white list-sidebar">
+
+
+
+
+               <aside class="col col-xl-3 order-xl-2 col-lg-12 order-lg-2 col-12"  >
+                  <div class="box mb-3 shadow-sm border rounded bg-white list-sidebar"  style="height: 100%">
                      <div class="box-title p-3">
-                        <h6 class="m-0">Manage my network</h6>
+                        <h6 class="m-0">好友管理</h6>
                      </div>
                      <ul class="list-group list-group-flush">
-                        <a href="#">
-                           <li class="list-group-item pl-3 pr-3 d-flex align-items-center text-dark"><i class="feather-users mr-2 text-dark"></i> Connections <span class="ml-auto font-weight-bold">68</span></li>
+                        <a  type="button" onclick="findGroupFriend(1)">
+                           <li class="list-group-item pl-3 pr-3 d-flex align-items-center text-dark"><i class="feather-users mr-2 text-dark"></i>朋友</li>
                         </a>
-                        <a href="#">
-                           <li class="list-group-item pl-3 pr-3 d-flex align-items-center text-dark"><i class="feather-book mr-2 text-dark"></i> Contacts <span class="ml-auto font-weight-bold">869</span></li>
+                        <a  type="button" onclick="findGroupFriend(2)">
+                           <li class="list-group-item pl-3 pr-3 d-flex align-items-center text-dark"><i class="feather-users mr-2 text-dark"></i>同学</li>
                         </a>
-                        <a href="#">
-                           <li class="list-group-item pl-3 pr-3 d-flex align-items-center text-dark"><i class="feather-user-check mr-2 text-dark"></i> People I Follow <span class="ml-auto font-weight-bold">156</span></li>
-                        </a>
-                        <a href="#">
-                           <li class="list-group-item pl-3 pr-3 d-flex align-items-center text-dark"><i class="feather-message-circle mr-2 text-dark"></i> Groups <span class="ml-auto font-weight-bold">15</span></li>
-                        </a>
-                        <a href="#">
-                           <li class="list-group-item pl-3 pr-3 d-flex align-items-center text-dark"><i class="feather-clipboard mr-2 text-dark"></i> Page <span class="ml-auto font-weight-bold">3</span></li>
-                        </a>
-                        <a href="#">
-                           <li class="list-group-item pl-3 pr-3 d-flex align-items-center text-dark"><i class="feather-tag mr-2 text-dark"></i> Hashtag <span class="ml-auto font-weight-bold">8</span></li>
+                        <a htype="button" onclick="findGroupFriend(3)">
+                           <li class="list-group-item pl-3 pr-3 d-flex align-items-center text-dark"><i class="feather-users mr-2 text-dark"></i> 家人</li>
                         </a>
                      </ul>
-                  </div>
-                  <div class="box shadow-sm mb-3 border rounded bg-white ads-box text-center">
-                     <div class="image-overlap-2 pt-4">
-                        <img src="img/l4.png" class="img-fluid rounded-circle shadow-sm" alt="Responsive image">
-                        <img src="img/user.png" class="img-fluid rounded-circle shadow-sm" alt="Responsive image">
-                     </div>
-                     <div class="p-3 border-bottom">
-                        <h6 class="text-dark">Gurdeep, grow your career by following <span class="font-weight-bold"> Askbootsrap</span></h6>
-                        <p class="mb-0 text-muted">Stay up-to industry trends!</p>
-                     </div>
-                     <div class="p-3">
-                        <button type="button" class="btn btn-outline-primary btn-sm pl-4 pr-4"> FOLLOW </button>
-                     </div>
                   </div>
                </aside>
             </div>
@@ -122,4 +394,79 @@
       </div>
 
    </body>
+
+
+<script>
+
+
+    function findGroupFriend(type) {
+
+
+        let formData = new FormData();
+        formData.append("type", type);
+
+        let friendList=$("#friendList");
+        let friendSize=$("#friendSize");
+
+        $.ajax({
+            type: "post",
+            url: "/groupfriend",
+            data: formData,//上一步的FormData
+            cache: false,//不缓存数据
+            processData: false,//不转换数据
+            contentType: false,
+            dataType: "json",
+            success: function (data) {
+
+                console.log(data);
+                if (data.code == 200) {
+                    alert("查找组内好友成功");
+
+                   friendList.empty();
+                    friendSize.empty();
+                    friendSize.append(`
+                                    <h5  class="pl-3 pt-3 pr-3 border-bottom mb-0 pb-3">好友列表:共有好友${data.data.length}人</h5>
+
+                    `)
+                  //  friendSize.attr("text","好友列表:共有好友"+data.data.length+"人")
+                  // friendSize.text("好友列表:共有好友"+data.data.length+"人");
+                    $.each(data.data,function (i,item) {
+                       friendList.append(`
+                         <div class="col-md-4" >
+                                       <div class="border network-item rounded mb-3">
+<!--                                          用户信息-->
+                                          <div class="p-3 d-flex align-items-center network-item-header">
+                                             <div class="dropdown-list-image mr-3">
+                                                <img class="rounded-circle" src="/${item.user_picture}" alt="">
+                                             </div>
+                                             <div class="font-weight-bold">
+                                                <h6 class="font-weight-bold text-dark mb-0" >${item.user_name}</h6>
+                                             </div>
+                                          </div>
+                                          <div class="network-item-footer py-3 d-flex text-center">
+                                             <div class="col-6 pl-3 pr-1">
+                                               <a href="gows/${item.user_id}">
+                                                  <button type="button" class="btn btn-primary btn-sm btn-block"> 发送消息 </button>
+                                               </a >
+                                             </div>
+                                             <div class="col-6 pr-3 pl-1">
+                                               <a href="gouserinfo/${item.user_id}">
+                                                  <button type="button" class="btn btn-primary btn-sm btn-block"> 查看资料 </button>
+                                               </a>
+                                             </div>
+                                          </div>
+                                       </div>
+                                 </div>
+
+                       `);
+
+                    });
+                    }
+                    // location.reload();
+                }
+            })
+        }
+
+
+</script>
 </html>

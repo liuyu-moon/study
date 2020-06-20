@@ -1,6 +1,9 @@
 package com.xhu.xyjy.pojo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class User {
@@ -14,6 +17,9 @@ public class User {
     private Timestamp user_addtime;
     private Timestamp user_logintime;
     private String user_phone;
+
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date  user_birthday;
     private String user_sex;
     private String user_school;
     private int user_momentsnum;//朋友圈数量
@@ -27,7 +33,7 @@ public class User {
     public User() {
     }
 
-    public User(int user_id, String user_name, String user_pwd, String user_picture, int user_type, int user_status, Timestamp user_addtime, Timestamp user_logintime, String user_phone, String user_sex, String user_school, int user_momentsnum) {
+    public User(int user_id, String user_name, String user_pwd, String user_picture, int user_type, int user_status, Timestamp user_addtime, Timestamp user_logintime, String user_phone, Date user_birthday, String user_sex, String user_school, int user_momentsnum, double lng, double lat) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_pwd = user_pwd;
@@ -37,9 +43,12 @@ public class User {
         this.user_addtime = user_addtime;
         this.user_logintime = user_logintime;
         this.user_phone = user_phone;
+        this.user_birthday = user_birthday;
         this.user_sex = user_sex;
         this.user_school = user_school;
         this.user_momentsnum = user_momentsnum;
+        this.lng = lng;
+        this.lat = lat;
     }
 
     public User(int user_id, String user_name, String user_pwd, String user_picture, int user_type, int user_status, Timestamp user_addtime, Timestamp user_logintime, String user_phone, String user_sex, String user_school, int user_momentsnum, List<Friend> friendList, double lng, double lat) {
@@ -181,6 +190,15 @@ public class User {
         this.user_sex = user_sex;
     }
 
+
+    public Date getUser_birthday() {
+        return user_birthday;
+    }
+
+    public void setUser_birthday(Date user_birthday) {
+        this.user_birthday = user_birthday;
+    }
+
     public String getUser_school() {
         return user_school;
     }
@@ -198,7 +216,6 @@ public class User {
     }
 
 
-
     @Override
     public String toString() {
         return "User{" +
@@ -211,10 +228,13 @@ public class User {
                 ", user_addtime=" + user_addtime +
                 ", user_logintime=" + user_logintime +
                 ", user_phone='" + user_phone + '\'' +
+                ", user_birthday=" + user_birthday +
                 ", user_sex='" + user_sex + '\'' +
                 ", user_school='" + user_school + '\'' +
                 ", user_momentsnum=" + user_momentsnum +
                 ", friendList=" + friendList +
+                ", lng=" + lng +
+                ", lat=" + lat +
                 '}';
     }
 }

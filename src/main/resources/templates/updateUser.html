@@ -57,24 +57,33 @@
                 </div>
 
             </div>
+
             <div class="form-group">
                 <input type="hidden" class="form-control" id="user_id"  th:value="${user_id}">
             </div>
+
             <div class="form-group">
                 <input type="hidden" class="form-control" id="user_phone"  th:value="${session.loginer.user_phone}">
             </div>
+
             <div class="form-group">
+                <div class="position-relative icon-form-control">
                 <input type="text" class="form-control" id="user_name"  th:value="${session.loginer.user_name}">
+                </div>
             </div>
+
             <div class="form-group">
+                <div class="position-relative icon-form-control">
                 <input type="text" class="form-control" id="user_sex"  th:value="${session.loginer.user_sex}">
+                </div>
             </div>
 
             <button type="button"  onclick="updateUser()"   class="btn btn-success">修改资料</button>
 
-        </form>
-    </div>
 
+        </form>
+
+    </div>
 
     <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 div2"  >
 

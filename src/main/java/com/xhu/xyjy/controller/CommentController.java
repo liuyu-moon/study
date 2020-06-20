@@ -26,7 +26,7 @@ public class CommentController {
     public ResultData ShowComment(int commentId,@RequestParam(defaultValue = "1") Integer page,
                                   @RequestParam(defaultValue = "10") Integer pageSize){
         PageInfo<CommentUser> pageInfo=commentService.selectComment2(commentId,page,pageSize);
-        System.out.println("666666666"+pageInfo.toString());
+
        ResultData resultData=new ResultData();
        if(pageInfo !=null){
            resultData.setMsg("成功");
@@ -42,7 +42,7 @@ public class CommentController {
 
     @RequestMapping("/addcomment1")
     @ResponseBody
-    protected  ResultData addComment1(int moment_id, String content,HttpServletRequest request){
+    protected  ResultData addComment1(int moment_id,int user2_id, String content,HttpServletRequest request){
         System.out.println("4545"+moment_id);
         if(moment_id==0||content==null){
             return  new ResultData(9002,"评论异常");
@@ -50,7 +50,7 @@ public class CommentController {
         HttpSession session=request.getSession();
         String s=session.getAttribute("userId").toString();
         int user_id= Integer.parseInt(s);
-        return commentService.addComment(moment_id,content,user_id);
+        return commentService.addComment(moment_id,user2_id,content,user_id);
     }
     @RequestMapping("/addcomment2")
     @ResponseBody

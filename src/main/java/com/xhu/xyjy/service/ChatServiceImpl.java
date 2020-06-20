@@ -61,7 +61,6 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override public PageInfo<MessageUser> findHistoryMsg(int userid, int user2_id, Integer page, Integer pageSize) {
-        System.out.println("3.26"+user2_id+userid);
         PageHelper.startPage(page,pageSize);
         List<MessageUser> messageList=chatMapper.selectHistoryMessage(userid,user2_id);
         //将未读消息数清空

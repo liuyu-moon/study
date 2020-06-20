@@ -1,6 +1,8 @@
 package com.xhu.xyjy.websocket;
 
+import com.xhu.xyjy.dao.UserMapper;
 import com.xhu.xyjy.pojo.Message;
+import com.xhu.xyjy.pojo.User;
 import com.xhu.xyjy.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,11 +26,18 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint("/groupwebsocket/{userId}")
 @Component
 public class GroupWebSocket {
-    static ChatService chatService;
 
+    static ChatService chatService;
     @Autowired
-    public void setRabbitAdmin(ChatService chatService){
+    public void setRabbitchatService(ChatService chatService){
         GroupWebSocket.chatService = chatService;
+    }
+
+
+    static UserMapper userMapper;
+    @Autowired
+    public void setRabbituserMapper(UserMapper userMapper){
+        GroupWebSocket.userMapper = userMapper;
     }
 
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
@@ -69,23 +78,23 @@ public class GroupWebSocket {
      * @param session 可选的参数。session为与某个客户端的连接会话，需要通过它来给客户端发送数据
      */
     @OnOpen
-    public void onOpen(@PathParam(value = "userId") String param, Session session) {
+    public void onOpen(@PathParam(value = "userId") String param,
+                       Session session) {
         userId = param;//接收到发送消息的人员编号
         this.session = session;
-
+        User user=userMapper.findById(Integer.parseInt(userId));
+        userName=user.getUser_name();
         if(!groupWebSocket.containsKey(param)){
             groupWebSocket.put(param, this);//加入线程安全map中
             addOnlineCount();           //在线数加1
-            System.out.println("用户id：" + param + "加入连接！当前在线人数为" + getOnlineCount());
         }
-        sendAll("用户"+param+"加入群聊");
+        sendAll(user.getUser_picture()+"["+userName+":加入群聊");
 
-        for (String value : groupWebSocket.keySet()) {
+        for (String value : groupWebSocket .keySet()) {
 
             System.out.println("Value = " + value);
 
         }
-
     }
 
     /**
@@ -97,7 +106,9 @@ public class GroupWebSocket {
             groupWebSocket.remove(userId);  //根据用户id从ma中删除
             subOnlineCount();           //在线数减1
             System.out.println("用户id：" + userId + "关闭连接！当前在线人数为" + getOnlineCount());
-            sendAll(userId + "已推出群聊" );
+            User user=userMapper.findById(Integer.parseInt(userId));
+
+            sendAll(user.getUser_picture()+"["+userName+":退出群聊");
     }
     }
 
@@ -118,10 +129,12 @@ public class GroupWebSocket {
         //消息类型
         String type=message.split(",")[2];
 
-
         if(Integer.parseInt(type)==1){
+            User user=userMapper.findById(Integer.parseInt(userId));
 
-            sendAll(userName+":"+sendMessage);
+            sendMessage=user.getUser_picture()+"["+sendMessage;
+
+            sendAll(sendMessage);
         }
 
 
@@ -136,43 +149,8 @@ public class GroupWebSocket {
      *
      * @param message
      */
-    public void sendToUser(String sendUserId, String message) {
 
-        try {
-            if (groupWebSocket.get(sendUserId) != null) {
-                groupWebSocket.get(sendUserId).sendMessage(userId + "给我发来消息，消息内容为--->>" + message);
-            } else {
-                //如果发送人在线，则向发送人发送反馈消息
-                if (groupWebSocket.get(userId) != null) {
-                    groupWebSocket.get(userId).sendMessage("用户id：" + sendUserId + "以离线，未收到您的信息！");
-                }
-                chatService.addUnread(Integer.parseInt(userId),Integer.parseInt(sendUserId));
-                chatService.updateTime(Integer.parseInt(userId),Integer.parseInt(sendUserId));
 
-                System.out.println("消息接受人:" + sendUserId + "已经离线！");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 管理员发送消息
-     *
-     * @param message
-     */
-    public void systemSendToUser(String sendUserId, String message) {
-
-        try {
-            if (groupWebSocket.get(sendUserId) != null) {
-                groupWebSocket.get(sendUserId).sendMessage("系统给我发来消息，消息内容为--->>" + message);
-            } else {
-                System.out.println("消息接受人:" + sendUserId + "已经离线！");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 给所有人发消息
@@ -180,14 +158,12 @@ public class GroupWebSocket {
      * @param message
      */
     private void sendAll(String message) {
-
-        //遍历HashMap
+        //遍历ConcurrentHashMap
         for (String key : groupWebSocket.keySet()) {
             try {
                 //判断接收用户是否是当前发消息的用户
                 if (!userId.equals(key)) {
                     groupWebSocket.get(key).sendMessage( message);
-                    System.out.println("key = " + key);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

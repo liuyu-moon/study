@@ -10,9 +10,8 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark osahan-nav-top p-0">
     <div class="container">
 <!--        刷新-->
-        <a class="navbar-brand mr-2" href="/goindex"><img src="img/logo.png" alt="">
+        <a class="navbar-brand mr-2" href="/goindex"><img src="/img/logo.png" alt="">
         </a>
-
 
         <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
@@ -82,6 +81,12 @@
                     <span class="badge badge-info badge-counter" th:text="${session.unread}"></span>
                 </a>
                 <!-- Dropdown - Alerts -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm" >
+                    <h6 class="dropdown-header">
+                        <span >新的通知</span>
+                    </h6>
+
+                </div>
 
             </li>
             <!-- 用户评论通知 -->

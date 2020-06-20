@@ -1,10 +1,9 @@
 package com.xhu.xyjy.service;
 
 import com.github.pagehelper.PageInfo;
+import com.xhu.xyjy.dto.RecordUser;
 import com.xhu.xyjy.dto.ResultData;
-import com.xhu.xyjy.pojo.Admin;
-import com.xhu.xyjy.pojo.Student;
-import com.xhu.xyjy.pojo.User;
+import com.xhu.xyjy.pojo.*;
 import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.User;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,4 +30,18 @@ public interface UserService {
     Student findStudent(int user_id);
 
       ResultData updateStudent(Student student, MultipartFile[] file);
+
+    List<User> findBirthday(int userid);
+
+    int findLikeCount(int userid);
+
+    int findViewCount(int userid);
+
+    List<RecordUser> findRecentA(int userid);
+
+    List<RecordUser> findRecentB(int userid);
+
+    ResultData addRecord(int userid, int user_id);
+
+    List<User> findInterest(int userid);
 }

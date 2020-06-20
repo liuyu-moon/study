@@ -3,8 +3,10 @@ package com.xhu.xyjy.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xhu.xyjy.dto.MomentUser;
+import com.xhu.xyjy.dto.RecordUser;
 import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.Moment;
+import com.xhu.xyjy.pojo.Record;
 import com.xhu.xyjy.pojo.User;
 import com.xhu.xyjy.service.FriendService;
 import com.xhu.xyjy.service.MomentService;
@@ -37,10 +39,7 @@ public class MomentController {
         return "publish";
     }
 
-//    @RequestMapping("/index")
-//    public String goabc(){
-//        return "index";
-//    }
+
 
     @RequestMapping("/publish")
     @ResponseBody
@@ -88,13 +87,39 @@ public class MomentController {
         List<User> a=friendService.getAdviceF(userid);
         //附近的人
         List<User> b=userService.findNearby(userid);
+
+        //感兴趣的人
+
+        List<User> f=userService.findInterest(userid);
+
+        //生日好友
+        List<User> c=userService.findBirthday(userid);
+
+        //我最近浏览的人
+        List<RecordUser> d=userService.findRecentA(userid);
+        //最近访问我的人
+        List<RecordUser> e=userService.findRecentB(userid);
+
+
+
+        int like_count=userService.findLikeCount(userid);
+        int view_count=userService.findViewCount(userid);
+
         model.addAttribute("advice",a);
         model.addAttribute("nearby",b);
-        //查找登陆者信息
+        model.addAttribute("birthday",c);
+        model.addAttribute("ISee",d);
+        model.addAttribute("SeeI",e);
+        model.addAttribute("interest",f);
+         model.addAttribute("like_count",like_count);
+        model.addAttribute("view_count",view_count);
+
         PageInfo<MomentUser> pageInfo=momentService.selectAll(page,pageSize);
         model.addAttribute("moments",pageInfo.getList());
         model.addAttribute("pageInfo",pageInfo);
+        //查找登陆者信息
         model.addAttribute("loginer",userService.findUserInfo(userid));
+        //
         return  "index";
     }
 

@@ -51,8 +51,14 @@ public interface  FriendMapper {
 
 
     //添加好友
-    @Insert("insert into friendship (user_id,friend_id,add_time) values (#{user_id},#{friend_id},#{add_time})")
-    boolean addFriend(int user_id, int friend_id, Timestamp add_time);
+    @Insert("insert into friendship (user_id,friend_id,add_time,group_id) values (#{user_id},#{friend_id},#{add_time},#{type})")
+    boolean addFriend(int user_id, int friend_id,int type, Timestamp add_time);
 
+
+
+    @Select("SELECT * FROM `user` WHERE user_id in\n" +
+            "\n" +
+            "(SELECT friend_id FROM friendship WHERE user_id=#{user_id} and group_id=#{type})")
+    List<User> findGroupFriend(int user_id, int type);
 }
 

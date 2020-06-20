@@ -3,9 +3,13 @@ package com.xhu.xyjy.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xhu.xyjy.dao.MomentMapper;
+import com.xhu.xyjy.dao.UserMapper;
+import com.xhu.xyjy.dto.InformUser;
 import com.xhu.xyjy.dto.MomentUser;
 import com.xhu.xyjy.dto.ResultData;
+import com.xhu.xyjy.pojo.Inform;
 import com.xhu.xyjy.pojo.Moment;
+import com.xhu.xyjy.pojo.Record;
 import com.xhu.xyjy.utils.StringUtil;
 import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +19,24 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.xhu.xyjy.utils.uploadUtil.upload;
 
+/**
+ *
+ */
 
 @Service
 public class MomentServiceImpl implements MomentService {
     @Autowired
     MomentMapper momentMapper;
+
+    @Autowired
+    UserMapper userMapper;
 
 
     //发布动态
@@ -77,7 +90,7 @@ public class MomentServiceImpl implements MomentService {
         System.out.println("加入数据库前"+moment.toString());
 
         if (momentMapper.add(moment)) {
-            System.out.println("44444444");
+
             return new ResultData(200, "动态发布成功");
         }
         return new ResultData(401, "动态发布失败");
@@ -137,8 +150,49 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
-    public ResultData addLikeCount(Integer id) {
-       if( momentMapper.addLikeCount(id)){
+    public PageInfo<InformUser> selectFocus(int user_id, Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<InformUser> informUsers=momentMapper.findFocus(user_id);
+        return new PageInfo<>(informUsers);
+    }
+
+    @Override
+    public ResultData addrecord(int moment_id, int userid) {
+       int user2_id=(momentMapper.findOneById(moment_id)).getUser_id();
+       if(user2_id== userid){
+           return  new ResultData(200,"访问记录更新成功");
+       }
+
+      if(null==userMapper.findRecordOne(userid,user2_id)) {
+          Record record=new Record();
+          record.setUser1_id(userid);
+          record.setUser2_id(user2_id);
+          record.setMoment_id(moment_id);
+          record.setTime(new Date());
+          record.setType(2);
+          userMapper.insertRecent(record);
+      }
+      else {
+          userMapper.updateRecordTimeandTypeandMoment(userid,user2_id,moment_id,2);
+      }
+      return  new ResultData(200,"访问记录更新成功");
+    }
+
+    @Override
+    public ResultData addLikeCount(Integer moment_id,Integer user1_id,Integer user2_id) {
+        Inform inform =new Inform();
+        inform.setMoment_id(moment_id);
+        inform.setUser1_id(user1_id);
+        inform.setUser2_id(user2_id);
+        inform.setContent("为你的动态点赞");
+        Calendar calendar=Calendar.getInstance();
+        inform.setTime(calendar.getTime());
+
+        //type1 为动态点赞
+        inform.setType(1);
+       if( momentMapper.addLikeCount(moment_id)
+               &&momentMapper.addInform(inform)
+       ){
            return  new ResultData(200,"点赞成功");
        }
 
@@ -147,6 +201,8 @@ public class MomentServiceImpl implements MomentService {
 
     @Override
     public ResultData addViewCount(Integer id) {
+
+
         if( momentMapper.addViewCount(id)){
             return  new ResultData(200,"浏览成功");
         }

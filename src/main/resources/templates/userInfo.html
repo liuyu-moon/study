@@ -59,6 +59,7 @@
 
             <br/>
             <span th:text="'性别：'+${userInfo.user_sex}"></span><br/>
+            <span th:text="'生日：'+${#dates.format(userInfo.user_birthday,'yy年MM月dd日')}"></span><br/>
             <span th:text="'注册时间：'+${userInfo.user_addtime}"></span><br/>
             <span th:text="'电话：'+${userInfo.user_phone}"></span><br/>
             <span th:text="'学校：'+${userInfo.user_school}"></span><br/>

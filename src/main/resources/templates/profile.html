@@ -32,7 +32,11 @@
     <!-- Custom scripts for all pages-->
     <script src="/js/osahan.js"></script>
     <script src="/js/my.js"></script>
+
+
 </head>
+
+
 <body>
 <div th:insert="navgation::nav">
 
@@ -40,7 +44,9 @@
 
 <div class="container-fluid main profile" >
 
-<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 div1"  >
+    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 div1"  >
+    </div>
+<div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 div1"  >
     <h2><span class="glyphicon glyphicon-list" aria-hidden="true" th:text="${sectionName}"></span></h2>
     <span class="x-right" style="line-height:40px">共有数据：<span
             style="color: #94fdcb" th:text="${pageInfo.total}"></span> 条</span>

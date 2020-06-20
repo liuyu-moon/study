@@ -12,7 +12,7 @@ public interface CommentService {
     PageInfo<CommentUser> selectComment2(int id, Integer page, Integer pageSize);
 
 
-    ResultData addComment(int moment_id, String content,int user_id);
+    ResultData addComment(int moment_id,int user2_id, String content,int user_id);
     ResultData addComment2(Comment comment);
 
     ResultData addLikeCount(int id);

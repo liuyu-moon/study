@@ -7,14 +7,8 @@ import com.xhu.xyjy.dto.FriendInfo;
 import com.xhu.xyjy.dto.ResultData;
 import com.xhu.xyjy.pojo.Friend;
 import com.xhu.xyjy.pojo.User;
-import org.hibernate.validator.constraints.EAN;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -79,13 +73,23 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public ResultData addFriend(int user_id, int friend_id) {
+    public ResultData addFriend(int user_id, int friend_id,int type) {
 
-       if(friendMapper.addFriend(user_id,friend_id,
-               new Timestamp(System.currentTimeMillis()))){
+       if(friendMapper.addFriend(user_id,friend_id,type,
+               new Timestamp(System.currentTimeMillis()))
+       &&friendMapper.addFriend(friend_id,user_id,type,
+               new Timestamp(System.currentTimeMillis()))
+       ){
            return  new ResultData(200,"添加好友成功");
        }
        else return new ResultData(2001,"添加好友失败");
+    }
+
+    @Override
+    public List<User> groupFriend(int user_id,int type) {
+
+       return friendMapper.findGroupFriend(user_id,type);
+
     }
 
 

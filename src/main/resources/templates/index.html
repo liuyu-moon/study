@@ -29,6 +29,114 @@
       <!-- Custom scripts for all pages-->
       <script src="/js/osahan.js"></script>
       <script src="/js/my.js"></script>
+
+      <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+      <style type="text/css">
+
+         body{
+
+            padding: 0px;
+
+            margin: 0px;
+
+            font-family: "微软雅黑","宋体";
+
+         }
+
+
+
+         #menu1{
+
+            /*position: relative;*/
+
+            left: 30px;
+
+            top: 20px;
+
+            float: left;
+
+         }
+         #menu2{
+
+            /*position: relative;*/
+
+            left: 30px;
+
+            top: 20px;
+
+            float: left;
+
+         }
+
+
+
+         .flip{
+
+            width: 60px;
+
+            height: 30px;
+
+            line-height: 30px;
+
+            text-align: center;
+
+            color: black;
+
+            background-color: #ADFF2F;}
+
+
+
+         .panel{
+
+            margin: 0;
+
+            width: 60px;
+
+            height:80px;
+
+            display: none;
+
+         }
+
+         .panel ul{ list-style-type: none; margin:0; padding:0; }
+
+         a { text-decoration:none; cursor:pointer;}
+
+         ul li{
+
+            padding: 5px 8px;
+
+            font-size: 14px;
+
+
+
+         }
+
+      </style>
+
+      <script type="text/javascript">
+
+         $(document).ready(function()
+
+         {
+
+
+
+            $('.menu').hover(function(){
+
+               $(this).find('.panel').slideDown();
+
+            },function(){
+
+               $(this).find('.panel').slideUp();
+
+            });
+
+         });
+
+      </script>
    </head>
    <body>
       <!--       Navigation -->
@@ -52,9 +160,9 @@
                               <span th:text="${moment.user_name}">
                               </span>
                            </div>
-                           <div class="small text-gray-500">发布地址,先占位</div>
+
                         </div>
-                        <span class="ml-auto small" th:text="${moment.time}"></span>
+                        <span class="ml-auto small" th:text="${#dates.format(moment.time, 'yyyy-MM-dd ')}"></span>
                      </div>
 
 
@@ -78,9 +186,9 @@
                         </div>
                      </div>
                      <div class="p-3 border-bottom osahan-post-footer">
-                       <i class="feather-heart text-danger" th:text="${moment.comment_count}"></i>
-                        <i class="feather-message-square" th:text="${moment.view_count}"></i>
-                        <i class="feather-share-2" th:text="${moment.like_count}"></i>
+                       <i class="feather-heart text-danger" th:text="${moment.like_count}"></i>
+                        <i class="feather-message-square" th:text="${moment.comment_count}"></i>
+                        <i class="feather-share-2" th:text="${moment.view_count}"></i>
                      </div>
 
                      <div class="p-3 border-bottom" >
@@ -105,7 +213,10 @@
                      </div>
                   </div>
                </main>
+
+
                <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
+<!--                  用户信息-->
                   <div class="box mb-3 shadow-sm border rounded bg-white profile-box text-center">
                      <div class="py-4 px-3 border-bottom">
                         <img th:src="'/'+${session.loginer.user_picture}"class="img-fluid mt-2 rounded-circle" alt="Responsive image">
@@ -113,126 +224,95 @@
                      </div>
                      <div class="d-flex">
                         <div class="col-6 border-right p-3">
-                           <h6 class="font-weight-bold text-dark mb-1">358</h6>
-                           <p class="mb-0 text-black-50 small">Connections</p>
+                           <h6 class="font-weight-bold text-dark mb-1"><span th:text="${like_count}"></span></h6>
+                           <p class="mb-0 text-black-50 small">获赞数</p>
                         </div>
                         <div class="col-6 p-3">
-                           <h6 class="font-weight-bold text-dark mb-1">85</h6>
-                           <p class="mb-0 text-black-50 small">Views</p>
+                           <h6 class="font-weight-bold text-dark mb-1"><span th:text="${view_count}"></span></h6>
+                           <p class="mb-0 text-black-50 small">被访问次数</p>
                         </div>
                         <div class="overflow-hidden border-top">
                            <a class="font-weight-bold p-3 d-block" href="profile.html"> View my profile </a>
                         </div>
                      </div>
                   </div>
+
+                  <!--                        生日提醒-->
+                  <div class="box shadow-sm border rounded bg-white mb-3">
+                     <div class="box-title border-bottom p-3">
+                        <h6 class="m-0">好友生日提醒</h6>
+                     </div>
+                     <div class="box-body p-3">
+                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${birthday}">
+                           <div class="dropdown-list-image mr-3">
+                              <img class="rounded-circle" th:src="${people.user_picture}" alt="">
+                              <div class="status-indicator bg-success"></div>
+                           </div>
+                           <div class="font-weight-bold mr-2">
+                              <div class="text-truncate" th:text="${people.user_name}"></div>
+                              <div class="text-truncate" ><span th:text="${#dates.format(people.user_birthday,'MM月dd日')}+'生日'"></span>
+                                 <a th:href="'/gouserinfo/'+${people.user_id}" > <i class="feather-star" style="color: rgba(255, 145, 0, 1);font-size: x-large;margin-left: 56px"></i></a>
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+                  </div>
+
                </aside>
+
+
+<!--               右边-->
                <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
+
+                  <!--                  我看过谁-->
                   <div class="box shadow-sm border rounded bg-white mb-3">
                      <div class="box-title border-bottom p-3">
-                        <h6 class="m-0">可能认识的人</h6>
+                        <h6 class="m-0">我最近看过的人</h6>
                      </div>
                      <div class="box-body p-3">
-                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${advice}">
+                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${ISee}">
                            <div class="dropdown-list-image mr-3">
                               <img class="rounded-circle" th:src="${people.user_picture}" alt="">
                               <div class="status-indicator bg-success"></div>
                            </div>
                            <div class="font-weight-bold mr-2">
                               <div class="text-truncate" th:text="${people.user_name}"></div>
+                              <div class="text-truncate" ><span th:text="${#dates.format(people.time,'yy年MM月dd日')}"></span>
+                                 <a th:href="'/gouserinfo/'+${people.user2_id}" > <i class="feather-star" style="color: rgba(255, 145, 0, 1);font-size: x-large;margin-left: 56px"></i></a>
+
+                              </div>
                            </div>
-                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                           </span>
                         </div>
 
                      </div>
                   </div>
-<!--                  附近的人-->
 
+                  <!--                  谁看过我-->
                   <div class="box shadow-sm border rounded bg-white mb-3">
                      <div class="box-title border-bottom p-3">
-                        <h6 class="m-0">附近的人</h6>
+                        <h6 class="m-0">最近看过我的人</h6>
                      </div>
                      <div class="box-body p-3">
-                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${nearby}">
+                        <div class="d-flex align-items-center osahan-post-header mb-3 people-list" th:each="people:${SeeI}">
                            <div class="dropdown-list-image mr-3">
                               <img class="rounded-circle" th:src="${people.user_picture}" alt="">
                               <div class="status-indicator bg-success"></div>
                            </div>
                            <div class="font-weight-bold mr-2">
                               <div class="text-truncate" th:text="${people.user_name}"></div>
+                              <div class="text-truncate" ><span th:text="${#dates.format(people.time,'yy年MM月dd日')}"></span>
+                                 <a th:href="'/gouserinfo/'+${people.user1_id}" > <i class="feather-star" style="color: rgba(255, 145, 0, 1);font-size: x-large;margin-left: 56px"></i></a>
+
+                              </div>
                            </div>
-                           <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                           </span>
                         </div>
 
                      </div>
                   </div>
-                  <div class="box shadow-sm mb-3 rounded bg-white ads-box text-center overflow-hidden">
-                     <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
-                     <div class="p-3 border-bottom">
-                        <h6 class="font-weight-bold text-gold">Osahanin Premium</h6>
-                        <p class="mb-0 text-muted">Grow & nurture your network</p>
-                     </div>
-                     <div class="p-3">
-                        <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
-                     </div>
-                  </div>
-                  <div class="box shadow-sm border rounded bg-white mb-3">
-                     <div class="box-title border-bottom p-3">
-                        <h6 class="m-0">Jobs
-                        </h6>
-                     </div>
-                     <div class="box-body p-3">
-                        <a href="job-profile.html">
-                           <div class="shadow-sm border rounded bg-white job-item mb-3">
-                              <div class="d-flex align-items-center p-3 job-item-header">
-                                 <div class="overflow-hidden mr-2">
-                                    <h6 class="font-weight-bold text-dark mb-0 text-truncate">Product Director</h6>
-                                    <div class="text-truncate text-primary">Spotify Inc.</div>
-                                    <div class="small text-gray-500"><i class="feather-map-pin"></i> India, Punjab</div>
-                                 </div>
-                                 <img class="img-fluid ml-auto" src="img/l3.png" alt="">
-                              </div>
-                              <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
-                                 <div class="overlap-rounded-circle">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p9.png" alt="" data-original-title="Sophia Lee">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p10.png" alt="" data-original-title="John Doe">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p11.png" alt="" data-original-title="Julia Cox">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p12.png" alt="" data-original-title="Robert Cook">
-                                 </div>
-                                 <span class="font-weight-bold text-muted">18 connections</span>
-                              </div>
-                              <div class="p-3 job-item-footer">
-                                 <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-                              </div>
-                           </div>
-                        </a>
-                        <a href="job-profile.html">
-                           <div class="shadow-sm border rounded bg-white job-item">
-                              <div class="d-flex align-items-center p-3 job-item-header">
-                                 <div class="overflow-hidden mr-2">
-                                    <h6 class="font-weight-bold text-dark mb-0 text-truncate">.NET Developer</h6>
-                                    <div class="text-truncate text-primary">Invision</div>
-                                    <div class="small text-gray-500"><i class="feather-map-pin"></i> London, UK
-                                    </div>
-                                 </div>
-                                 <img class="img-fluid ml-auto" src="img/l4.png" alt="">
-                              </div>
-                              <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
-                                 <div class="overlap-rounded-circle">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p13.png" alt="" data-original-title="Sophia Lee">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p1.png" alt="" data-original-title="John Doe">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p3.png" alt="" data-original-title="Robert Cook">
-                                 </div>
-                                 <span class="font-weight-bold text-muted">18 connections</span>
-                              </div>
-                              <div class="p-3 job-item-footer">
-                                 <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-                              </div>
-                           </div>
-                        </a>
-                     </div>
-                  </div>
+
+
+
                </aside>
             </div>
          </div>
@@ -243,6 +323,7 @@
 <script>
 
 
+   let websocket = null;
    websocketUtil();
 
 </script>

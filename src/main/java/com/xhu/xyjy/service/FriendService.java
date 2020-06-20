@@ -14,5 +14,7 @@ public interface FriendService {
 
     int isFreind(int user_id, int friend_id);
 
-     ResultData addFriend(int user_id, int friend_id);
+     ResultData addFriend(int user_id, int friend_id,int type);
+
+    List<User> groupFriend(int user_id,int type);
 }

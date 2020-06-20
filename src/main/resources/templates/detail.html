@@ -58,9 +58,9 @@
                               <span th:text="${moment.user_name}">
                               </span>
                 </div>
-                <div class="small text-gray-500">发布地址,先占位</div>
+
             </div>
-            <span class="ml-auto small" th:text="${moment.time}"></span>
+            <span class="ml-auto small" th:text="${#dates.format(moment.time, 'yyyy-MM-dd ')}"></span>
         </div>
         <div class="p-3 border-bottom osahan-post-body">
                 <p th:text="${moment.description}"></p>
@@ -69,7 +69,7 @@
             </div>
         </div>
         <div class="p-3 border-bottom osahan-post-footer">
-            <a type="button" th:onclick="'addlikeMoment('+${moment.id}+')'">
+            <a type="button" th:onclick="'addlikeMoment('+${moment.id}+','+${session.loginer.user_id}+','+${moment.user_id}+')'">
                 <i class="feather-heart text-danger" th:text="${moment.like_count}">
                 </i>
             </a>
@@ -94,7 +94,7 @@
 <!--            评论内容-->
             <div class="font-weight-bold">
                     <div class="text-truncate"><span th:text="${comment.user_name}">
-                    </span>&nbsp;&nbsp;&nbsp;<span class="small">2 min</span> &nbsp;&nbsp;&nbsp;   <a  type="button"  th:onclick="'commentdisplay('+${comment.id}+')'"><i class="feather-message-square" title="查看回复"></i></a>
+                    </span>&nbsp;&nbsp;&nbsp;<span class="small" th:text="${#dates.format(comment.creat_time, 'yyyy-MM-dd ')}"></span> &nbsp;&nbsp;&nbsp;   <a  type="button"  th:onclick="'commentdisplay('+${comment.id}+')'"><i class="feather-message-square" title="查看回复"></i></a>
 
                     </div>
                 <div class="small text-gray-500" th:text="${comment.content}"></div>
@@ -160,76 +160,11 @@
         <div class="box-title border-bottom p-3">
             <h6 class="m-0">精彩评论</h6>
         </div>
-        <div class="box-body p-3" id="comment2">
+        <div class="box-body p-3" id="comment2" style="height:300px;overflow:auto">
 <!--            二级评论占位-->
         </div>
     </div>
-    <div class="box shadow-sm mb-3 rounded bg-white ads-box text-center overflow-hidden">
-        <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
-        <div class="p-3 border-bottom">
-            <h6 class="font-weight-bold text-gold">Osahanin Premium</h6>
-            <p class="mb-0 text-muted">Grow & nurture your network</p>
-        </div>
-        <div class="p-3">
-            <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
-        </div>
-    </div>
-    <div class="box shadow-sm border rounded bg-white mb-3">
-        <div class="box-title border-bottom p-3">
-            <h6 class="m-0">Jobs
-            </h6>
-        </div>
-        <div class="box-body p-3">
-            <a href="job-profile.html">
-                <div class="shadow-sm border rounded bg-white job-item mb-3">
-                    <div class="d-flex align-items-center p-3 job-item-header">
-                        <div class="overflow-hidden mr-2">
-                            <h6 class="font-weight-bold text-dark mb-0 text-truncate">Product Director</h6>
-                            <div class="text-truncate text-primary">Spotify Inc.</div>
-                            <div class="small text-gray-500"><i class="feather-map-pin"></i> India, Punjab</div>
-                        </div>
-                        <img class="img-fluid ml-auto" src="img/l3.png" alt="">
-                    </div>
-                    <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
-                        <div class="overlap-rounded-circle">
-                            <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p9.png" alt="" data-original-title="Sophia Lee">
-                            <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p10.png" alt="" data-original-title="John Doe">
-                            <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p11.png" alt="" data-original-title="Julia Cox">
-                            <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p12.png" alt="" data-original-title="Robert Cook">
-                        </div>
-                        <span class="font-weight-bold text-muted">18 connections</span>
-                    </div>
-                    <div class="p-3 job-item-footer">
-                        <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-                    </div>
-                </div>
-            </a>
-            <a href="job-profile.html">
-                <div class="shadow-sm border rounded bg-white job-item">
-                    <div class="d-flex align-items-center p-3 job-item-header">
-                        <div class="overflow-hidden mr-2">
-                            <h6 class="font-weight-bold text-dark mb-0 text-truncate">.NET Developer</h6>
-                            <div class="text-truncate text-primary">Invision</div>
-                            <div class="small text-gray-500"><i class="feather-map-pin"></i> London, UK
-                            </div>
-                        </div>
-                        <img class="img-fluid ml-auto" src="img/l4.png" alt="">
-                    </div>
-                    <div class="d-flex align-items-center p-3 border-top border-bottom job-item-body">
-                        <div class="overlap-rounded-circle">
-                            <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p13.png" alt="" data-original-title="Sophia Lee">
-                            <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p1.png" alt="" data-original-title="John Doe">
-                            <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top" title="" src="img/p3.png" alt="" data-original-title="Robert Cook">
-                        </div>
-                        <span class="font-weight-bold text-muted">18 connections</span>
-                    </div>
-                    <div class="p-3 job-item-footer">
-                        <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
+
 </aside>
         </div>
     </div>
@@ -238,20 +173,23 @@
 
 
 <script type="text/javascript">
+    let websocket = null;
     websocketUtil();
     let commentBtn= document.getElementById('commentBtn');
     commentBtn.addEventListener('click', addComment1, false); //鼠标单击的时候调用showMes这个函数
 function  addComment1() {
         let momentId = $("#momentId").val();
         let content = $("#content").val();
-        var message=content+'.'+momentId;
+        let  MomentUserId=$("#MomentUserId").val();
+        let message=content+'.'+momentId;
         console.log("xxxxx"+momentId)
         let formData = new FormData();
         formData.append("moment_id", momentId);
+        formData.append("user2_id", MomentUserId);
         formData.append("content", content);
-        let  MomentUserId=$("#MomentUserId").val();
 
-        alert("准备提交1");
+
+
         $.ajax({
             type: "post",
             url: "/addcomment1",
@@ -261,10 +199,11 @@ function  addComment1() {
             contentType: false,
             dataType: "json",
             success: function (data) {
-                alert("666");
                 if (data.code == 200) {
                     alert("添加评论成功");
+                    //websocket的send方法
                     send(MomentUserId,message);
+
                     location.reload();
                 }
             }
@@ -276,6 +215,7 @@ function  addComment1() {
 function  addComment2(comment_id,user_id) {
     let momentId = $("#momentId").val();
     let content = $("#content").val();
+    let  MomentUserId=$("#MomentUserId").val();
 
     let formData = new FormData();
     formData.append("moment_id", momentId);
@@ -283,7 +223,7 @@ function  addComment2(comment_id,user_id) {
     formData.append("user2_id", user_id);
     formData.append("comment_id", comment_id);
 
-    alert("准备提交2");
+
     $.ajax({
         type: "post",
         url: "/addcomment2",
@@ -293,7 +233,7 @@ function  addComment2(comment_id,user_id) {
         contentType: false,
         dataType: "json",
         success: function (data) {
-            alert("666");
+
             if (data.code == 200) {
                 alert("添加评论成功");
                 send(user_id,content);
@@ -303,6 +243,15 @@ function  addComment2(comment_id,user_id) {
     });
 
 }
+
+
+
+    function send(user_id,content) {
+        let message =user_id+","+ content + "," +"4"//将要发送的信息和内容拼起来，以便于服务端知道消息要发给谁
+        websocket.send(message);
+
+
+    }
 
 function changeBtn(comment_id,user_name,user_id){
         $("#content").attr("placeholder","回复："+user_name);
@@ -330,19 +279,19 @@ function changeBtn(comment_id,user_name,user_id){
              contentType: false,
              dataType: "json",
              success: function (data) {
-                 alert("666");
+
                  if (data.code == 200) {
                      document.getElementById('comment2').innerHTML = "";
                      $.each(data.data2,function (i,item) {
                          messageBox.append(`
-            <div  class="p-3 d-flex align-items-top border-bottom osahan-post-comment" >
+            <div  class="p-3 d-flex align-items-top border-bottom osahan-post-comment"  >
             <div class="dropdown-list-image mr-3">
-                <img class="rounded-circle" src="/${item.user_picture}" alt="">
+                <img class="rounded-circle"  src="/${item.user_picture}" alt="">
                 <div class="status-indicator bg-success"></div>
             </div>
             <div class="font-weight-bold">
                     <div class="text-truncate"><span>${item.user_name}回复：${item.user2_name}
-                    </span>&nbsp;&nbsp;&nbsp;<span class="small">2 min</span>&nbsp;&nbsp;&nbsp; <a  type="button"  onclick="changeBtn(${item.id},'${item.user_name}',${item.user_id})"><i class="feather-message-square" title="评论"></i></a>
+                    </span>&nbsp;&nbsp;&nbsp;<span class="small">${new Date(item.creat_time).getFullYear()}-${new Date(item.creat_time).getMonth()}-${new Date(item.creat_time).getDay()}</span>&nbsp&nbsp;<a  type="button"  onclick="changeBtn(${item.id},'${item.user_name}',${item.user_id})"><i class="feather-message-square" title="评论"></i></a>
 
                     </div>
                 <div class="small text-gray-500" >${item.content}</div>

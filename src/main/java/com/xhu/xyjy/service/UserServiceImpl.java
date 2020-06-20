@@ -1,20 +1,21 @@
 package com.xhu.xyjy.service;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.xhu.xyjy.dao.UserMapper;
+import com.xhu.xyjy.dto.RecordUser;
 import com.xhu.xyjy.dto.ResultData;
-import com.xhu.xyjy.pojo.Admin;
+
+import com.xhu.xyjy.pojo.Record;
 import com.xhu.xyjy.pojo.Student;
 import com.xhu.xyjy.pojo.User;
 import com.xhu.xyjy.utils.MD5Util;
-import com.xhu.xyjy.dao.UserMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.xhu.xyjy.utils.uploadUtil.upload;
@@ -74,6 +75,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultData update(User user) {
+
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(user.getUser_birthday());
+        calendar.add(Calendar.DAY_OF_MONTH,1);
+        user.setUser_birthday(calendar.getTime());
         if(userMapper.updateInfo(user)){
             return  new ResultData(200,"用户资料更新成功");
         }
@@ -85,14 +91,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultData updatepic(int user_id, MultipartFile file[]) {
 
-        if(user_id==0||file==null){
+        if(user_id==0||file.length==0){
             return new ResultData(9001,"请重新上传头像");
         }
         ResultData resultData=new ResultData();
         resultData=upload(file,".jpg.jpeg.gif.png","F:\\xyjy\\src\\main\\resources\\static\\image\\pic",1);
         User user=new User();
         user.setUser_id(user_id);
-        user.setUser_picture( resultData.getData().toString());
+        user.setUser_picture( resultData.getData().toString().substring(0,resultData.getData().toString().length()-1));
         if(userMapper.updatePic(user)){
             return new ResultData(200,"修改头像成功");
         }
@@ -115,23 +121,84 @@ public class UserServiceImpl implements UserService {
 
       ResultData resultData=new ResultData();
       resultData=upload(file,".jpg.jpeg.gif.png","F:\\xyjy\\src\\main\\resources\\static\\image\\student",1);
-      if(resultData.getCode()==200){
-          student.setPic(resultData.getData().toString());
-          student.setStatus("通过");
+        if(resultData!=null){
+            if(resultData.getCode()==200){
+                student.setPic(resultData.getData().toString());
+                student.setStatus("通过");
 
-          if(userMapper.updateStudent(student)){
-              return  new ResultData(200,"学生认认证成功");
-          }
-          else  return  new ResultData(9001,"学生认证失败");
+                if(userMapper.updateStudent(student)){
+                    return  new ResultData(200,"学生认认证成功");
+                }
+                else  return  new ResultData(9001,"学生认证失败");
+            }
+            else {
+                return  new ResultData(9001,"学生认证失败");
+            }
+
+        }
+        else {
+            return  new ResultData(9001,"学生认证失败");
+        }
+
+
+
+
       }
-      else {
-          return  new ResultData(9001,"学生认证失败");
-      }
 
+    @Override
+    public List<User> findBirthday(int userid) {
 
+         return  userMapper.findBirthday(userid);
 
-      }
+    }
 
+    @Override
+    public int findLikeCount(int userid) {
+
+       int MomentLikeCount= userMapper.findMomentLikeCount(userid);
+       int CommentLikeCount= userMapper.findCommentLikeCount(userid);
+
+        return MomentLikeCount+CommentLikeCount;
+    }
+
+    @Override
+    public int findViewCount(int userid) {
+
+        return userMapper.findViewCount(userid);
+    }
+
+    @Override
+    public List<RecordUser> findRecentA(int userid) {
+        return userMapper.findRecentA(userid);
+
+    }
+
+    @Override
+    public List<RecordUser> findRecentB(int userid) {
+        return userMapper.findRecentB(userid);
+    }
+
+    @Override
+    public ResultData addRecord(int user1_id, int user2_id) {
+       if(null==userMapper.findRecordOne(user1_id,user2_id)){
+           Record record=new Record();
+           record.setUser1_id(user1_id);
+           record.setUser2_id(user2_id);
+           record.setTime(new Date());
+           record.setType(1);
+           userMapper.insertRecent(record);
+       }
+       else {
+           userMapper.updateRecordTimeandType(user1_id,user2_id,1);
+       }
+        return  new ResultData(200,"访问记录更新成功");
+    }
+
+    @Override
+    public List<User> findInterest(int userid) {
+
+          return  userMapper.interestUser(userid);
+    }
 
 
     //注册
@@ -166,12 +233,12 @@ public class UserServiceImpl implements UserService {
 
             if (userMapper.saveUser(user)) {
 
-                return new ResultData(200,"添加用户成功");
+                return new ResultData(200,"用户注册成功");
 
             }
         }catch (Exception e){
-            System.out.println("666677777");
-            return new ResultData(5003,"用户名已存在！");
+
+            return new ResultData(5003,"用户手机号已被注册！");
         }
 
         return new ResultData(5002,"添加用户失败！");

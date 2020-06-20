@@ -51,7 +51,7 @@ public class ChatController {
         }
 
         //查找历史消息
-        PageInfo<MessageUser> pageInfoMsg=chatService.findHistoryMsg(userid,friendid,page,pageSize);
+        PageInfo<MessageUser> pageInfoMsg=chatService.findHistoryMsg(userid,friendid,page,10);
 
         PageInfo<ChatUser> pageInfoChat= chatService.findChatList(userid,page,pageSize);
         //加入聊天表

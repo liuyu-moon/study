@@ -136,8 +136,12 @@ public class ProductWebSocket {
             message1.setType(Integer.parseInt(type));
             //将消息存入数据库
             chatService.addMessage( message1);
+
+            User user=userMapper.findById(Integer.parseInt(userId));
             //给指定的人发消息
+            sendMessage=user.getUser_picture()+"["+sendMessage;
             sendToUser(sendUserId, sendMessage);
+            System.out.println("发送消息了");
         }
 
         if(Integer.parseInt(type)==3){
@@ -167,11 +171,12 @@ public class ProductWebSocket {
 
         try {
             if (webSocketSet.get(sendUserId) != null) {
-                webSocketSet.get(sendUserId).sendMessage(userId + "给我发来消息，消息内容为--->>" + message);
+                webSocketSet.get(sendUserId).sendMessage(message);
             } else {
                 //如果发送人在线，则向发送人发送反馈消息
                 if (webSocketSet.get(userId) != null) {
-                    webSocketSet.get(userId).sendMessage("用户id：" + sendUserId + "以离线，未收到您的信息！");
+                    User user=userMapper.findById(Integer.parseInt(sendUserId));
+                    webSocketSet.get(userId).sendMessage(user.getUser_picture()+"[我暂时不在线、未能收到您的信息！");
                 }
                 chatService.addUnread(Integer.parseInt(userId),Integer.parseInt(sendUserId));
                 chatService.updateTime(Integer.parseInt(userId),Integer.parseInt(sendUserId));

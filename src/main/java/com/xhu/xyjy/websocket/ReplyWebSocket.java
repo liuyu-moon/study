@@ -124,7 +124,7 @@ public class ReplyWebSocket {
         if(Integer.parseInt(type)==4){
 
             User user=userMapper.findById(Integer.parseInt(userId));
-
+            System.out.println("aaaaaa啊"+user.getUser_name()+':'+sendMessage);
             sendToUser(sendUserId, user.getUser_name()+':'+sendMessage);
             System.out.println("aaaaaa啊"+user.getUser_name()+':'+sendMessage);
         }

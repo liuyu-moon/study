@@ -38,13 +38,15 @@
 <div th:insert="navgation::nav">
 
 </div>
-
-<div class="container-fluid main" >
-    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 div1"  >
+<div class="bg-white">
+    <div class="container">
+        <div class="row justify-content-center align-items-center d-flex vh-100">
+            <div class="col-md-4 mx-auto">
+                <div class="osahan-login py-4">
         <h2><span class="glyphicon glyphicon-plus" aria-hidden="true">修改资料</span></h2>
+
+
         <form id="form1"  enctype="multipart/form-data">
-
-
             <div class="form-group">
                 <div class="media-left"><!--            头像-->
                     <a href="#">
@@ -56,29 +58,27 @@
                 <input type="hidden" class="form-control" id="user_id"  th:value="${session.loginer.user_id}">
             </div>
             <div class="form-group">
+                <label class="mb-1">学院</label>
+            <div class="position-relative icon-form-control">
                 <input type="text" class="form-control" id="student_school"  th:value="${student.school}">
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="student_major"  th:value="${student.major}">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="student_status"  th:value="${student.status}">
+                <label class="mb-1">专业</label>
+                <div class="position-relative icon-form-control">
+                    <input type="text" class="form-control" id="student_major"  th:value="${student.major}">
+                </div>
             </div>
-            <label for="pic" value="上传学生证"></label>
+            <label class="mb-1">请上传学生证</label>
             <input type="file" class="form-control" id="pic" >
             <button type="button"  onclick="updateStudent()"   class="btn btn-success">修改资料</button>
-
-
         </form>
+        </div>
+        </div>
+        </div>
     </div>
-
-
-    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 div2"  >
-
-        <h3>请文明发言</h3>
-    </div>
-    ...
 </div>
+
 </body>
 
 
@@ -95,6 +95,20 @@
         formData.append("school", student_school);
         formData.append("major",student_major);
         formData.append("file", file);
+
+
+        if(student_school==null||student_school=='') {
+            alert("请先填写学院");
+            location.replace(location.href);
+        }
+        if(student_major==null||student_major=='') {
+            alert("请先填写专业");
+            location.replace(location.href);
+        }
+        if(file==null||file.length==0) {
+            alert("请选择学生证图片");
+            location.replace(location.href);
+        }
 
         // Ajax 异步提交文件
         $.ajax({
