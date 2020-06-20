@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="img/fav.png">
+    <title>用户信息</title>
+
+    <link  rel="stylesheet" href="/css/bootstrap.min.css">
+    <link  rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link  rel="stylesheet" href="/css/my.css">
+    <!-- Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="/vendor/slick/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/vendor/slick/slick-theme.min.css"/>
+    <!-- Feather Icon-->
+    <link href="/vendor/icons/feather.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet">
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- slick Slider JS-->
+    <script type="text/javascript" src="/vendor/slick/slick.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="/js/osahan.js"></script>
+    <script src="/js/my.js"></script>
+</head>
+<body>
+
+<!--       Navigation -->
+<div th:insert="navgation::nav"></div>
+
+<div class="bg-white">
+    <div class="container">
+        <div class="row justify-content-center align-items-center d-flex vh-100">
+            <div class="col-md-4 mx-auto">
+                <div class="osahan-login py-4">
+                    <div class="form-group">
+                        <div class="media-left"><!--            头像-->
+                            <a href="#">
+                                <img class="media-object img-rounded " th:src="'/'+${session.loginer.user_picture}"  height="38px" width="38px" >
+                            </a>
+                        </div>
+                        <div class="media-body " >
+                            <input type="file" class="form-control" id="user_picture" >
+                            <button type="button"  onclick="updatePic()"   class="btn btn-success">修改头像</button>
+                        </div>
+                    </div>
+                    <form >
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="mb-1">用户名</label>
+                                    <div class="position-relative icon-form-control">
+                                        <i class="feather-user position-absolute"></i>
+                                        <input type="text" class="form-control" id="user_name" th:value="${session.loginer.user_name}">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="user_id"  th:value="${user_id}">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="user_phone"  th:value="${session.loginer.user_phone}">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="mb-1">性别</label>
+                            <div class="position-relative icon-form-control">
+                                <i class="feather-user-x position-absolute"></i>
+                                <input type="text" class="form-control" id="user_sex"  th:value="${session.loginer.user_sex}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="mb-1">出生年月</label>
+                            <div class="position-relative icon-form-control">
+                                <i class="feather-user-x position-absolute"></i>
+                                <input type="text" class="form-control" id="user_birthday"  th:value="${#dates.format(session.loginer.user_birthday,'yyyy-MM-dd')}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="mb-1">学校</label>
+                            <div class="position-relative icon-form-control">
+                                <i class="feather-home position-absolute"></i>
+                                <input type="text" class="form-control" id="user_school" th:value="${session.loginer.user_school}">
+                            </div>
+                        </div>
+
+
+
+                        <button type="button"  onclick="updateUser()"   class="btn btn-success">修改资料</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    function updateUser() {
+        alert("准备修改资料");
+        let formData = new FormData;
+        let user_id =  $("#user_id").val();
+        let user_name = $("#user_name").val();
+        let user_phone = $("#user_phone").val();
+        let user_sex = $("#user_sex").val();
+        let user_birthday = $("#user_birthday").val();
+        let user_school = $("#user_school").val();
+
+        console.log(user_birthday.length);
+
+        if(user_name.length>7){
+            alert("用户名过长");
+            location.replace(location.href);
+        }
+        if(user_name.length<=0) {
+            alert("用户名不能为空");
+            location.replace(location.href);
+        }
+
+        if(!(user_sex=='男'||user_sex=='女')) {
+            alert("性别请填男或者女");
+            location.replace(location.href);
+        }
+        if(user_school==null||user_school=='') {
+            alert("请先填写学校");
+            location.replace(location.href);
+        }
+        if(user_birthday.length!=10){
+            alert("请正确填写日期格式");
+            location.replace(location.href);
+        }
+
+        var date = new Date(user_birthday.replace(/-/g, "/"));
+
+
+        formData.append("user_id", user_id);
+        formData.append("user_name", user_name);
+        formData.append("user_sex", user_sex);
+        formData.append("user_phone", user_phone);
+        formData.append("user_birthday",user_birthday);
+        formData.append("user_school", user_school);
+
+
+        // Ajax 异步提交文件
+        $.ajax({
+            type: "post",
+            url: "/updateuser",
+            data: formData,//上一步的FormData
+            cache: false,//不缓存数据
+            processData: false,//不转换数据
+            contentType: false,
+            dataType: "json",
+            success: function (data) {
+
+
+                alert(data.msg);
+
+                // 页面的刷新
+                location.replace(location.href);
+            }
+        })
+    }
+    function updatePic() {
+        alert("准备修改头像");
+        let formData = new FormData;
+        let user_id = $("#user_id").val();
+
+        let file = $("#user_picture")[0].files[0]
+        formData.append("user_id", user_id);
+        formData.append("file", file);
+
+
+        // Ajax 异步提交文件
+        $.ajax({
+            type: "post",
+            url: "/updatepic",
+            data: formData,//上一步的FormData
+            cache: false,//不缓存数据
+            processData: false,//不转换数据
+            contentType: false,
+            dataType: "json",
+            success: function (data) {
+
+
+                alert(data.msg);
+
+                // 页面的刷新
+                location.replace(location.href);
+            }
+        })
+    }
+
+
+</script>
+</html>

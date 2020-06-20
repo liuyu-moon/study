@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="img/fav.png">
+    <title></title>
+
+    <link  rel="stylesheet" href="/css/bootstrap.min.css">
+    <link  rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link  rel="stylesheet" href="/css/my.css">
+    <!-- Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="/vendor/slick/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/vendor/slick/slick-theme.min.css"/>
+    <!-- Feather Icon-->
+    <link href="/vendor/icons/feather.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet">
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- slick Slider JS-->
+    <script type="text/javascript" src="/vendor/slick/slick.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="/js/osahan.js"></script>
+    <script src="/js/my.js"></script>
+</head>
+<body>
+<div th:insert="navgation::nav">
+
+</div>
+<input type="hidden" th:value="${session.loginer.user_id}" id="userId">
+
+<div class="py-4">
+    <div class="container">
+        <div class="row">
+<main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+    <div class="box mb-3 shadow-sm border rounded bg-white osahan-post">
+
+<!--        评论-->
+        <div class="p-3 d-flex align-items-top border-bottom osahan-post-comment" th:each="focu:${focus}">
+<!--            用户信息-->
+            <div class="dropdown-list-image mr-3">
+                <img class="rounded-circle" th:src="'/'+${focu.user1_picture}" alt="">
+                <div class="status-indicator bg-warning"></div>
+            </div>
+<!--            评论内容-->
+            <div class="font-weight-bold">
+                <div class="text-truncate">
+                    <span th:text="${focu.user1_name}"></span>
+                    <span  class="small" th:text="${#dates.format(focu.time,'MM月dd日')}" style="margin-left: 85px"></span>
+                </div>
+                <div class="small text-gray-500"  ><a th:href="'/godetail/'+${focu.moment_id}" th:text="${focu.content}"></a></div>
+            </div>
+        </div>
+<!--        添加评论-->
+
+<!--        分页-->
+        <div class="p-3 border-bottom" >
+            <div class="page" style="width: 100%;position: absolute;bottom: 0px;left: 50%">
+                <span th:if="${pageInfo.hasPreviousPage}" >
+                <a class="prev"
+                   th:href="@{'/profile/focus?page='+${pageInfo.prePage}}">上一页</a>
+                </span>
+                <span th:each="page :${pageInfo.navigatepageNums}" >
+                <span th:if="${pageInfo.pageNum==page}">
+                    <a class="current" th:text="${page}"></a>
+                </span>
+                <span th:if="${pageInfo.pageNum!=page}" >
+                    <a class="num"
+                       th:href="@{'/profile/focus?page='+${page}}" th:text="${page}"></a>
+                </span>
+                </span>
+
+                <span th:if ="${pageInfo.hasNextPage}">
+                <a class="next" th:href="@{'/profile/focus?page='+${pageInfo.nextPage}}">下一页</a>
+            </span>
+            </div>
+        </div>
+    </div>
+
+</main>
+<aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
+
+</aside>
+<aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
+
+
+</aside>
+        </div>
+    </div>
+</div>
+</body>
+
+
+<script type="text/javascript">
+    let websocket = null;
+    websocketUtil();
+
+</script>
+</html>
